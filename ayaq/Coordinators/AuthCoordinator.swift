@@ -47,15 +47,12 @@ final class AuthCoordinator: Coordinator {
     }
     
     func didFinishRegister() {
-        let alert = UIAlertController(
-            title: "Success",
-            message: "Your account has been created successfully. Please login to continue.",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            self?.showLogin()
-        })
-        navigationController.present(alert, animated: true)
+        if let topVC = navigationController.topViewController {
+            topVC.showSuccessToast(message: "Account created successfully!")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
+                self?.showLogin()
+            }
+        }
     }
     
     private func setupNavigationBarAppearance() {

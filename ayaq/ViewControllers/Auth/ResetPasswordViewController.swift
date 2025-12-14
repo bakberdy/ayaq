@@ -4,115 +4,22 @@ final class ResetPasswordViewController: UIViewController {
     private let viewModel: ResetPasswordViewModel
     weak var coordinator: AuthCoordinator?
     
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.keyboardDismissMode = .interactive
-        return scrollView
-    }()
-    
+    private let scrollView = UIScrollView.createAuthScrollView()
     private let contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    private let iconImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .systemGreen
-        imageView.image = UIImage(systemName: "checkmark.shield.fill")
-        return imageView
-    }()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Reset Password"
-        label.font = .systemFont(ofSize: 28, weight: .bold)
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Enter the code sent to your email and create a new password"
-        label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .secondaryLabel
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private let emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Email"
-        textField.borderStyle = .roundedRect
-        textField.keyboardType = .emailAddress
-        textField.autocapitalizationType = .none
-        textField.autocorrectionType = .no
-        textField.returnKeyType = .next
-        return textField
-    }()
-    
-    private let codeTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Verification Code"
-        textField.borderStyle = .roundedRect
-        textField.keyboardType = .numberPad
-        textField.returnKeyType = .next
-        return textField
-    }()
-    
-    private let newPasswordTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "New Password"
-        textField.borderStyle = .roundedRect
-        textField.isSecureTextEntry = true
-        textField.returnKeyType = .next
-        return textField
-    }()
-    
-    private let confirmPasswordTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Confirm Password"
-        textField.borderStyle = .roundedRect
-        textField.isSecureTextEntry = true
-        textField.returnKeyType = .done
-        return textField
-    }()
-    
-    private let resetButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Reset Password", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
-        button.backgroundColor = .systemGreen
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 12
-        return button
-    }()
-    
-    private let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .medium)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.hidesWhenStopped = true
-        return indicator
-    }()
-    
-    private let backToLoginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Back to Login", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-        return button
-    }()
+    private let iconImageView = UIImageView.createAuthIconImageView(systemName: "checkmark.shield.fill", tintColor: .systemGreen)
+    private let titleLabel = UILabel.createAuthTitleLabel(text: "Reset Password")
+    private let subtitleLabel = UILabel.createAuthSubtitleLabel(text: "Enter the code sent to your email and create a new password")
+    private let emailTextField = UITextField.createAuthTextField(placeholder: "Email", keyboardType: .emailAddress)
+    private let codeTextField = UITextField.createAuthTextField(placeholder: "Verification Code", keyboardType: .numberPad)
+    private let newPasswordTextField = UITextField.createAuthTextField(placeholder: "New Password", isSecure: true)
+    private let confirmPasswordTextField = UITextField.createAuthTextField(placeholder: "Confirm Password", isSecure: true, returnKeyType: .done)
+    private let resetButton = UIButton.createAuthPrimaryButton(title: "Reset Password", backgroundColor: .systemGreen)
+    private let activityIndicator = UIActivityIndicatorView.createAuthLoadingIndicator()
+    private let backToLoginButton = UIButton.createAuthTextButton(title: "Back to Login")
     
     init(viewModel: ResetPasswordViewModel = ResetPasswordViewModel(), email: String? = nil) {
         self.viewModel = viewModel
@@ -137,10 +44,8 @@ final class ResetPasswordViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
         title = "Reset Password"
-        
-        view.addSubview(scrollView)
+        setupAuthUI(scrollView: scrollView)
         scrollView.addSubview(contentView)
         
         contentView.addSubview(iconImageView)
@@ -155,11 +60,6 @@ final class ResetPasswordViewController: UIViewController {
         contentView.addSubview(backToLoginButton)
         
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
@@ -240,29 +140,13 @@ final class ResetPasswordViewController: UIViewController {
         codeTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         newPasswordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         confirmPasswordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
     }
     
     private func setupKeyboardObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
     }
     
     @objc private func resetButtonTapped() {
-        handleDismissKeyboard()
+        dismissKeyboard()
         viewModel.resetPassword()
     }
     
@@ -275,25 +159,6 @@ final class ResetPasswordViewController: UIViewController {
         viewModel.code = codeTextField.text ?? ""
         viewModel.newPassword = newPasswordTextField.text ?? ""
         viewModel.confirmPassword = confirmPasswordTextField.text ?? ""
-    }
-    
-    @objc private func handleDismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-            return
-        }
-        
-        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height, right: 0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
-    }
-    
-    @objc private func keyboardWillHide(notification: NSNotification) {
-        scrollView.contentInset = .zero
-        scrollView.scrollIndicatorInsets = .zero
     }
     
     private func updateLoadingState(isLoading: Bool) {
@@ -317,29 +182,14 @@ final class ResetPasswordViewController: UIViewController {
     }
     
     private func handleSuccess() {
-        let alert = UIAlertController(
-            title: "Success",
-            message: "Your password has been reset successfully",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+        showSuccessToast(message: "Password reset successfully")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
             self?.coordinator?.showLogin()
-        })
-        present(alert, animated: true)
+        }
     }
     
     private func showError(message: String) {
-        let alert = UIAlertController(
-            title: "Error",
-            message: message,
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+        showErrorToast(message: message)
     }
 }
 

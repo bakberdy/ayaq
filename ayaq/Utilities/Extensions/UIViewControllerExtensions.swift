@@ -101,8 +101,59 @@ extension UIViewController {
         view.addGestureRecognizer(tap)
     }
     
-    @objc private func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    func showToast(message: String, isError: Bool = false) {
+        let toastContainer = UIView()
+        toastContainer.backgroundColor = isError ? UIColor.systemRed : UIColor.systemGreen
+        toastContainer.alpha = 0.0
+        toastContainer.layer.cornerRadius = 12
+        toastContainer.clipsToBounds = true
+        
+        let toastLabel = UILabel()
+        toastLabel.textColor = .white
+        toastLabel.textAlignment = .center
+        toastLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        toastLabel.text = message
+        toastLabel.numberOfLines = 0
+        toastLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        toastContainer.addSubview(toastLabel)
+        view.addSubview(toastContainer)
+        
+        toastContainer.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            toastLabel.leadingAnchor.constraint(equalTo: toastContainer.leadingAnchor, constant: 16),
+            toastLabel.trailingAnchor.constraint(equalTo: toastContainer.trailingAnchor, constant: -16),
+            toastLabel.topAnchor.constraint(equalTo: toastContainer.topAnchor, constant: 12),
+            toastLabel.bottomAnchor.constraint(equalTo: toastContainer.bottomAnchor, constant: -12),
+            
+            toastContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            toastContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            toastContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
+        ])
+        
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseIn, animations: {
+            toastContainer.alpha = 1.0
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.3, delay: 2.0, options: .curveEaseOut, animations: {
+                toastContainer.alpha = 0.0
+            }, completion: { _ in
+                toastContainer.removeFromSuperview()
+            })
+        })
+    }
+    
+    func showErrorToast(message: String) {
+        showToast(message: message, isError: true)
+    }
+    
+    func showSuccessToast(message: String) {
+        showToast(message: message, isError: false)
+    }
+    
 }
 

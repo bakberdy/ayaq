@@ -4,131 +4,24 @@ final class RegisterViewController: UIViewController {
     private let viewModel: RegisterViewModel
     weak var coordinator: AuthCoordinator?
     
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.keyboardDismissMode = .interactive
-        return scrollView
-    }()
-    
+    private let scrollView = UIScrollView.createAuthScrollView()
     private let contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Create Account"
-        label.font = .systemFont(ofSize: 28, weight: .bold)
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Sign up to get started"
-        label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .secondaryLabel
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let firstNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "First Name"
-        textField.borderStyle = .roundedRect
-        textField.autocapitalizationType = .words
-        textField.returnKeyType = .next
-        return textField
-    }()
-    
-    private let lastNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Last Name"
-        textField.borderStyle = .roundedRect
-        textField.autocapitalizationType = .words
-        textField.returnKeyType = .next
-        return textField
-    }()
-    
-    private let emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Email"
-        textField.borderStyle = .roundedRect
-        textField.keyboardType = .emailAddress
-        textField.autocapitalizationType = .none
-        textField.autocorrectionType = .no
-        textField.returnKeyType = .next
-        return textField
-    }()
-    
-    private let passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Password"
-        textField.borderStyle = .roundedRect
-        textField.isSecureTextEntry = true
-        textField.returnKeyType = .next
-        return textField
-    }()
-    
-    private let confirmPasswordTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Confirm Password"
-        textField.borderStyle = .roundedRect
-        textField.isSecureTextEntry = true
-        textField.returnKeyType = .done
-        return textField
-    }()
-    
-    private let registerButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Sign Up", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
-        button.backgroundColor = .systemBlue
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 12
-        return button
-    }()
-    
-    private let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .medium)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.hidesWhenStopped = true
-        return indicator
-    }()
-    
-    private let loginStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        stackView.alignment = .center
-        return stackView
-    }()
-    
-    private let alreadyHaveAccountLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Already have an account?"
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = .secondaryLabel
-        return label
-    }()
-    
-    private let loginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Login", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-        return button
-    }()
+    private let titleLabel = UILabel.createAuthTitleLabel(text: "Create Account")
+    private let subtitleLabel = UILabel.createAuthSubtitleLabel(text: "Sign up to get started")
+    private let firstNameTextField = UITextField.createAuthTextField(placeholder: "First Name")
+    private let lastNameTextField = UITextField.createAuthTextField(placeholder: "Last Name")
+    private let emailTextField = UITextField.createAuthTextField(placeholder: "Email", keyboardType: .emailAddress)
+    private let passwordTextField = UITextField.createAuthTextField(placeholder: "Password", isSecure: true)
+    private let confirmPasswordTextField = UITextField.createAuthTextField(placeholder: "Confirm Password", isSecure: true, returnKeyType: .done)
+    private let registerButton = UIButton.createAuthPrimaryButton(title: "Sign Up")
+    private let activityIndicator = UIActivityIndicatorView.createAuthLoadingIndicator()
+    private let loginStackView = UIStackView.createAuthHorizontalStack()
+    private let alreadyHaveAccountLabel = UILabel.createAuthSecondaryLabel(text: "Already have an account?")
+    private let loginButton = UIButton.createAuthTextButton(title: "Login")
     
     init(viewModel: RegisterViewModel = RegisterViewModel()) {
         self.viewModel = viewModel
@@ -148,10 +41,8 @@ final class RegisterViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
         title = "Register"
-        
-        view.addSubview(scrollView)
+        setupAuthUI(scrollView: scrollView)
         scrollView.addSubview(contentView)
         
         contentView.addSubview(titleLabel)
@@ -169,11 +60,6 @@ final class RegisterViewController: UIViewController {
         loginStackView.addArrangedSubview(loginButton)
         
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
@@ -256,29 +142,13 @@ final class RegisterViewController: UIViewController {
         emailTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         confirmPasswordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
     }
     
     private func setupKeyboardObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
     }
     
     @objc private func registerButtonTapped() {
-        handleDismissKeyboard()
+        dismissKeyboard()
         viewModel.register()
     }
     
@@ -292,25 +162,6 @@ final class RegisterViewController: UIViewController {
         viewModel.email = emailTextField.text ?? ""
         viewModel.password = passwordTextField.text ?? ""
         viewModel.confirmPassword = confirmPasswordTextField.text ?? ""
-    }
-    
-    @objc private func handleDismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-            return
-        }
-        
-        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height, right: 0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
-    }
-    
-    @objc private func keyboardWillHide(notification: NSNotification) {
-        scrollView.contentInset = .zero
-        scrollView.scrollIndicatorInsets = .zero
     }
     
     private func updateLoadingState(isLoading: Bool) {
@@ -340,17 +191,7 @@ final class RegisterViewController: UIViewController {
     }
     
     private func showError(message: String) {
-        let alert = UIAlertController(
-            title: "Error",
-            message: message,
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+        showErrorToast(message: message)
     }
 }
 
