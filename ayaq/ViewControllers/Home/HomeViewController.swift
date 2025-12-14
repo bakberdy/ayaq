@@ -27,6 +27,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .white
         title = "Home"
         
+        // TODO: Implement home screen UI with featured products, categories, banners
         view.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([

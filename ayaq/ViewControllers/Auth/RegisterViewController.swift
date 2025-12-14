@@ -145,6 +145,7 @@ final class RegisterViewController: UIViewController {
     }
     
     private func setupKeyboardObservers() {
+        // TODO: Keyboard observers are handled in AuthUIHelpers.setupAuthKeyboardHandling
     }
     
     @objc private func registerButtonTapped() {

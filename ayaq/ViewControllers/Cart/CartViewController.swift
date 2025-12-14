@@ -27,6 +27,7 @@ class CartViewController: UIViewController {
         view.backgroundColor = .white
         title = "Cart"
         
+        // TODO: Implement cart items list, total price, checkout button
         view.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([

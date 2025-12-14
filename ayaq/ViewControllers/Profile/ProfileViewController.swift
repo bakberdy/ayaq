@@ -27,6 +27,7 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .white
         title = "Profile"
         
+        // TODO: Implement user profile with account details, orders history, logout
         view.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([

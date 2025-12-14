@@ -27,6 +27,7 @@ class CatalogViewController: UIViewController {
         view.backgroundColor = .white
         title = "Catalog"
         
+        // TODO: Implement catalog with product list, filters, search
         view.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([

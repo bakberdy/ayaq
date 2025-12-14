@@ -33,20 +33,10 @@ final class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("✅ LoginViewController viewDidLoad called")
         setupUI()
         setupBindings()
         setupActions()
         setupKeyboardObservers()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("✅ LoginViewController viewDidAppear")
-        print("📦 ScrollView frame: \(scrollView.frame)")
-        print("📦 ContentView frame: \(contentView.frame)")
-        print("📦 LogoImageView frame: \(logoImageView.frame)")
-        print("📦 TitleLabel text: \(titleLabel.text ?? "nil")")
     }
     
     private func setupUI() {
@@ -143,6 +133,7 @@ final class LoginViewController: UIViewController {
     }
     
     private func setupKeyboardObservers() {
+        // TODO: Keyboard observers are handled in AuthUIHelpers.setupAuthKeyboardHandling
     }
     
     @objc private func loginButtonTapped() {
