@@ -2,7 +2,7 @@ import Foundation
 
 protocol AuthServiceProtocol {
     func login(email: String, password: String) async throws -> String
-    func register(model: RegisterModel) async throws
+    func register(model: RegisterModel) async throws -> TokenDTO
     func requestPasswordReset(model: RequestPasswordResetModel) async throws
     func resetPassword(model: ResetPasswordModel) async throws
     func changePassword(model: ChangePasswordModel) async throws

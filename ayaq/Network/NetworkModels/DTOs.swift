@@ -1,5 +1,9 @@
 import Foundation
 
+struct TokenDTO: Codable {
+    let authToken: String?
+}
+
 struct ApplicationUserDTO: Codable {
     let userId: String?
     let firstName: String?
@@ -122,3 +126,7 @@ struct InventorySummaryDTO: Codable {
     let productName: String?
     let stockQuantity: Int
 }
+
+typealias InventoryItemDTO = InventorySummaryDTO
+
+struct EmptyResponse: Codable {}

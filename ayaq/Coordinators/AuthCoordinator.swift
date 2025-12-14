@@ -47,12 +47,7 @@ final class AuthCoordinator: Coordinator {
     }
     
     func didFinishRegister() {
-        if let topVC = navigationController.topViewController {
-            topVC.showSuccessToast(message: "Account created successfully!")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
-                self?.showLogin()
-            }
-        }
+        onDidFinishAuth?()
     }
     
     private func setupNavigationBarAppearance() {

@@ -12,10 +12,16 @@ final class RegisterViewModel {
     var onRegisterError: ((String) -> Void)?
     var onLoadingStateChanged: ((Bool) -> Void)?
     
+    private let authService: AuthServiceProtocol
+    
     private(set) var isLoading: Bool = false {
         didSet {
             onLoadingStateChanged?(isLoading)
         }
+    }
+    
+    init(authService: AuthServiceProtocol = AuthService()) {
+        self.authService = authService
     }
     
     func register() {
@@ -23,9 +29,32 @@ final class RegisterViewModel {
         
         isLoading = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
-            self?.isLoading = false
-            self?.onRegisterSuccess?()
+        let request = RegisterModel(
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            profilePictureUrl: ""
+        )
+        
+        Task {
+            do {
+                _ = try await authService.register(model: request)
+                await MainActor.run {
+                    self.isLoading = false
+                    self.onRegisterSuccess?()
+                }
+            } catch let error as APIError {
+                await MainActor.run {
+                    self.isLoading = false
+                    self.onRegisterError?(error.localizedDescription)
+                }
+            } catch {
+                await MainActor.run {
+                    self.isLoading = false
+                    self.onRegisterError?("Registration failed. Please try again.")
+                }
+            }
         }
     }
     

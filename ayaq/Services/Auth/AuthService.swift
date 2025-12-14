@@ -13,9 +13,10 @@ final class AuthService: AuthServiceProtocol {
         let loginModel = LoginModel(email: email, password: password)
         
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.login(loginModel), expecting: String.self) { [weak self] result in
+            apiClient.request(.login(loginModel), expecting: TokenDTO.self) { [weak self] result in
                 switch result {
-                case .success(let token):
+                case .success(let tokenDTO):
+                    let token = tokenDTO.authToken ?? ""
                     self?.tokenManager.saveToken(token)
                     continuation.resume(returning: token)
                 case .failure(let error):
@@ -25,12 +26,15 @@ final class AuthService: AuthServiceProtocol {
         }
     }
     
-    func register(model: RegisterModel) async throws {
+    func register(model: RegisterModel) async throws -> TokenDTO {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.register(model)) { result in
+            apiClient.request(.register(model), expecting: TokenDTO.self) { [weak self] result in
                 switch result {
-                case .success:
-                    continuation.resume()
+                case .success(let tokenDTO):
+                    if let token = tokenDTO.authToken {
+                        self?.tokenManager.saveToken(token)
+                    }
+                    continuation.resume(returning: tokenDTO)
                 case .failure(let error):
                     continuation.resume(throwing: error)
                 }
@@ -40,46 +44,31 @@ final class AuthService: AuthServiceProtocol {
     
     func requestPasswordReset(model: RequestPasswordResetModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.requestPasswordReset(model)) { result in
-                switch result {
-                case .success:
-                    continuation.resume()
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+            apiClient.request(.requestPasswordReset(model), expecting: EmptyResponse.self) { result in
+                continuation.resume(with: result.map { _ in () })
             }
         }
     }
     
     func resetPassword(model: ResetPasswordModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.resetPassword(model)) { result in
-                switch result {
-                case .success:
-                    continuation.resume()
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+            apiClient.request(.resetPassword(model), expecting: EmptyResponse.self) { result in
+                continuation.resume(with: result.map { _ in () })
             }
         }
     }
     
     func changePassword(model: ChangePasswordModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.changePassword(model)) { result in
-                switch result {
-                case .success:
-                    continuation.resume()
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+            apiClient.request(.changePassword(model), expecting: EmptyResponse.self) { result in
+                continuation.resume(with: result.map { _ in () })
             }
         }
     }
     
     func changeEmail(model: ChangeEmailModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.changeEmail(model)) { result in
+            apiClient.request(.changeEmail(model), expecting: TokenDTO.self) { result in
                 switch result {
                 case .success:
                     continuation.resume()
@@ -93,12 +82,7 @@ final class AuthService: AuthServiceProtocol {
     func getCurrentUserId() async throws -> String {
         return try await withCheckedThrowingContinuation { continuation in
             apiClient.request(.getCurrentUserId, expecting: String.self) { result in
-                switch result {
-                case .success(let userId):
-                    continuation.resume(returning: userId)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         }
     }
@@ -106,12 +90,7 @@ final class AuthService: AuthServiceProtocol {
     func getCurrentUserName() async throws -> String {
         return try await withCheckedThrowingContinuation { continuation in
             apiClient.request(.getCurrentUserName, expecting: String.self) { result in
-                switch result {
-                case .success(let userName):
-                    continuation.resume(returning: userName)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         }
     }

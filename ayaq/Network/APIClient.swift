@@ -46,16 +46,48 @@ class APIClient {
             }
         }
         
+        print("\n========== API REQUEST ==========")
+        print("URL: \(request.url?.absoluteString ?? "N/A")")
+        print("Method: \(request.httpMethod ?? "N/A")")
+        print("Headers:")
+        request.allHTTPHeaderFields?.forEach { key, value in
+            print("  \(key): \(value)")
+        }
+        if let body = request.httpBody, let bodyString = String(data: body, encoding: .utf8) {
+            print("Body: \(bodyString)")
+        }
+        print("================================\n")
+        
         let task = session.dataTask(with: request) { [weak self] data, response, error in
             if let error = error {
+                print("\n========== API ERROR ==========")
+                print("URL: \(request.url?.absoluteString ?? "N/A")")
+                print("Error: \(error.localizedDescription)")
+                print("==============================\n")
                 completion(.failure(.networkError(error)))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
+                print("\n========== API ERROR ==========")
+                print("URL: \(request.url?.absoluteString ?? "N/A")")
+                print("Error: Invalid HTTP response")
+                print("==============================\n")
                 completion(.failure(.unknownError))
                 return
             }
+            
+            print("\n========== API RESPONSE ==========")
+            print("URL: \(request.url?.absoluteString ?? "N/A")")
+            print("Status Code: \(httpResponse.statusCode)")
+            print("Headers:")
+            httpResponse.allHeaderFields.forEach { key, value in
+                print("  \(key): \(value)")
+            }
+            if let data = data, let responseString = String(data: data, encoding: .utf8) {
+                print("Response Body: \(responseString)")
+            }
+            print("==================================\n")
             
             switch httpResponse.statusCode {
             case 200...299:
@@ -72,6 +104,10 @@ class APIClient {
                         completion(.failure(.unknownError))
                     }
                 } catch {
+                    print("\n========== DECODING ERROR ==========")
+                    print("URL: \(request.url?.absoluteString ?? "N/A")")
+                    print("Error: \(error.localizedDescription)")
+                    print("====================================\n")
                     completion(.failure(.decodingError(error)))
                 }
                 
@@ -120,16 +156,48 @@ class APIClient {
             }
         }
         
-        let task = session.dataTask(with: request) { _, response, error in
+        print("\n========== API REQUEST ==========")
+        print("URL: \(request.url?.absoluteString ?? "N/A")")
+        print("Method: \(request.httpMethod ?? "N/A")")
+        print("Headers:")
+        request.allHTTPHeaderFields?.forEach { key, value in
+            print("  \(key): \(value)")
+        }
+        if let body = request.httpBody, let bodyString = String(data: body, encoding: .utf8) {
+            print("Body: \(bodyString)")
+        }
+        print("================================\n")
+        
+        let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
+                print("\n========== API ERROR ==========")
+                print("URL: \(request.url?.absoluteString ?? "N/A")")
+                print("Error: \(error.localizedDescription)")
+                print("==============================\n")
                 completion(.failure(.networkError(error)))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
+                print("\n========== API ERROR ==========")
+                print("URL: \(request.url?.absoluteString ?? "N/A")")
+                print("Error: Invalid HTTP response")
+                print("==============================\n")
                 completion(.failure(.unknownError))
                 return
             }
+            
+            print("\n========== API RESPONSE ==========")
+            print("URL: \(request.url?.absoluteString ?? "N/A")")
+            print("Status Code: \(httpResponse.statusCode)")
+            print("Headers:")
+            httpResponse.allHeaderFields.forEach { key, value in
+                print("  \(key): \(value)")
+            }
+            if let data = data, let responseString = String(data: data, encoding: .utf8) {
+                print("Response Body: \(responseString)")
+            }
+            print("==================================\n")
             
             switch httpResponse.statusCode {
             case 200...299:

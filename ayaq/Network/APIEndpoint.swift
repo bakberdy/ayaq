@@ -41,7 +41,7 @@ enum APIEndpoint {
     case getCatalogTypeById(Int)
     case getCatalogTypeByName(String)
     case createCatalogType(CreateCatalogTypeModel)
-    case updateCatalogType(id: Int, UpdateCatalogTypeModel)
+    case updateCatalogType(id: Int, UpdateTypeModel)
     case deleteCatalogType(Int)
     
     case getCatalogItems
@@ -85,7 +85,7 @@ enum APIEndpoint {
     case sendSupport(SupportRequestModel)
     
     var baseURL: String {
-        return "https://your-api-domain.com"
+        return "http://localhost:5200"
     }
 }
 
