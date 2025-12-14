@@ -309,6 +309,11 @@ final class HomeViewController: UIViewController {
         bannerCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         pageControl.currentPage = currentBannerIndex
     }
+    
+    deinit {
+        stopAutoScroll()
+        cancellables.removeAll()
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

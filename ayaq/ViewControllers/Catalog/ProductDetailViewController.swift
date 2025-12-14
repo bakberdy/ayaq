@@ -748,4 +748,8 @@ final class ProductDetailViewController: UIViewController {
             alert.dismiss(animated: true)
         }
     }
+    
+    deinit {
+        cancellables.removeAll()
+    }
 }
