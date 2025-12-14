@@ -21,10 +21,6 @@ extension Bundle {
         return infoDictionary?["CFBundleName"] as? String ?? "Unknown"
     }
     
-    var bundleIdentifier: String {
-        return Bundle.main.bundleIdentifier ?? "Unknown"
-    }
-    
     var fullVersion: String {
         return "\(appVersion) (\(buildNumber))"
     }
