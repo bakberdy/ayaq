@@ -1,7 +1,27 @@
 ---
 applyTo: '**'
 ---
-Project Structure Overview
+
+# iOS E-Commerce App - MVVM Architecture Guide
+
+## What This Guide Is For
+
+This document defines the architectural standards and best practices for building a production-ready iOS e-commerce application using the MVVM (Model-View-ViewModel) pattern. It ensures:
+
+- **Consistent Code Structure**: All developers follow the same patterns and conventions
+- **Maintainability**: Clear separation of concerns makes code easier to understand and modify
+- **Scalability**: Proper architecture allows the app to grow without becoming unmanageable
+- **Quality**: Enforces modern Swift best practices and avoids common antipatterns
+
+Use this guide as a reference when:
+- Creating new features or modules
+- Refactoring existing code
+- Reviewing code for compliance
+- Onboarding new team members
+
+---
+
+## Project Structure Overview
 ECommerceApp/
 ├── App/
 │   ├── AppDelegate.swift
@@ -200,33 +220,518 @@ ECommerceApp/
     └── Colors.xcassets/
 
 
-MVVM Pattern Architecture
-What is MVVM?
-Model → Data models (DTOs, local models) View → UIViewController + XIB/Storyboard (displays data) ViewModel→ Business logic, state management, data binding
+## MVVM ARCHITECTURE - BEST PRACTICES
 
-Layer Breakdown
-1. Model Layer
-DTOs (from API)
-Network/NetworkModels/DTOs.swift
-├── CartDTO
-├── CatalogItemDTO
-├── OrderDTO
-├── ApplicationUserDTO
-├── CatalogItemReviewDTO
-├── WishlistDTO
-└── ... (all DTO responses from API)
+### Core Principles
+1. **Single Responsibility**: Each layer has ONE clear purpose
+2. **Dependency Injection**: Never use default parameters or singletons directly
+3. **Unidirectional Data Flow**: View → ViewModel → Service → Network
+4. **Immutability**: Prefer immutable models, expose mutable state carefully
 
-Local Models
-Models/LocalModels.swift
-├── User (local representation)
-├── Product (local representation)
-├── CartItem (local representation)
-├── Order (local representation)
-└── ... (models used throughout the app)
+---
 
+### MODEL LAYER
 
+#### DTOs (Data Transfer Objects)
+**Location**: `Network/NetworkModels/DTOs.swift`
+**Purpose**: ONLY for network serialization/deserialization
 
-Don't leave any comments. 
-All Changes make inside ayaq folder.
-use snapkit to set constraints
-don't leave print statements
+**Rules**:
+- ✅ Only used in Network and Service layers
+- ✅ Conform to Codable
+- ✅ Use CodingKeys for API field mapping
+- ✅ Optional properties where API might omit them
+- ❌ NEVER used in ViewModels or ViewControllers
+- ❌ NO business logic
+- ❌ NO computed properties
+
+**Example**:
+```swift
+struct CatalogItemDTO: Codable {
+    let id: Int
+    let name: String?
+    let price: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name = "product_name"
+        case price
+    }
+}
+```
+
+#### Domain Models (LocalModels)
+**Location**: `Models/LocalModels.swift`
+**Purpose**: Business logic, app-wide usage
+
+**Rules**:
+- ✅ Used everywhere except Network layer
+- ✅ Value types (struct) preferred
+- ✅ Computed properties for formatting
+- ✅ Business validation logic
+- ✅ Equatable, Identifiable conformance
+- ✅ Immutable by default
+- ✅ Init from DTO in Service layer, not in model
+
+**Example**:
+```swift
+struct Product: Identifiable, Equatable {
+    let id: Int
+    let name: String
+    let price: Decimal
+    let imageURL: URL?
+    
+    var formattedPrice: String {
+        PriceFormatter.format(price)
+    }
+    
+    var isAvailable: Bool {
+        price > 0
+    }
+}
+```
+
+---
+
+### SERVICE LAYER
+
+#### Service Responsibilities
+**Purpose**: Bridge between Network and Business Logic
+
+**MUST DO**:
+- ✅ Convert DTOs → Domain Models
+- ✅ Handle business logic (token refresh, data aggregation)
+- ✅ Return Domain Models, NEVER DTOs
+- ✅ Use async/await (NO callbacks)
+- ✅ Throw domain-specific errors
+- ✅ Be protocol-based ONLY if you have multiple implementations
+
+**MUST NOT DO**:
+- ❌ Expose DTOs to callers
+- ❌ Use withCheckedThrowingContinuation (make network layer async)
+- ❌ Save state (use repositories/managers)
+- ❌ Call ViewModels
+- ❌ Use print statements (use os.Logger)
+
+**Example**:
+```swift
+protocol AuthServiceProtocol {
+    func login(email: String, password: String) async throws -> User
+}
+
+final class AuthService: AuthServiceProtocol {
+    private let apiClient: APIClient
+    private let tokenManager: TokenManager
+    
+    init(apiClient: APIClient, tokenManager: TokenManager) {
+        self.apiClient = apiClient
+        self.tokenManager = tokenManager
+    }
+    
+    func login(email: String, password: String) async throws -> User {
+        let dto = try await apiClient.login(email: email, password: password)
+        tokenManager.save(dto.token)
+        return User(dto: dto)
+    }
+}
+```
+
+---
+
+### VIEWMODEL LAYER
+
+#### ViewModel Responsibilities
+**Purpose**: Presentation logic and state management
+
+**State Management**:
+```swift
+@MainActor
+final class LoginViewModel: ObservableObject {
+    enum State {
+        case idle
+        case loading
+        case success(User)
+        case error(String)
+    }
+    
+    @Published private(set) var state: State = .idle
+    
+    private let authService: AuthServiceProtocol
+    private var loginTask: Task<Void, Never>?
+    
+    init(authService: AuthServiceProtocol) {
+        self.authService = authService
+    }
+    
+    func login(email: String, password: String) {
+        loginTask?.cancel()
+        
+        loginTask = Task {
+            state = .loading
+            
+            do {
+                let user = try await authService.login(email: email, password: password)
+                state = .success(user)
+            } catch {
+                state = .error(error.localizedDescription)
+            }
+        }
+    }
+    
+    func cancelLogin() {
+        loginTask?.cancel()
+    }
+}
+```
+
+**MUST DO**:
+- ✅ Mark with @MainActor
+- ✅ Use @Published for observable state
+- ✅ Store Task references for cancellation
+- ✅ Use State enum (idle/loading/success/error)
+- ✅ All properties private(set)
+- ✅ Validation methods return Result<Void, ValidationError>
+- ✅ Inject all dependencies via init
+- ✅ Clear, single-purpose methods
+
+**MUST NOT DO**:
+- ❌ Public mutable properties (var email: String = "")
+- ❌ Closure-based callbacks (onSuccess, onError)
+- ❌ Direct UIKit imports
+- ❌ Manual MainActor.run { }
+- ❌ Default parameter dependencies
+- ❌ Retain cycle risks
+- ❌ Multiple responsibilities
+
+---
+
+### VIEW LAYER (ViewControllers)
+
+#### ViewController Responsibilities
+**Purpose**: Display data, forward user actions
+
+**MUST DO**:
+- ✅ Observe ViewModel @Published properties
+- ✅ Render ViewModel state
+- ✅ Forward user actions to ViewModel
+- ✅ Use Combine for bindings
+- ✅ Cancel subscriptions in deinit
+- ✅ Dependency injection via init
+
+**MUST NOT DO**:
+- ❌ Business logic
+- ❌ Network calls
+- ❌ Data transformation
+- ❌ Validation logic
+- ❌ Direct Service access
+- ❌ Mutable ViewModel state
+
+**Example**:
+```swift
+final class LoginViewController: UIViewController {
+    private let viewModel: LoginViewModel
+    private var cancellables = Set<AnyCancellable>()
+    
+    init(viewModel: LoginViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupBindings()
+    }
+    
+    private func setupBindings() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.render(state)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func render(_ state: LoginViewModel.State) {
+        switch state {
+        case .idle:
+            hideLoading()
+        case .loading:
+            showLoading()
+        case .success(let user):
+            handleSuccess(user)
+        case .error(let message):
+            showError(message)
+        }
+    }
+    
+    @objc private func loginTapped() {
+        viewModel.login(
+            email: emailTextField.text ?? "",
+            password: passwordTextField.text ?? ""
+        )
+    }
+}
+```
+
+---
+
+### NETWORK LAYER
+
+#### APIClient
+**MUST BE**:
+- ✅ Native async/await (NO callbacks)
+- ✅ Separate concerns (URLBuilder, Logger, etc.)
+- ✅ Generic error handling
+
+**Example**:
+```swift
+protocol APIClientProtocol {
+    func request<T: Decodable>(_ endpoint: APIEndpoint) async throws -> T
+    func request(_ endpoint: APIEndpoint) async throws
+}
+
+final class APIClient: APIClientProtocol {
+    private let session: URLSession
+    private let logger: Logger
+    
+    func request<T: Decodable>(_ endpoint: APIEndpoint) async throws -> T {
+        let request = try endpoint.makeRequest()
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIError.invalidResponse
+        }
+        
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw APIError.httpError(httpResponse.statusCode)
+        }
+        
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+}
+```
+
+---
+
+### DEPENDENCY INJECTION
+
+#### Container Pattern
+```swift
+final class DependencyContainer {
+    private let apiClient: APIClientProtocol
+    private let tokenManager: TokenManager
+    
+    init() {
+        self.tokenManager = KeychainTokenManager()
+        self.apiClient = APIClient(tokenManager: tokenManager)
+    }
+    
+    func makeAuthService() -> AuthServiceProtocol {
+        AuthService(apiClient: apiClient, tokenManager: tokenManager)
+    }
+    
+    func makeLoginViewModel() -> LoginViewModel {
+        LoginViewModel(authService: makeAuthService())
+    }
+}
+```
+
+#### Usage in Coordinator
+```swift
+final class AuthCoordinator {
+    private let container: DependencyContainer
+    
+    init(container: DependencyContainer) {
+        self.container = container
+    }
+    
+    func showLogin() {
+        let viewModel = container.makeLoginViewModel()
+        let viewController = LoginViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+}
+```
+
+---
+
+### ERROR HANDLING
+
+#### Domain Errors
+```swift
+enum AuthError: LocalizedError {
+    case invalidCredentials
+    case emailNotVerified
+    case accountLocked
+    case networkUnavailable
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidCredentials:
+            return "Invalid email or password"
+        case .emailNotVerified:
+            return "Please verify your email"
+        case .accountLocked:
+            return "Your account has been locked"
+        case .networkUnavailable:
+            return "No internet connection"
+        }
+    }
+}
+```
+
+#### Service Layer Error Mapping
+```swift
+func login(email: String, password: String) async throws -> User {
+    do {
+        let dto = try await apiClient.login(email: email, password: password)
+        return User(dto: dto)
+    } catch let apiError as APIError {
+        throw mapToAuthError(apiError)
+    }
+}
+
+private func mapToAuthError(_ error: APIError) -> AuthError {
+    switch error {
+    case .httpError(401):
+        return .invalidCredentials
+    case .httpError(403):
+        return .accountLocked
+    case .networkError:
+        return .networkUnavailable
+    default:
+        return .networkUnavailable
+    }
+}
+```
+
+---
+
+### DATA FLOW EXAMPLE
+
+```
+User Action (Login Button)
+    ↓
+ViewController.loginTapped()
+    ↓
+ViewModel.login(email:password:)
+    ↓
+AuthService.login(email:password:) → Returns User
+    ↓
+APIClient.request(.login) → Returns TokenDTO
+    ↓
+AuthService converts TokenDTO → User
+    ↓
+ViewModel.state = .success(User)
+    ↓
+ViewController observes state change
+    ↓
+ViewController.render(.success(User))
+    ↓
+UI Updates
+```
+
+---
+
+### ANTI-PATTERNS TO AVOID
+
+#### ❌ Services Returning DTOs
+```swift
+func getCart() async throws -> CartDTO  // WRONG
+func getCart() async throws -> Cart     // CORRECT
+```
+
+#### ❌ Callback-Based ViewModels
+```swift
+var onSuccess: ((User) -> Void)?  // WRONG
+@Published var state: State        // CORRECT
+```
+
+#### ❌ Mutable Public Properties
+```swift
+var email: String = ""             // WRONG
+private(set) var email: String     // BETTER
+func updateEmail(_ email: String)  // BEST
+```
+
+#### ❌ Default Dependencies
+```swift
+init(service: Service = Service())  // WRONG
+init(service: Service)              // CORRECT
+```
+
+#### ❌ ViewModels Without @MainActor
+```swift
+class LoginViewModel { }            // WRONG
+@MainActor class LoginViewModel { } // CORRECT
+```
+
+#### ❌ Multiple State Properties
+```swift
+var isLoading: Bool
+var error: String?
+var user: User?                     // WRONG
+
+enum State {
+    case loading
+    case error(String)
+    case success(User)
+}                                   // CORRECT
+```
+
+---
+
+### TESTING REQUIREMENTS
+
+#### Code Style
+- ✅ No comments in code (self-documenting)
+- ✅ No print statements (use os.Logger)
+- ✅ Use SnapKit for constraints
+- ✅ All changes in ayaq/ folder
+- ✅ SwiftLint compliant
+- ✅ Max 200 lines per file
+
+#### Naming Conventions
+- ViewModels: `<Feature>ViewModel`
+- Services: `<Feature>Service`
+- Models: Clear domain names (User, Product, Order)
+- DTOs: `<Name>DTO`
+- Protocols: Only when multiple implementations exist
+
+#### File Organization
+- One model per file if >100 lines
+- Group related ViewModels in folders
+- Services in feature folders
+- Shared utilities in Utilities/
+
+---
+
+### PERFORMANCE
+
+#### Async Operations
+- ✅ Always store Task references
+- ✅ Cancel tasks when appropriate
+- ✅ Use Task groups for parallel operations
+- ✅ Avoid blocking main thread
+
+#### Memory
+- ✅ Use weak self in closures
+- ✅ Cancel subscriptions in deinit
+- ✅ Unsubscribe from observers
+- ✅ Release large objects
+
+---
+
+### SECURITY
+
+#### Token Storage
+- ✅ Store sensitive data in Keychain
+- ❌ Never use UserDefaults for tokens
+- ✅ Clear tokens on logout
+- ✅ Handle token refresh
+
+#### Validation
+- ✅ Client-side validation in ViewModel
+- ✅ Server-side validation always checked
+- ✅ Sanitize user inputs
+- ✅ Use proper error messages
