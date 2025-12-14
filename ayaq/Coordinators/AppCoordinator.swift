@@ -7,7 +7,6 @@
 
 import UIKit
 
-/// Main app coordinator that manages the entire app flow
 class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
@@ -15,25 +14,38 @@ class AppCoordinator: Coordinator {
     private var window: UIWindow
     private var tabBarController: MainTabBarController?
     private var authCoordinator: AuthCoordinator?
+    private let container: DependencyContainer
     private let tokenManager: TokenManager
     
-    init(window: UIWindow, tokenManager: TokenManager = .shared) {
+    init(window: UIWindow, container: DependencyContainer) {
         self.window = window
         self.navigationController = UINavigationController()
-        self.tokenManager = tokenManager
+        self.container = container
+        self.tokenManager = TokenManager.shared
     }
     
     func start() {
+        print("🚀 AppCoordinator starting...")
+        print("📱 Has token: \(tokenManager.hasToken())")
+        
         if tokenManager.hasToken() {
+            print("✅ Showing main app")
             showMainApp()
         } else {
+            print("🔐 Showing auth")
             showAuth()
         }
     }
     
     private func showAuth() {
+        print("🔐 Setting up auth flow...")
         let authNavController = UINavigationController()
-        let authCoordinator = AuthCoordinator(navigationController: authNavController)
+        print("📱 Created auth nav controller: \(authNavController)")
+        
+        let authCoordinator = AuthCoordinator(
+            navigationController: authNavController,
+            container: container
+        )
         self.authCoordinator = authCoordinator
         
         authCoordinator.onDidFinishAuth = { [weak self] in
@@ -42,20 +54,35 @@ class AppCoordinator: Coordinator {
         }
         
         addChildCoordinator(authCoordinator)
+        print("▶️ Starting auth coordinator...")
         authCoordinator.start()
         
+        print("🪟 Setting window root view controller...")
         window.rootViewController = authNavController
         window.makeKeyAndVisible()
+        print("✅ Window is key and visible")
     }
     
     private func showMainApp() {
         let tabBarController = MainTabBarController()
         self.tabBarController = tabBarController
         
-        let homeCoordinator = HomeCoordinator(navigationController: UINavigationController())
-        let catalogCoordinator = CatalogCoordinator(navigationController: UINavigationController())
-        let cartCoordinator = CartCoordinator(navigationController: UINavigationController())
-        let profileCoordinator = ProfileCoordinator(navigationController: UINavigationController())
+        let homeCoordinator = HomeCoordinator(
+            navigationController: UINavigationController(),
+            container: container
+        )
+        let catalogCoordinator = CatalogCoordinator(
+            navigationController: UINavigationController(),
+            container: container
+        )
+        let cartCoordinator = CartCoordinator(
+            navigationController: UINavigationController(),
+            container: container
+        )
+        let profileCoordinator = ProfileCoordinator(
+            navigationController: UINavigationController(),
+            container: container
+        )
         
         profileCoordinator.onDidLogout = { [weak self] in
             self?.handleLogout()

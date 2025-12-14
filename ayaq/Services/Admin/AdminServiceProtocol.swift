@@ -1,7 +1,7 @@
 import Foundation
 
 protocol AdminServiceProtocol {
-    func getSalesReport() async throws -> [SalesReportDTO]
-    func getCustomerActivityLogs() async throws -> [CustomerActivityLogDTO]
-    func getInventorySummary() async throws -> [InventoryItemDTO]
+    func getSalesReport() async throws -> [SalesReport]
+    func getCustomerActivityLogs() async throws -> [CustomerActivityLog]
+    func getInventorySummary() async throws -> [InventoryItem]
 }

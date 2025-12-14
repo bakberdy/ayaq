@@ -1,68 +1,90 @@
 import Foundation
+import Combine
 
-final class ResetPasswordViewModel {
-    var email: String = ""
-    var code: String = ""
-    var newPassword: String = ""
-    var confirmPassword: String = ""
+@MainActor
+final class ResetPasswordViewModel: ObservableObject {
+    enum State {
+        case idle
+        case loading
+        case success
+        case error(String)
+    }
     
-    var onSuccess: (() -> Void)?
-    var onError: ((String) -> Void)?
-    var onLoadingStateChanged: ((Bool) -> Void)?
+    @Published private(set) var state: State = .idle
     
-    private(set) var isLoading: Bool = false {
-        didSet {
-            onLoadingStateChanged?(isLoading)
+    private let authService: AuthServiceProtocol
+    private var resetTask: Task<Void, Never>?
+    
+    init(authService: AuthServiceProtocol) {
+        self.authService = authService
+    }
+    
+    func resetPassword(email: String, code: String, newPassword: String, confirmPassword: String) {
+        resetTask?.cancel()
+        
+        switch validateInputs(email: email, code: code, newPassword: newPassword, confirmPassword: confirmPassword) {
+        case .success:
+            break
+        case .failure(let error):
+            state = .error(error.localizedDescription)
+            return
+        }
+        
+        resetTask = Task {
+            state = .loading
+            
+            do {
+                guard let codeInt = Int(code) else {
+                    state = .error("Invalid verification code")
+                    return
+                }
+                let model = ResetPasswordModel(email: email, code: codeInt, newPassword: newPassword)
+                try await authService.resetPassword(model: model)
+                guard !Task.isCancelled else { return }
+                state = .success
+            } catch {
+                guard !Task.isCancelled else { return }
+                state = .error(error.localizedDescription)
+            }
         }
     }
     
-    func resetPassword() {
-        guard validateInputs() else { return }
-        
-        isLoading = true
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
-            self?.isLoading = false
-            self?.onSuccess?()
+    func cancelReset() {
+        resetTask?.cancel()
+        if case .loading = state {
+            state = .idle
         }
     }
     
-    private func validateInputs() -> Bool {
+    private func validateInputs(email: String, code: String, newPassword: String, confirmPassword: String) -> Result<Void, ValidationError> {
         guard !email.isEmpty else {
-            onError?("Email cannot be empty")
-            return false
+            return .failure(.emptyField("Email"))
         }
         
         guard EmailValidator.isValid(email) else {
-            onError?("Please enter a valid email")
-            return false
+            return .failure(.invalidFormat("Please enter a valid email"))
         }
         
         guard !code.isEmpty else {
-            onError?("Verification code cannot be empty")
-            return false
+            return .failure(.emptyField("Verification code"))
         }
         
         guard let codeInt = Int(code), codeInt > 0 else {
-            onError?("Please enter a valid verification code")
-            return false
+            return .failure(.invalidFormat("Please enter a valid verification code"))
         }
         
         guard !newPassword.isEmpty else {
-            onError?("New password cannot be empty")
-            return false
+            return .failure(.emptyField("New password"))
         }
         
         guard newPassword.count >= 6 else {
-            onError?("Password must be at least 6 characters")
-            return false
+            return .failure(.tooShort("Password", 6))
         }
         
         guard newPassword == confirmPassword else {
-            onError?("Passwords do not match")
-            return false
+            return .failure(.invalidFormat("Passwords do not match"))
         }
         
-        return true
+        return .success(())
     }
 }

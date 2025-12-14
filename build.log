@@ -1,0 +1,515 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project ayaq.xcodeproj -scheme ayaq -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 17 Pro Max" clean build
+
+Build settings from command line:
+    SDKROOT = iphonesimulator26.1
+
+2025-12-14 14:56:47.769 xcodebuild[88662:6493010] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+** CLEAN SUCCEEDED **
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'ayaq' in project 'ayaq' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.1.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 390601c8df1d675cefdb23e3cc912951
+Build description path: /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/XCBuildData/390601c8df1d675cefdb23e3cc912951.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.1.sdk /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.1-23B77-90cf18a4295e390e64c810bc6bd7acbc.sdkstatcache
+    cd /Users/bakberdiesentai/Desktop/ayaq/ayaq.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.1.sdk -o /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.1-23B77-90cf18a4295e390e64c810bc6bd7acbc.sdkstatcache
+
+CreateBuildDirectory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products
+    cd /Users/bakberdiesentai/Desktop/ayaq/ayaq.xcodeproj
+    builtin-create-build-directory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products
+
+CreateBuildDirectory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex
+    cd /Users/bakberdiesentai/Desktop/ayaq/ayaq.xcodeproj
+    builtin-create-build-directory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex
+
+CreateBuildDirectory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /Users/bakberdiesentai/Desktop/ayaq/ayaq.xcodeproj
+    builtin-create-build-directory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/bakberdiesentai/Desktop/ayaq/ayaq.xcodeproj
+    builtin-create-build-directory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /Users/bakberdiesentai/Desktop/ayaq/ayaq.xcodeproj
+    builtin-create-build-directory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+CreateBuildDirectory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator
+    cd /Users/bakberdiesentai/Desktop/ayaq/ayaq.xcodeproj
+    builtin-create-build-directory /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq-5f0b30094a93f38388a7e84943f71682-VFS-iphonesimulator/all-product-headers.yaml
+    cd /Users/bakberdiesentai/Desktop/ayaq/ayaq.xcodeproj
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq-5f0b30094a93f38388a7e84943f71682-VFS-iphonesimulator/all-product-headers.yaml
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-DebugDylibInstallName-normal-arm64.txt (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-own-target-headers.hmap (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.hmap (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.hmap
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-project-headers.hmap (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-project-headers.hmap
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.DependencyStaticMetadataFileList (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-all-target-headers.hmap (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-generated-files.hmap (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-generated-files.hmap
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.DependencyMetadataFileList (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-all-non-framework-target-headers.hmap (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-DebugDylibPath-normal-arm64.txt (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq_const_extract_protocols.json (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq.SwiftFileList (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq.SwiftFileList
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq.SwiftConstValuesFileList (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq.LinkFileList (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq.LinkFileList
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq-OutputFileMap.json (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq-OutputFileMap.json
+
+MkDir /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/ayaq.app (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    /bin/mkdir -p /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/ayaq.app
+
+WriteAuxiliaryFile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/Entitlements-Simulated.plist (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    write-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/Entitlements-Simulated.plist
+
+ProcessProductPackaging "" /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.app-Simulated.xcent (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "C466ZHPP34.bakberdi.ayaq";
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.app-Simulated.xcent
+
+ProcessProductPackagingDER /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.app-Simulated.xcent /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.app-Simulated.xcent.der (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    /usr/bin/derq query -f xml -i /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.app-Simulated.xcent -o /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.app-Simulated.xcent.der --raw
+
+Ld /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/ayaq.app/__preview.dylib normal (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios26.1-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.1.sdk -O0 -L/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator -F/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator -install_name @rpath/ayaq.debug.dylib -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq_dependency_info.dat -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.app-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq.app-Simulated.xcent.der -Xlinker -no_adhoc_codesign -o /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/ayaq.app/__preview.dylib
+
+MkDir /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/assetcatalog_output/thinned (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    /bin/mkdir -p /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/assetcatalog_output/thinned
+
+MkDir /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/assetcatalog_output/unthinned (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    /bin/mkdir -p /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/assetcatalog_output/unthinned
+
+CpResource /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/ayaq.app/README.md /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/README.md (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/README.md /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/ayaq.app
+
+GenerateAssetSymbols /Users/bakberdiesentai/Desktop/ayaq/ayaq/Assets.xcassets (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/bakberdiesentai/Desktop/ayaq/ayaq/Assets.xcassets --compile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/ayaq.app --output-format human-readable-text --notices --warnings --export-dependency-info /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/assetcatalog_dependencies --output-partial-info-plist /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/assetcatalog_generated_info.plist --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 26.1 --platform iphonesimulator --bundle-identifier bakberdi.ayaq --generate-swift-asset-symbols /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+CpResource /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/ayaq.app/IMPLEMENTATION_SUMMARY.md /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/IMPLEMENTATION_SUMMARY.md (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/IMPLEMENTATION_SUMMARY.md /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/ayaq.app
+
+CompileAssetCatalogVariant thinned /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/ayaq.app /Users/bakberdiesentai/Desktop/ayaq/ayaq/Assets.xcassets (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/bakberdiesentai/Desktop/ayaq/ayaq/Assets.xcassets --compile /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --filter-for-thinning-device-configuration iPhone18,2 --filter-for-device-os-version 26.1 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 26.1 --platform iphonesimulator
+
+SwiftDriver ayaq normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ayaq -Onone -enforce-exclusivity\=checked @/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq.SwiftFileList -DDEBUG -default-isolation\=MainActor -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.1.sdk -target arm64-apple-ios26.1-simulator -g -module-cache-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator -F /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64 -c -j12 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.1-23B77-90cf18a4295e390e64c810bc6bd7acbc.sdkstatcache -output-file-map /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq_const_extract_protocols.json -Xcc -iquote -Xcc /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-generated-files.hmap -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-own-target-headers.hmap -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-all-target-headers.hmap -Xcc -iquote -Xcc /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-project-headers.hmap -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources-normal/arm64 -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/arm64 -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq-Swift.h -working-directory /Users/bakberdiesentai/Desktop/ayaq -experimental-emit-module-separately -disable-cmo
+
+SwiftCompile normal arm64 Compiling\ AdminService.swift,\ AdminServiceProtocol.swift,\ AuthService.swift,\ AuthServiceProtocol.swift,\ CartService.swift,\ CartServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Admin/AdminService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Admin/AdminServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Auth/AuthService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Auth/AuthServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Cart/CartService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Cart/CartServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Admin/AdminService.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Admin/AdminServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Auth/AuthService.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Auth/AuthServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Cart/CartService.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Cart/CartServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 Compiling\ TokenManager.swift,\ DTOs.swift,\ RequestModels.swift,\ APIClient.swift,\ APIEndpoint.swift,\ APIError.swift,\ UsageExamples.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/Managers/TokenManager.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/NetworkModels/DTOs.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/NetworkModels/RequestModels.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/APIClient.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/APIEndpoint.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/APIError.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/UsageExamples.swift (in target 'ayaq' from project 'ayaq')
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/Managers/TokenManager.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/NetworkModels/DTOs.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/NetworkModels/RequestModels.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/APIClient.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/APIEndpoint.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/APIError.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/UsageExamples.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 Compiling\ AppDelegate.swift,\ Constants.swift,\ SceneDelegate.swift,\ AppCoordinator.swift,\ AuthCoordinator.swift,\ CartCoordinator.swift,\ CatalogCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/App/AppDelegate.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/App/Constants.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/App/SceneDelegate.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/AppCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/AuthCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/CartCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/CatalogCoordinator.swift (in target 'ayaq' from project 'ayaq')
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/App/AppDelegate.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/App/Constants.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/App/SceneDelegate.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/AppCoordinator.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/AuthCoordinator.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/CartCoordinator.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/CatalogCoordinator.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 Compiling\ BrandService.swift,\ BrandServiceProtocol.swift,\ CatalogService.swift,\ CatalogServiceProtocol.swift,\ TypeService.swift,\ TypeServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/BrandService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/BrandServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/CatalogService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/CatalogServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/TypeService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/TypeServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/BrandService.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/BrandServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/CatalogService.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/CatalogServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/TypeService.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/TypeServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 Compiling\ DTOMappers.swift,\ OrderService.swift,\ OrderServiceProtocol.swift,\ ReviewService.swift,\ ReviewServiceProtocol.swift,\ UserService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Extensions/DTOMappers.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Order/OrderService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Order/OrderServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Review/ReviewService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Review/ReviewServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/User/UserService.swift (in target 'ayaq' from project 'ayaq')
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Extensions/DTOMappers.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Order/OrderService.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Order/OrderServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Review/ReviewService.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Review/ReviewServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/User/UserService.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 Compiling\ UIViewControllerExtensions.swift,\ UIViewExtensions.swift,\ URLExtensions.swift,\ CustomDateFormatter.swift,\ CustomNumberFormatter.swift,\ PriceFormatter.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/UIViewControllerExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/UIViewExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/URLExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Formatters/CustomDateFormatter.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Formatters/CustomNumberFormatter.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Formatters/PriceFormatter.swift (in target 'ayaq' from project 'ayaq')
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/UIViewControllerExtensions.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/UIViewExtensions.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/URLExtensions.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Formatters/CustomDateFormatter.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Formatters/CustomNumberFormatter.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Formatters/PriceFormatter.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 Compiling\ EmailValidator.swift,\ FormValidator.swift,\ PasswordValidator.swift,\ PhoneValidator.swift,\ AuthUIHelpers.swift,\ ForgotPasswordViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/EmailValidator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/FormValidator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/PasswordValidator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/PhoneValidator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/AuthUIHelpers.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift (in target 'ayaq' from project 'ayaq')
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c /Users/bakberdiesentai/Desktop/ayaq/ayaq/App/AppDelegate.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/App/Constants.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/App/SceneDelegate.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/AppCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/AuthCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/CartCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/CatalogCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/Coordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/HomeCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/ProfileCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Managers/DependencyContainer.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Models/Enums.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Models/LocalModels.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/Interceptors/AuthenticationInterceptor.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/Managers/TokenManager.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/NetworkModels/DTOs.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/NetworkModels/RequestModels.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/APIClient.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/APIEndpoint.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/APIError.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/UsageExamples.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Admin/AdminService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Admin/AdminServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Auth/AuthService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Auth/AuthServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Cart/CartService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Cart/CartServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/BrandService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/BrandServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/CatalogService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/CatalogServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/TypeService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Catalog/TypeServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Extensions/DTOMappers.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Order/OrderService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Order/OrderServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Review/ReviewService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Review/ReviewServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/User/UserService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/User/UserServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Wishlist/WishlistService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Wishlist/WishlistServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/BundleExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/DateExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/StringExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/UIViewControllerExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/UIViewExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/URLExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Formatters/CustomDateFormatter.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Formatters/CustomNumberFormatter.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Formatters/PriceFormatter.swift -primary-file /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/EmailValidator.swift -primary-file /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/FormValidator.swift -primary-file /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/PasswordValidator.swift -primary-file /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/PhoneValidator.swift -primary-file /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/AuthUIHelpers.swift -primary-file /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/LoginViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/RegisterViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ResetPasswordViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Cart/CartViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Catalog/CatalogViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Common/MainTabBarController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Home/HomeViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Profile/ProfileViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/ForgotPasswordViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/LoginViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/RegisterViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/ResetPasswordViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Cart/CartViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Catalog/CatalogViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Home/HomeViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Profile/ProfileViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewController.swift /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/GeneratedAssetSymbols.swift -supplementary-output-file-map /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/supplementaryOutputs-9 -emit-localized-strings -emit-localized-strings-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64 -target arm64-apple-ios26.1-simulator -module-can-import-version DeveloperToolsSupport 23.0.4 23.0.4 -module-can-import-version SwiftUI 7.1.13.1 7.1.13 -module-can-import-version UIKit 9126.1.12.1 9126.1.12 -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libFoundationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#FoundationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libObservationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#ObservationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libPreviewsMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#PreviewsMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftUIMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftUIMacros -disable-implicit-swift-modules -Xcc -fno-implicit-modules -Xcc -fno-implicit-module-maps -explicit-swift-module-map-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq-dependencies-1.json -Xllvm -aarch64-use-tbi -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.1.sdk -I /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator -F /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=5 -module-cache-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -swift-version 5 -enforce-exclusivity\=checked -Onone -D DEBUG -serialize-debugging-options -const-gather-protocols-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ayaq_const_extract_protocols.json -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -default-isolation\=MainActor -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/bakberdiesentai/Desktop/ayaq -enable-anonymous-context-mangled-names -file-compilation-dir /Users/bakberdiesentai/Desktop/ayaq -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -ivfsstatcache -Xcc /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.1-23B77-90cf18a4295e390e64c810bc6bd7acbc.sdkstatcache -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-generated-files.hmap -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-own-target-headers.hmap -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-all-target-headers.hmap -Xcc -iquote -Xcc /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/ayaq-project-headers.hmap -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources-normal/arm64 -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/arm64 -Xcc -I/Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources -Xcc -DDEBUG\=1 -no-auto-bridging-header-chaining -module-name ayaq -frontend-parseable-output -disable-clang-spi -target-sdk-version 26.1 -target-sdk-name iphonesimulator26.1 -clang-target arm64-apple-ios26.1-simulator -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -o /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/EmailValidator.o -o /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/FormValidator.o -o /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/PasswordValidator.o -o /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/PhoneValidator.o -o /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/AuthUIHelpers.o -o /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ForgotPasswordViewController.o -index-unit-output-path /ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/EmailValidator.o -index-unit-output-path /ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/FormValidator.o -index-unit-output-path /ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/PasswordValidator.o -index-unit-output-path /ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/PhoneValidator.o -index-unit-output-path /ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/AuthUIHelpers.o -index-unit-output-path /ayaq.build/Debug-iphonesimulator/ayaq.build/Objects-normal/arm64/ForgotPasswordViewController.o -index-store-path /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Index.noindex/DataStore -index-system-modules
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/EmailValidator.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/FormValidator.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/PasswordValidator.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/PhoneValidator.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/AuthUIHelpers.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+/Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift:21:71: error: missing argument for parameter 'authService' in call
+    init(viewModel: ForgotPasswordViewModel = ForgotPasswordViewModel()) {
+                                                                      ^
+                                                                      authService: <#any AuthServiceProtocol#>
+/Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/ForgotPasswordViewModel.swift:18:5: note: 'init(authService:)' declared here
+    init(authService: AuthServiceProtocol) {
+    ^
+/Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift:91:19: error: value of type 'ForgotPasswordViewModel' has no member 'onSuccess'
+        viewModel.onSuccess = { [weak self] in
+        ~~~~~~~~~ ^~~~~~~~~
+/Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift:95:19: error: value of type 'ForgotPasswordViewModel' has no member 'onError'
+        viewModel.onError = { [weak self] errorMessage in
+        ~~~~~~~~~ ^~~~~~~
+/Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift:99:19: error: value of type 'ForgotPasswordViewModel' has no member 'onLoadingStateChanged'
+        viewModel.onLoadingStateChanged = { [weak self] isLoading in
+        ~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~
+/Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift:118:40: error: missing argument for parameter 'email' in call
+        viewModel.requestPasswordReset()
+                                       ^
+                                       email: <#String#>
+/Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/ForgotPasswordViewModel.swift:22:10: note: 'requestPasswordReset(email:)' declared here
+    func requestPasswordReset(email: String) {
+         ^
+/Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift:126:19: error: value of type 'ForgotPasswordViewModel' has no member 'email'
+        viewModel.email = emailTextField.text ?? ""
+        ~~~~~~~~~ ^~~~~
+/Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift:144:57: error: value of type 'ForgotPasswordViewModel' has no member 'email'
+        coordinator?.showResetPassword(email: viewModel.email)
+                                              ~~~~~~~~~ ^~~~~
+
+SwiftCompile normal arm64 Compiling\ UserServiceProtocol.swift,\ WishlistService.swift,\ WishlistServiceProtocol.swift,\ BundleExtensions.swift,\ DateExtensions.swift,\ StringExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/User/UserServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Wishlist/WishlistService.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Wishlist/WishlistServiceProtocol.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/BundleExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/DateExtensions.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/StringExtensions.swift (in target 'ayaq' from project 'ayaq')
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/User/UserServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Wishlist/WishlistService.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Services/Wishlist/WishlistServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/BundleExtensions.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/DateExtensions.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Extensions/StringExtensions.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ ayaq (in target 'ayaq' from project 'ayaq')
+
+EmitSwiftModule normal arm64 (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 Compiling\ HomeViewController.swift,\ ProfileViewController.swift,\ ForgotPasswordViewModel.swift,\ LoginViewModel.swift,\ RegisterViewModel.swift,\ ResetPasswordViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Home/HomeViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Profile/ProfileViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/ForgotPasswordViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/LoginViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/RegisterViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/ResetPasswordViewModel.swift (in target 'ayaq' from project 'ayaq')
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Home/HomeViewController.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Profile/ProfileViewController.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/ForgotPasswordViewModel.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/LoginViewModel.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/RegisterViewModel.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Auth/ResetPasswordViewModel.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 Compiling\ CartViewModel.swift,\ CatalogViewModel.swift,\ HomeViewModel.swift,\ ProfileViewModel.swift,\ ViewController.swift,\ GeneratedAssetSymbols.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Cart/CartViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Catalog/CatalogViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Home/HomeViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Profile/ProfileViewModel.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewController.swift /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'ayaq' from project 'ayaq')
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Cart/CartViewModel.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Catalog/CatalogViewModel.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Home/HomeViewModel.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewModels/Profile/ProfileViewModel.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewController.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 /Users/bakberdiesentai/Library/Developer/Xcode/DerivedData/ayaq-dqulxbbnmbugwzgyrlxzmhauorob/Build/Intermediates.noindex/ayaq.build/Debug-iphonesimulator/ayaq.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'ayaq' from project 'ayaq')
+    cd /Users/bakberdiesentai/Desktop/ayaq
+    
+
+SwiftCompile normal arm64 Compiling\ LoginViewController.swift,\ RegisterViewController.swift,\ ResetPasswordViewController.swift,\ CartViewController.swift,\ CatalogViewController.swift,\ MainTabBarController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/LoginViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/RegisterViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ResetPasswordViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Cart/CartViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Catalog/CatalogViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Common/MainTabBarController.swift (in target 'ayaq' from project 'ayaq')
+
+SwiftDriverJobDiscovery normal arm64 Compiling BrandService.swift, BrandServiceProtocol.swift, CatalogService.swift, CatalogServiceProtocol.swift, TypeService.swift, TypeServiceProtocol.swift (in target 'ayaq' from project 'ayaq')
+
+SwiftCompile normal arm64 Compiling\ Coordinator.swift,\ HomeCoordinator.swift,\ ProfileCoordinator.swift,\ DependencyContainer.swift,\ Enums.swift,\ LocalModels.swift,\ AuthenticationInterceptor.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/Coordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/HomeCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Coordinators/ProfileCoordinator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Managers/DependencyContainer.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Models/Enums.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Models/LocalModels.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Network/Interceptors/AuthenticationInterceptor.swift (in target 'ayaq' from project 'ayaq')
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+	SwiftCompile normal arm64 Compiling\ EmailValidator.swift,\ FormValidator.swift,\ PasswordValidator.swift,\ PhoneValidator.swift,\ AuthUIHelpers.swift,\ ForgotPasswordViewController.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/EmailValidator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/FormValidator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/PasswordValidator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/Utilities/Validators/PhoneValidator.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/AuthUIHelpers.swift /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift (in target 'ayaq' from project 'ayaq')
+	SwiftCompile normal arm64 /Users/bakberdiesentai/Desktop/ayaq/ayaq/ViewControllers/Auth/ForgotPasswordViewController.swift (in target 'ayaq' from project 'ayaq')
+	Building project ayaq with scheme ayaq
+(3 failures)

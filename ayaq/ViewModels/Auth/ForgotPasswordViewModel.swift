@@ -1,40 +1,66 @@
 import Foundation
+import Combine
 
-final class ForgotPasswordViewModel {
-    var email: String = ""
+@MainActor
+final class ForgotPasswordViewModel: ObservableObject {
+    enum State {
+        case idle
+        case loading
+        case success(String)
+        case error(String)
+    }
     
-    var onSuccess: (() -> Void)?
-    var onError: ((String) -> Void)?
-    var onLoadingStateChanged: ((Bool) -> Void)?
+    @Published private(set) var state: State = .idle
     
-    private(set) var isLoading: Bool = false {
-        didSet {
-            onLoadingStateChanged?(isLoading)
+    private let authService: AuthServiceProtocol
+    private var resetTask: Task<Void, Never>?
+    
+    init(authService: AuthServiceProtocol) {
+        self.authService = authService
+    }
+    
+    func requestPasswordReset(email: String) {
+        resetTask?.cancel()
+        
+        switch validateInput(email: email) {
+        case .success:
+            break
+        case .failure(let error):
+            state = .error(error.localizedDescription)
+            return
+        }
+        
+        resetTask = Task {
+            state = .loading
+            
+            do {
+                let model = RequestPasswordResetModel(email: email, linkToResetPassword: "")
+                try await authService.requestPasswordReset(model: model)
+                guard !Task.isCancelled else { return }
+                state = .success(email)
+            } catch {
+                guard !Task.isCancelled else { return }
+                state = .error(error.localizedDescription)
+            }
         }
     }
     
-    func requestPasswordReset() {
-        guard validateInput() else { return }
-        
-        isLoading = true
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
-            self?.isLoading = false
-            self?.onSuccess?()
+    func cancelRequest() {
+        resetTask?.cancel()
+        if case .loading = state {
+            state = .idle
         }
     }
     
-    private func validateInput() -> Bool {
+    private func validateInput(email: String) -> Result<Void, ValidationError> {
         guard !email.isEmpty else {
-            onError?("Email cannot be empty")
-            return false
+            return .failure(.emptyField("Email"))
         }
         
         guard EmailValidator.isValid(email) else {
-            onError?("Please enter a valid email")
-            return false
+            return .failure(.invalidFormat("Please enter a valid email"))
         }
         
-        return true
+        return .success(())
     }
 }

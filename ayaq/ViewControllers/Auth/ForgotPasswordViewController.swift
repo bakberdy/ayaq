@@ -1,8 +1,10 @@
 import UIKit
+import Combine
 
 final class ForgotPasswordViewController: UIViewController {
     private let viewModel: ForgotPasswordViewModel
     weak var coordinator: AuthCoordinator?
+    private var cancellables = Set<AnyCancellable>()
     
     private let scrollView = UIScrollView.createAuthScrollView()
     private let contentView: UIView = {
@@ -18,7 +20,7 @@ final class ForgotPasswordViewController: UIViewController {
     private let activityIndicator = UIActivityIndicatorView.createAuthLoadingIndicator()
     private let backToLoginButton = UIButton.createAuthTextButton(title: "Back to Login")
     
-    init(viewModel: ForgotPasswordViewModel = ForgotPasswordViewModel()) {
+    init(viewModel: ForgotPasswordViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -88,16 +90,26 @@ final class ForgotPasswordViewController: UIViewController {
     }
     
     private func setupBindings() {
-        viewModel.onSuccess = { [weak self] in
-            self?.handleSuccess()
-        }
-        
-        viewModel.onError = { [weak self] errorMessage in
-            self?.showError(message: errorMessage)
-        }
-        
-        viewModel.onLoadingStateChanged = { [weak self] isLoading in
-            self?.updateLoadingState(isLoading: isLoading)
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.render(state)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func render(_ state: ForgotPasswordViewModel.State) {
+        switch state {
+        case .idle:
+            updateLoadingState(isLoading: false)
+        case .loading:
+            updateLoadingState(isLoading: true)
+        case .success(let email):
+            updateLoadingState(isLoading: false)
+            coordinator?.showResetPassword(email: email)
+        case .error(let message):
+            updateLoadingState(isLoading: false)
+            showError(message: message)
         }
     }
     
@@ -106,7 +118,6 @@ final class ForgotPasswordViewController: UIViewController {
         backToLoginButton.addTarget(self, action: #selector(backToLoginButtonTapped), for: .touchUpInside)
         
         emailTextField.delegate = self
-        emailTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
     
     private func setupKeyboardObservers() {
@@ -115,15 +126,12 @@ final class ForgotPasswordViewController: UIViewController {
     
     @objc private func sendCodeButtonTapped() {
         dismissKeyboard()
-        viewModel.requestPasswordReset()
+        let email = emailTextField.text ?? ""
+        viewModel.requestPasswordReset(email: email)
     }
     
     @objc private func backToLoginButtonTapped() {
         coordinator?.showLogin()
-    }
-    
-    @objc private func textFieldDidChange() {
-        viewModel.email = emailTextField.text ?? ""
     }
     
     private func updateLoadingState(isLoading: Bool) {
@@ -138,10 +146,6 @@ final class ForgotPasswordViewController: UIViewController {
             sendCodeButton.isEnabled = true
             emailTextField.isEnabled = true
         }
-    }
-    
-    private func handleSuccess() {
-        coordinator?.showResetPassword(email: viewModel.email)
     }
     
     private func showError(message: String) {

@@ -7,13 +7,15 @@
 
 import UIKit
 
-/// Coordinator for Catalog flow
 class CatalogCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     
-    init(navigationController: UINavigationController) {
+    private let container: DependencyContainer
+    
+    init(navigationController: UINavigationController, container: DependencyContainer) {
         self.navigationController = navigationController
+        self.container = container
     }
     
     func start() {

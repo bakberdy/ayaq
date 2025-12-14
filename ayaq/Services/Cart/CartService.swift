@@ -1,57 +1,36 @@
 import Foundation
 
 final class CartService: CartServiceProtocol {
-    private let apiClient: APIClient
+    private let apiClient: APIClientProtocol
     
-    init(apiClient: APIClient = .shared) {
+    init(apiClient: APIClientProtocol) {
         self.apiClient = apiClient
     }
     
-    func getCart(userId: String) async throws -> CartDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getCart(userId), expecting: CartDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getCart(userId: String) async throws -> Cart {
+        let dto: CartDTO = try await apiClient.request(.getCart(userId))
+        return Cart(from: dto)
     }
     
-    func addItemToCart(userId: String, _ model: AddItemToCartModel) async throws -> CartDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.addItemToCart(userId: userId, model), expecting: CartDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func addItemToCart(userId: String, _ model: AddItemToCartModel) async throws -> Cart {
+        let dto: CartDTO = try await apiClient.request(.addItemToCart(userId: userId, model))
+        return Cart(from: dto)
     }
     
-    func updateItemQuantity(userId: String, _ model: UpdateCartItemQuantityModel) async throws -> CartDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.updateItemQuantity(userId: userId, model), expecting: CartDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func updateItemQuantity(userId: String, _ model: UpdateCartItemQuantityModel) async throws -> Cart {
+        let dto: CartDTO = try await apiClient.request(.updateItemQuantity(userId: userId, model))
+        return Cart(from: dto)
     }
     
     func removeItemFromCart(userId: String, _ model: RemoveItemFromCartModel) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeItemFromCart(userId: userId, model)) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await apiClient.request(.removeItemFromCart(userId: userId, model))
     }
     
     func removeCart(cartId: Int) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeCart(cartId)) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await apiClient.request(.removeCart(cartId))
     }
     
     func removeCartByUserId(userId: String) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeCartByUserId(userId)) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await apiClient.request(.removeCartByUserId(userId))
     }
 }

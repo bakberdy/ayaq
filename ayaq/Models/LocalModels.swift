@@ -29,16 +29,6 @@ struct User: Codable, Equatable, Identifiable {
     var isAdmin: Bool {
         return roles?.contains(.admin) ?? false
     }
-    
-    init(from dto: ApplicationUserDTO) {
-        self.id = dto.userId ?? ""
-        self.firstName = dto.firstName
-        self.lastName = dto.lastName
-        self.userName = dto.userName
-        self.email = dto.email
-        self.profilePictureUrl = dto.profilePictureUrl
-        self.roles = dto.roles?.compactMap { UserRole(rawValue: $0) }
-    }
 }
 
 struct ProductType: Codable, Equatable, Identifiable {
@@ -47,11 +37,6 @@ struct ProductType: Codable, Equatable, Identifiable {
     
     var displayName: String {
         return name ?? "Unknown Type"
-    }
-    
-    init(from dto: CatalogTypeDTO) {
-        self.id = dto.id
-        self.name = dto.type
     }
     
     init(id: Int, name: String?) {
@@ -66,11 +51,6 @@ struct Brand: Codable, Equatable, Identifiable {
     
     var displayName: String {
         return name ?? "Unknown Brand"
-    }
-    
-    init(from dto: CatalogBrandDTO) {
-        self.id = dto.id
-        self.name = dto.brand
     }
     
     init(id: Int, name: String?) {
@@ -112,35 +92,6 @@ struct Product: Codable, Equatable, Identifiable {
     var isInStock: Bool {
         return stockQuantity > 0
     }
-    
-    init(from dto: CatalogItemDTO, type: ProductType? = nil, brand: Brand? = nil) {
-        self.id = dto.id
-        self.name = dto.name
-        self.description = dto.description
-        self.price = Decimal(dto.price)
-        self.imageURL = URL(string: dto.pictureUrl ?? "")
-        self.stockQuantity = dto.stockQuantity
-        
-        if let type = type {
-            self.type = type
-        } else {
-            self.type = ProductType(
-                id: dto.catalogTypeId,
-                name: dto.catalogItemTypeName
-            )
-        }
-        
-        if let brand = brand {
-            self.brand = brand
-        } else {
-            self.brand = Brand(
-                id: dto.catalogBrandId,
-                name: dto.catalogItemBrandName
-            )
-        }
-        
-        self.reviews = dto.reviews?.map { Review(from: $0) }
-    }
 }
 
 struct Review: Codable, Equatable, Identifiable {
@@ -164,18 +115,6 @@ struct Review: Codable, Equatable, Identifiable {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         return formatter.string(from: date)
-    }
-    
-    init(from dto: CatalogItemReviewDTO) {
-        self.id = dto.id
-        self.userId = dto.userId
-        self.rating = dto.rating
-        self.reviewText = dto.reviewText
-        self.catalogItemId = dto.catalogItemId
-        
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        self.createdTime = dateFormatter.date(from: dto.createdTime)
     }
 }
 
@@ -205,16 +144,6 @@ struct CartItem: Codable, Equatable, Identifiable {
         formatter.currencyCode = "USD"
         return formatter.string(from: unitPrice as NSDecimalNumber) ?? "$\(unitPrice)"
     }
-    
-    init(from dto: CartItemDTO) {
-        self.id = dto.id
-        self.catalogItemId = dto.catalogItemId
-        self.unitPrice = Decimal(dto.unitPrice)
-        self.quantity = dto.quantity
-        self.productName = dto.productName
-        self.imageURL = URL(string: dto.pictureUrl ?? "")
-        self.cartId = dto.cartId
-    }
 }
 
 struct Cart: Codable, Equatable, Identifiable {
@@ -241,12 +170,6 @@ struct Cart: Codable, Equatable, Identifiable {
     var uniqueItemCount: Int {
         return items?.count ?? 0
     }
-    
-    init(from dto: CartDTO) {
-        self.id = dto.id
-        self.userId = dto.userId
-        self.items = dto.items?.map { CartItem(from: $0) }
-    }
 }
 
 struct OrderItem: Codable, Equatable, Identifiable {
@@ -267,15 +190,6 @@ struct OrderItem: Codable, Equatable, Identifiable {
         formatter.currencyCode = "USD"
         return formatter.string(from: totalPrice as NSDecimalNumber) ?? "$\(totalPrice)"
     }
-    
-    init(from dto: OrderItemDTO) {
-        self.id = dto.id
-        self.catalogItemId = dto.catalogItemId
-        self.unitPrice = Decimal(dto.unitPrice)
-        self.quantity = dto.quantity
-        self.productName = dto.productName
-        self.orderId = dto.orderId
-    }
 }
 
 struct ShippingMethod: Codable, Equatable {
@@ -289,22 +203,11 @@ struct ShippingMethod: Codable, Equatable {
         formatter.currencyCode = "USD"
         return formatter.string(from: cost as NSDecimalNumber) ?? "$\(cost)"
     }
-    
-    init(from dto: ShippingMethodDTO) {
-        self.name = dto.name
-        self.cost = Decimal(dto.cost)
-        self.deliveryTime = dto.deliveryTime
-    }
 }
 
 struct ShippingDetails: Codable, Equatable {
     let addressToShip: String?
     let phoneNumber: String?
-    
-    init(from dto: ShippingDetailsDTO) {
-        self.addressToShip = dto.addressToShip
-        self.phoneNumber = dto.phoneNumber
-    }
 }
 
 struct Order: Codable, Equatable, Identifiable {
@@ -337,19 +240,6 @@ struct Order: Codable, Equatable, Identifiable {
     var itemCount: Int {
         return items?.count ?? 0
     }
-    
-    init(from dto: OrderDTO) {
-        self.id = dto.id
-        self.userId = dto.userId
-        self.isConfirmed = dto.isConfirmed
-        self.shippingMethod = dto.shippingMethod.map { ShippingMethod(from: $0) }
-        self.shippingDetails = dto.shippingDetails.map { ShippingDetails(from: $0) }
-        self.items = dto.items?.map { OrderItem(from: $0) }
-        
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        self.orderDate = dateFormatter.date(from: dto.orderDate)
-    }
 }
 
 struct WishlistItem: Codable, Equatable, Identifiable {
@@ -358,14 +248,6 @@ struct WishlistItem: Codable, Equatable, Identifiable {
     let productName: String?
     let imageURL: URL?
     let wishlistId: Int
-    
-    init(from dto: WishlistItemDTO) {
-        self.id = dto.id
-        self.catalogItemId = dto.catalogItemId
-        self.productName = dto.productName
-        self.imageURL = URL(string: dto.pictureUrl ?? "")
-        self.wishlistId = dto.wishlistId
-    }
 }
 
 struct Wishlist: Codable, Equatable, Identifiable {
@@ -376,12 +258,6 @@ struct Wishlist: Codable, Equatable, Identifiable {
     var itemCount: Int {
         return items?.count ?? 0
     }
-    
-    init(from dto: WishlistDTO) {
-        self.id = dto.id
-        self.userId = dto.userId
-        self.items = dto.items?.map { WishlistItem(from: $0) }
-    }
 }
 
 struct AuthToken: Codable, Equatable {
@@ -389,10 +265,6 @@ struct AuthToken: Codable, Equatable {
     
     var isValid: Bool {
         return !token.isEmpty
-    }
-    
-    init(from dto: TokenDTO) {
-        self.token = dto.authToken ?? ""
     }
     
     init(token: String) {
@@ -415,15 +287,6 @@ struct JwtPayload: Codable, Equatable {
     var isActive: Bool {
         return Date() >= notBefore && !isExpired
     }
-    
-    init(from dto: JwtPayloadDTO) {
-        self.userId = dto.nameId
-        self.userName = dto.name
-        self.roles = dto.roles?.compactMap { UserRole(rawValue: $0) }
-        self.notBefore = Date(timeIntervalSince1970: TimeInterval(dto.notBefore))
-        self.expires = Date(timeIntervalSince1970: TimeInterval(dto.expires))
-        self.issuedAt = Date(timeIntervalSince1970: TimeInterval(dto.issuedAt))
-    }
 }
 
 struct SalesReport: Codable, Equatable {
@@ -433,26 +296,12 @@ struct SalesReport: Codable, Equatable {
     var displayMonth: String {
         return month ?? "Unknown"
     }
-    
-    init(from dto: SalesReportDTO) {
-        self.month = dto.month
-        self.salesCount = dto.salesCount
-    }
 }
 
 struct CustomerActivityLog: Codable, Equatable {
     let userId: String?
     let justOrdered: Bool
     let orderDate: Date?
-    
-    init(from dto: CustomerActivityLogDTO) {
-        self.userId = dto.userId
-        self.justOrdered = dto.justOrdered
-        
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        self.orderDate = dateFormatter.date(from: dto.orderDate)
-    }
 }
 
 struct InventoryItem: Codable, Equatable {
@@ -469,11 +318,6 @@ struct InventoryItem: Codable, Equatable {
     
     var isLowStock: Bool {
         return stockQuantity > 0 && stockQuantity <= 10
-    }
-    
-    init(from dto: InventorySummaryDTO) {
-        self.productName = dto.productName
-        self.stockQuantity = dto.stockQuantity
     }
 }
 

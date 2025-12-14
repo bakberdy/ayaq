@@ -1,57 +1,37 @@
 import Foundation
 
 final class TypeService: TypeServiceProtocol {
-    private let apiClient: APIClient
+    private let apiClient: APIClientProtocol
     
-    init(apiClient: APIClient = .shared) {
+    init(apiClient: APIClientProtocol) {
         self.apiClient = apiClient
     }
     
-    func getCatalogTypes() async throws -> [CatalogTypeDTO] {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getCatalogTypes, expecting: [CatalogTypeDTO].self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getCatalogTypes() async throws -> [ProductType] {
+        let dtos: [CatalogTypeDTO] = try await apiClient.request(.getCatalogTypes)
+        return dtos.map { ProductType(from: $0) }
     }
     
-    func getCatalogTypeById(_ id: Int) async throws -> CatalogTypeDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getCatalogTypeById(id), expecting: CatalogTypeDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getCatalogTypeById(_ id: Int) async throws -> ProductType {
+        let dto: CatalogTypeDTO = try await apiClient.request(.getCatalogTypeById(id))
+        return ProductType(from: dto)
     }
     
-    func getCatalogTypeByName(_ typeName: String) async throws -> CatalogTypeDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getCatalogTypeByName(typeName), expecting: CatalogTypeDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getCatalogTypeByName(_ typeName: String) async throws -> ProductType {
+        let dto: CatalogTypeDTO = try await apiClient.request(.getCatalogTypeByName(typeName))
+        return ProductType(from: dto)
     }
     
-    func createCatalogType(_ model: CreateCatalogTypeModel) async throws -> CatalogTypeDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.createCatalogType(model), expecting: CatalogTypeDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func createCatalogType(_ model: CreateCatalogTypeModel) async throws -> ProductType {
+        let dto: CatalogTypeDTO = try await apiClient.request(.createCatalogType(model))
+        return ProductType(from: dto)
     }
     
     func updateCatalogType(id: Int, _ model: UpdateTypeModel) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.updateCatalogType(id: id, model)) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await apiClient.request(.updateCatalogType(id: id, model))
     }
     
     func deleteCatalogType(_ id: Int) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.deleteCatalogType(id)) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await apiClient.request(.deleteCatalogType(id))
     }
 }

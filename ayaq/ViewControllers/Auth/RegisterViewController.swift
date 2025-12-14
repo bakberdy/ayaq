@@ -1,8 +1,10 @@
 import UIKit
+import Combine
 
 final class RegisterViewController: UIViewController {
     private let viewModel: RegisterViewModel
     weak var coordinator: AuthCoordinator?
+    private var cancellables = Set<AnyCancellable>()
     
     private let scrollView = UIScrollView.createAuthScrollView()
     private let contentView: UIView = {
@@ -23,7 +25,7 @@ final class RegisterViewController: UIViewController {
     private let alreadyHaveAccountLabel = UILabel.createAuthSecondaryLabel(text: "Already have an account?")
     private let loginButton = UIButton.createAuthTextButton(title: "Login")
     
-    init(viewModel: RegisterViewModel = RegisterViewModel()) {
+    init(viewModel: RegisterViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -114,16 +116,26 @@ final class RegisterViewController: UIViewController {
     }
     
     private func setupBindings() {
-        viewModel.onRegisterSuccess = { [weak self] authToken in
-            self?.handleRegisterSuccess(authToken: authToken)
-        }
-        
-        viewModel.onRegisterError = { [weak self] errorMessage in
-            self?.showError(message: errorMessage)
-        }
-        
-        viewModel.onLoadingStateChanged = { [weak self] isLoading in
-            self?.updateLoadingState(isLoading: isLoading)
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.render(state)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func render(_ state: RegisterViewModel.State) {
+        switch state {
+        case .idle:
+            updateLoadingState(isLoading: false)
+        case .loading:
+            updateLoadingState(isLoading: true)
+        case .success(let authToken):
+            updateLoadingState(isLoading: false)
+            handleRegisterSuccess(authToken: authToken)
+        case .error(let message):
+            updateLoadingState(isLoading: false)
+            showError(message: message)
         }
     }
     
@@ -136,12 +148,6 @@ final class RegisterViewController: UIViewController {
         emailTextField.delegate = self
         passwordTextField.delegate = self
         confirmPasswordTextField.delegate = self
-        
-        firstNameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        lastNameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        emailTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        confirmPasswordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
     
     private func setupKeyboardObservers() {
@@ -150,19 +156,16 @@ final class RegisterViewController: UIViewController {
     
     @objc private func registerButtonTapped() {
         dismissKeyboard()
-        viewModel.register()
+        let firstName = firstNameTextField.text ?? ""
+        let lastName = lastNameTextField.text ?? ""
+        let email = emailTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
+        let confirmPassword = confirmPasswordTextField.text ?? ""
+        viewModel.register(email: email, password: password, confirmPassword: confirmPassword, firstName: firstName, lastName: lastName)
     }
     
     @objc private func loginButtonTapped() {
         coordinator?.showLogin()
-    }
-    
-    @objc private func textFieldDidChange() {
-        viewModel.firstName = firstNameTextField.text ?? ""
-        viewModel.lastName = lastNameTextField.text ?? ""
-        viewModel.email = emailTextField.text ?? ""
-        viewModel.password = passwordTextField.text ?? ""
-        viewModel.confirmPassword = confirmPasswordTextField.text ?? ""
     }
     
     private func updateLoadingState(isLoading: Bool) {

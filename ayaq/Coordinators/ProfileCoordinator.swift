@@ -7,14 +7,16 @@
 
 import UIKit
 
-/// Coordinator for Profile flow
 class ProfileCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     var onDidLogout: (() -> Void)?
     
-    init(navigationController: UINavigationController) {
+    private let container: DependencyContainer
+    
+    init(navigationController: UINavigationController, container: DependencyContainer) {
         self.navigationController = navigationController
+        self.container = container
     }
     
     func start() {

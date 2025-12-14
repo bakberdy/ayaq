@@ -1,57 +1,37 @@
 import Foundation
 
 final class BrandService: BrandServiceProtocol {
-    private let apiClient: APIClient
+    private let apiClient: APIClientProtocol
     
-    init(apiClient: APIClient = .shared) {
+    init(apiClient: APIClientProtocol) {
         self.apiClient = apiClient
     }
     
-    func getCatalogBrands() async throws -> [CatalogBrandDTO] {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getCatalogBrands, expecting: [CatalogBrandDTO].self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getCatalogBrands() async throws -> [Brand] {
+        let dtos: [CatalogBrandDTO] = try await apiClient.request(.getCatalogBrands)
+        return dtos.map { Brand(from: $0) }
     }
     
-    func getCatalogBrandById(_ id: Int) async throws -> CatalogBrandDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getCatalogBrandById(id), expecting: CatalogBrandDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getCatalogBrandById(_ id: Int) async throws -> Brand {
+        let dto: CatalogBrandDTO = try await apiClient.request(.getCatalogBrandById(id))
+        return Brand(from: dto)
     }
     
-    func getCatalogBrandByName(_ brandName: String) async throws -> CatalogBrandDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getCatalogBrandByName(brandName), expecting: CatalogBrandDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getCatalogBrandByName(_ brandName: String) async throws -> Brand {
+        let dto: CatalogBrandDTO = try await apiClient.request(.getCatalogBrandByName(brandName))
+        return Brand(from: dto)
     }
     
-    func createCatalogBrand(_ model: CreateCatalogBrandModel) async throws -> CatalogBrandDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.createCatalogBrand(model), expecting: CatalogBrandDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func createCatalogBrand(_ model: CreateCatalogBrandModel) async throws -> Brand {
+        let dto: CatalogBrandDTO = try await apiClient.request(.createCatalogBrand(model))
+        return Brand(from: dto)
     }
     
     func updateCatalogBrand(id: Int, _ model: UpdateBrandModel) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.updateCatalogBrand(id: id, model)) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await apiClient.request(.updateCatalogBrand(id: id, model))
     }
     
     func deleteCatalogBrand(_ id: Int) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.deleteCatalogBrand(id)) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await apiClient.request(.deleteCatalogBrand(id))
     }
 }

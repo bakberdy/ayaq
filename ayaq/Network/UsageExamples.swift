@@ -1,35 +1,35 @@
 import Foundation
 
-/// Example usage of the Network Layer
+/// Example usage of the Network Layer with async/await
 /// This file demonstrates how to use the network layer in your app
+/// Note: These are examples only - actual implementation uses Services and ViewModels
 
 class NetworkLayerExamples {
     
+    private let apiClient: APIClientProtocol
+    
+    init(apiClient: APIClientProtocol) {
+        self.apiClient = apiClient
+    }
+    
     // MARK: - Authentication Examples
     
-    func loginExample() {
+    func loginExample() async {
         let loginModel = LoginModel(
             email: "user@example.com",
             password: "password123"
         )
         
-        APIClient.shared.request(
-            .login(loginModel),
-            expecting: ApplicationUserDTO.self
-        ) { result in
-            switch result {
-            case .success(let user):
-                print("✅ Login successful!")
-                print("User: \(user.email ?? "")")
-                // Save token here if API returns it
-                
-            case .failure(let error):
-                print("❌ Login failed: \(error.localizedDescription)")
-            }
+        do {
+            let user: ApplicationUserDTO = try await apiClient.request(.login(loginModel))
+            print("✅ Login successful!")
+            print("User: \(user.email ?? "")")
+        } catch {
+            print("❌ Login failed: \(error.localizedDescription)")
         }
     }
     
-    func registerExample() {
+    func registerExample() async {
         let registerModel = RegisterModel(
             email: "newuser@example.com",
             password: "password123",
@@ -38,132 +38,90 @@ class NetworkLayerExamples {
             profilePictureUrl: nil
         )
         
-        APIClient.shared.request(
-            .register(registerModel),
-            expecting: ApplicationUserDTO.self
-        ) { result in
-            switch result {
-            case .success(let user):
-                print("✅ Registration successful!")
-                
-            case .failure(let error):
-                print("❌ Registration failed: \(error.localizedDescription)")
-            }
+        do {
+            let user: ApplicationUserDTO = try await apiClient.request(.register(registerModel))
+            print("✅ Registration successful!")
+        } catch {
+            print("❌ Registration failed: \(error.localizedDescription)")
         }
     }
     
     // MARK: - Catalog Examples
     
-    func getCatalogItemsExample() {
-        APIClient.shared.request(
-            .getCatalogItems,
-            expecting: [CatalogItemDTO].self
-        ) { result in
-            switch result {
-            case .success(let items):
-                print("✅ Got \(items.count) items")
-                items.forEach { item in
-                    print("- \(item.name ?? "") - $\(item.price)")
-                }
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
+    func getCatalogItemsExample() async {
+        do {
+            let items: [CatalogItemDTO] = try await apiClient.request(.getCatalogItems)
+            print("✅ Got \(items.count) items")
+            items.forEach { item in
+                print("- \(item.name ?? "") - $\(item.price)")
             }
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
     }
     
-    func getCatalogItemByIdExample(itemId: Int) {
-        APIClient.shared.request(
-            .getCatalogItemById(itemId),
-            expecting: CatalogItemDTO.self
-        ) { result in
-            switch result {
-            case .success(let item):
-                print("✅ Item: \(item.name ?? "")")
-                print("Price: $\(item.price)")
-                print("Stock: \(item.stockQuantity)")
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
-            }
+    func getCatalogItemByIdExample(itemId: Int) async {
+        do {
+            let item: CatalogItemDTO = try await apiClient.request(.getCatalogItemById(itemId))
+            print("✅ Item: \(item.name ?? "")")
+            print("Price: $\(item.price)")
+            print("Stock: \(item.stockQuantity)")
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
     }
     
-    func getItemsByTypeExample(typeName: String) {
-        APIClient.shared.request(
-            .getCatalogItemsByTypeName(typeName),
-            expecting: [CatalogItemDTO].self
-        ) { result in
-            switch result {
-            case .success(let items):
-                print("✅ Found \(items.count) items of type: \(typeName)")
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
-            }
+    func getItemsByTypeExample(typeName: String) async {
+        do {
+            let items: [CatalogItemDTO] = try await apiClient.request(.getCatalogItemsByTypeName(typeName))
+            print("✅ Found \(items.count) items of type: \(typeName)")
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
     }
     
     // MARK: - Cart Examples
     
-    func getCartExample(userId: String) {
-        APIClient.shared.request(
-            .getCart(userId),
-            expecting: CartDTO.self
-        ) { result in
-            switch result {
-            case .success(let cart):
-                print("✅ Cart loaded")
-                print("Total items: \(cart.items?.count ?? 0)")
-                print("Total price: $\(cart.totalPrice)")
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
-            }
+    func getCartExample(userId: String) async {
+        do {
+            let cart: CartDTO = try await apiClient.request(.getCart(userId))
+            print("✅ Cart loaded")
+            print("Total items: \(cart.items?.count ?? 0)")
+            print("Total price: $\(cart.totalPrice)")
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
     }
     
-    func addToCartExample(userId: String, catalogItemId: Int) {
+    func addToCartExample(userId: String, catalogItemId: Int) async {
         let addModel = AddItemToCartModel(catalogItemId: catalogItemId)
         
-        APIClient.shared.request(
-            .addItemToCart(userId: userId, addModel),
-            expecting: CartDTO.self
-        ) { result in
-            switch result {
-            case .success(let cart):
-                print("✅ Item added to cart")
-                print("Total: $\(cart.totalPrice)")
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
-            }
+        do {
+            let cart: CartDTO = try await apiClient.request(.addItemToCart(userId: userId, addModel))
+            print("✅ Item added to cart")
+            print("Total: $\(cart.totalPrice)")
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
     }
     
-    func updateCartQuantityExample(userId: String, catalogItemId: Int, quantity: Int) {
+    func updateCartQuantityExample(userId: String, catalogItemId: Int, quantity: Int) async {
         let updateModel = UpdateCartItemQuantityModel(
             catalogItemId: catalogItemId,
             quantity: quantity
         )
         
-        APIClient.shared.request(
-            .updateItemQuantity(userId: userId, updateModel),
-            expecting: CartDTO.self
-        ) { result in
-            switch result {
-            case .success(let cart):
-                print("✅ Quantity updated")
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
-            }
+        do {
+            let cart: CartDTO = try await apiClient.request(.updateItemQuantity(userId: userId, updateModel))
+            print("✅ Quantity updated")
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
     }
     
     // MARK: - Order Examples
     
-    func createOrderExample(userId: String) {
+    func createOrderExample(userId: String) async {
         let orderModel = CreateOrderModel(
             deliveryName: "FedEx Standard",
             deliveryCost: 9.99,
@@ -172,43 +130,31 @@ class NetworkLayerExamples {
             phoneNumber: "+1234567890"
         )
         
-        APIClient.shared.request(
-            .createOrder(userId: userId, orderModel),
-            expecting: OrderDTO.self
-        ) { result in
-            switch result {
-            case .success(let order):
-                print("✅ Order created!")
-                print("Order ID: \(order.id)")
-                print("Total: $\(order.totalPrice)")
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
-            }
+        do {
+            let order: OrderDTO = try await apiClient.request(.createOrder(userId: userId, orderModel))
+            print("✅ Order created!")
+            print("Order ID: \(order.id)")
+            print("Total: $\(order.totalPrice)")
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
     }
     
-    func getOrdersExample(userId: String) {
-        APIClient.shared.request(
-            .getOrderByUserId(userId),
-            expecting: [OrderDTO].self
-        ) { result in
-            switch result {
-            case .success(let orders):
-                print("✅ Got \(orders.count) orders")
-                orders.forEach { order in
-                    print("Order #\(order.id) - $\(order.totalPrice)")
-                }
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
+    func getOrdersExample(userId: String) async {
+        do {
+            let orders: [OrderDTO] = try await apiClient.request(.getOrderByUserId(userId))
+            print("✅ Got \(orders.count) orders")
+            orders.forEach { order in
+                print("Order #\(order.id) - $\(order.totalPrice)")
             }
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
     }
     
     // MARK: - Review Examples
     
-    func createReviewExample(userId: String, catalogItemId: Int) {
+    func createReviewExample(userId: String, catalogItemId: Int) async {
         let reviewModel = CreateReviewModel(
             userId: userId,
             rating: 4.5,
@@ -216,111 +162,67 @@ class NetworkLayerExamples {
             catalogItemId: catalogItemId
         )
         
-        APIClient.shared.request(
-            .createReview(reviewModel),
-            expecting: CatalogItemReviewDTO.self
-        ) { result in
-            switch result {
-            case .success(let review):
-                print("✅ Review created!")
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
-            }
+        do {
+            let review: CatalogItemReviewDTO = try await apiClient.request(.createReview(reviewModel))
+            print("✅ Review created!")
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
     }
     
-    func getReviewsForProductExample(catalogItemId: Int) {
-        APIClient.shared.request(
-            .getCatalogItemReview(catalogItemId),
-            expecting: [CatalogItemReviewDTO].self
-        ) { result in
-            switch result {
-            case .success(let reviews):
-                print("✅ Got \(reviews.count) reviews")
-                let avgRating = reviews.map { $0.rating }.reduce(0, +) / Double(reviews.count)
-                print("Average rating: \(avgRating)")
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
-            }
+    func getReviewsForProductExample(catalogItemId: Int) async {
+        do {
+            let reviews: [CatalogItemReviewDTO] = try await apiClient.request(.getCatalogItemReview(catalogItemId))
+            print("✅ Got \(reviews.count) reviews")
+            let avgRating = reviews.map { $0.rating }.reduce(0, +) / Double(reviews.count)
+            print("Average rating: \(avgRating)")
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
     }
     
     // MARK: - Delete Examples (No Response Body)
     
-    func deleteItemExample(itemId: Int) {
-        APIClient.shared.request(.deleteCatalogItem(itemId)) { result in
-            switch result {
-            case .success:
-                print("✅ Item deleted successfully")
-                
-            case .failure(let error):
-                print("❌ Error: \(error.localizedDescription)")
-            }
+    func deleteItemExample(itemId: Int) async {
+        do {
+            try await apiClient.request(.deleteCatalogItem(itemId))
+            print("✅ Item deleted successfully")
+        } catch {
+            print("❌ Error: \(error.localizedDescription)")
         }
-    }
-    
-    // MARK: - Token Management Examples
-    
-    func tokenExamples() {
-        // Save token after login
-        TokenManager.shared.saveToken("your-jwt-token-here")
-        
-        // Check if user is logged in
-        if TokenManager.shared.hasToken() {
-            print("User is logged in")
-        } else {
-            print("User not logged in")
-        }
-        
-        // Get token
-        if let token = TokenManager.shared.getToken() {
-            print("Token: \(token)")
-        }
-        
-        // Logout
-        TokenManager.shared.clearToken()
     }
     
     // MARK: - Error Handling Example
     
-    func properErrorHandlingExample() {
-        APIClient.shared.request(
-            .getCatalogItems,
-            expecting: [CatalogItemDTO].self
-        ) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let items):
-                    // Update UI on main thread
-                    print("Update table view with \(items.count) items")
+    func properErrorHandlingExample() async {
+        do {
+            let items: [CatalogItemDTO] = try await apiClient.request(.getCatalogItems)
+            await MainActor.run {
+                print("Update table view with \(items.count) items")
+            }
+        } catch let error as APIError {
+            await MainActor.run {
+                switch error {
+                case .unauthorized:
+                    TokenManager.shared.clearToken()
+                    print("Navigate to login screen")
                     
-                case .failure(let error):
-                    // Handle specific errors
-                    switch error {
-                    case .unauthorized:
-                        // Session expired - navigate to login
-                        TokenManager.shared.clearToken()
-                        print("Navigate to login screen")
-                        
-                    case .networkError:
-                        // No internet
-                        print("Show alert: Check your internet connection")
-                        
-                    case .serverError:
-                        // Server down
-                        print("Show alert: Server error, try again later")
-                        
-                    case .notFound:
-                        // Resource not found
-                        print("Show alert: Items not found")
-                        
-                    default:
-                        // Generic error
-                        print("Show alert: \(error.localizedDescription)")
-                    }
+                case .networkError:
+                    print("Show alert: Check your internet connection")
+                    
+                case .serverError:
+                    print("Show alert: Server error, try again later")
+                    
+                case .notFound:
+                    print("Show alert: Items not found")
+                    
+                default:
+                    print("Show alert: \(error.localizedDescription)")
                 }
+            }
+        } catch {
+            await MainActor.run {
+                print("Show alert: \(error.localizedDescription)")
             }
         }
     }

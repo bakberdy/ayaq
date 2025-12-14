@@ -5,38 +5,46 @@ final class AuthCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var onDidFinishAuth: (() -> Void)?
     
-    init(navigationController: UINavigationController) {
+    private let container: DependencyContainer
+    
+    init(navigationController: UINavigationController, container: DependencyContainer) {
         self.navigationController = navigationController
+        self.container = container
         setupNavigationBarAppearance()
     }
     
     func start() {
+        print("🔑 AuthCoordinator starting...")
         showLogin()
     }
     
     func showLogin() {
-        let viewModel = LoginViewModel()
+        print("👤 Creating login view model...")
+        let viewModel = container.makeLoginViewModel()
+        print("📱 Creating login view controller...")
         let loginVC = LoginViewController(viewModel: viewModel)
         loginVC.coordinator = self
-        navigationController.setViewControllers([loginVC], animated: true)
+        print("🎯 Setting login VC as root...")
+        navigationController.setViewControllers([loginVC], animated: false)
+        print("✅ Login VC set as root")
     }
     
     func showRegister() {
-        let viewModel = RegisterViewModel()
+        let viewModel = container.makeRegisterViewModel()
         let registerVC = RegisterViewController(viewModel: viewModel)
         registerVC.coordinator = self
         navigationController.pushViewController(registerVC, animated: true)
     }
     
     func showPasswordReset() {
-        let viewModel = ForgotPasswordViewModel()
+        let viewModel = container.makeForgotPasswordViewModel()
         let forgotPasswordVC = ForgotPasswordViewController(viewModel: viewModel)
         forgotPasswordVC.coordinator = self
         navigationController.pushViewController(forgotPasswordVC, animated: true)
     }
     
     func showResetPassword(email: String) {
-        let viewModel = ResetPasswordViewModel()
+        let viewModel = container.makeResetPasswordViewModel()
         let resetPasswordVC = ResetPasswordViewController(viewModel: viewModel, email: email)
         resetPasswordVC.coordinator = self
         navigationController.pushViewController(resetPasswordVC, animated: true)

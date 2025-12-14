@@ -1,49 +1,31 @@
 import Foundation
 
 final class WishlistService: WishlistServiceProtocol {
-    private let apiClient: APIClient
+    private let apiClient: APIClientProtocol
     
-    init(apiClient: APIClient = .shared) {
+    init(apiClient: APIClientProtocol) {
         self.apiClient = apiClient
     }
     
-    func getWishlist(userId: String) async throws -> WishlistDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getWishlist(userId), expecting: WishlistDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getWishlist(userId: String) async throws -> Wishlist {
+        let dto: WishlistDTO = try await apiClient.request(.getWishlist(userId))
+        return Wishlist(from: dto)
     }
     
-    func addItemToWishlist(userId: String, _ model: AddItemToWishlistModel) async throws -> WishlistDTO {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.addItemToWishlist(userId: userId, model), expecting: WishlistDTO.self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func addItemToWishlist(userId: String, _ model: AddItemToWishlistModel) async throws -> Wishlist {
+        let dto: WishlistDTO = try await apiClient.request(.addItemToWishlist(userId: userId, model))
+        return Wishlist(from: dto)
     }
     
     func removeItemFromWishlist(userId: String, _ model: RemoveItemFromWishlistModel) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeItemFromWishlist(userId: userId, model)) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await apiClient.request(.removeItemFromWishlist(userId: userId, model))
     }
     
     func removeWishlist(wishlistId: Int) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeWishlist(wishlistId)) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await apiClient.request(.removeWishlist(wishlistId))
     }
     
     func removeWishlistByUserId(userId: String) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeWishlistByUserId(userId)) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await apiClient.request(.removeWishlistByUserId(userId))
     }
 }

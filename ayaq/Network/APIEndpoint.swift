@@ -85,7 +85,7 @@ enum APIEndpoint {
     case sendSupport(SupportRequestModel)
     
     var baseURL: String {
-        return "http://localhost:5200"
+        return "http://3.79.185.15:5200"
     }
 }
 

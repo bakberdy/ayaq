@@ -1,99 +1,93 @@
 import Foundation
+import Combine
 
-final class RegisterViewModel {
-    var email: String = ""
-    var password: String = ""
-    var confirmPassword: String = ""
-    var firstName: String = ""
-    var lastName: String = ""
-    var profilePictureUrl: String = ""
-    
-    var onRegisterSuccess: ((AuthToken) -> Void)?
-    var onRegisterError: ((String) -> Void)?
-    var onLoadingStateChanged: ((Bool) -> Void)?
-    
-    private let authService: AuthServiceProtocol
-    
-    private(set) var isLoading: Bool = false {
-        didSet {
-            onLoadingStateChanged?(isLoading)
-        }
+@MainActor
+final class RegisterViewModel: ObservableObject {
+    enum State {
+        case idle
+        case loading
+        case success(AuthToken)
+        case error(String)
     }
     
-    init(authService: AuthServiceProtocol = AuthService()) {
+    @Published private(set) var state: State = .idle
+    
+    private let authService: AuthServiceProtocol
+    private var registerTask: Task<Void, Never>?
+    
+    init(authService: AuthServiceProtocol) {
         self.authService = authService
     }
     
-    func register() {
-        guard validateInputs() else { return }
+    func register(email: String, password: String, confirmPassword: String, firstName: String, lastName: String) {
+        registerTask?.cancel()
         
-        isLoading = true
+        switch validateInputs(email: email, password: password, confirmPassword: confirmPassword, firstName: firstName, lastName: lastName) {
+        case .success:
+            break
+        case .failure(let error):
+            state = .error(error.localizedDescription)
+            return
+        }
         
-        let request = RegisterModel(
-            email: email,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            profilePictureUrl: ""
-        )
-        
-        Task {
+        registerTask = Task {
+            state = .loading
+            
+            let request = RegisterModel(
+                email: email,
+                password: password,
+                firstName: firstName,
+                lastName: lastName,
+                profilePictureUrl: ""
+            )
+            
             do {
                 let authToken = try await authService.register(model: request)
-                await MainActor.run {
-                    self.isLoading = false
-                    self.onRegisterSuccess?(authToken)
-                }
-            } catch let error as APIError {
-                await MainActor.run {
-                    self.isLoading = false
-                    self.onRegisterError?(error.localizedDescription)
-                }
+                guard !Task.isCancelled else { return }
+                state = .success(authToken)
             } catch {
-                await MainActor.run {
-                    self.isLoading = false
-                    self.onRegisterError?("Registration failed. Please try again.")
-                }
+                guard !Task.isCancelled else { return }
+                state = .error(error.localizedDescription)
             }
         }
     }
     
-    private func validateInputs() -> Bool {
+    func cancelRegister() {
+        registerTask?.cancel()
+        if case .loading = state {
+            state = .idle
+        }
+    }
+    
+    private func validateInputs(email: String, password: String, confirmPassword: String, firstName: String, lastName: String) -> Result<Void, ValidationError> {
         guard !firstName.isEmpty else {
-            onRegisterError?("First name cannot be empty")
-            return false
+            return .failure(.emptyField("First name"))
         }
         
         guard !lastName.isEmpty else {
-            onRegisterError?("Last name cannot be empty")
-            return false
+            return .failure(.emptyField("Last name"))
         }
         
         guard !email.isEmpty else {
-            onRegisterError?("Email cannot be empty")
-            return false
+            return .failure(.emptyField("Email"))
         }
         
         guard EmailValidator.isValid(email) else {
-            onRegisterError?("Please enter a valid email")
-            return false
+            return .failure(.invalidFormat("Please enter a valid email"))
         }
         
         guard !password.isEmpty else {
-            onRegisterError?("Password cannot be empty")
-            return false
+            return .failure(.emptyField("Password"))
         }
         
         guard password.count >= 6 else {
-            onRegisterError?("Password must be at least 6 characters")
-            return false
+            return .failure(.tooShort("Password", 6))
         }
         
         guard password == confirmPassword else {
-            onRegisterError?("Passwords do not match")
-            return false
+            return .failure(.invalidFormat("Passwords do not match"))
         }
         
-        return true
+        return .success(())
     }
 }

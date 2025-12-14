@@ -1,72 +1,90 @@
 import Foundation
+import Combine
 
-final class LoginViewModel {
-    private let authService: AuthServiceProtocol
+enum ValidationError: LocalizedError {
+    case emptyField(String)
+    case invalidFormat(String)
+    case tooShort(String, Int)
     
-    var email: String = ""
-    var password: String = ""
-    
-    var onLoginSuccess: ((AuthToken) -> Void)?
-    var onLoginError: ((String) -> Void)?
-    var onLoadingStateChanged: ((Bool) -> Void)?
-    
-    private(set) var isLoading: Bool = false {
-        didSet {
-            onLoadingStateChanged?(isLoading)
+    var errorDescription: String? {
+        switch self {
+        case .emptyField(let field):
+            return "\(field) cannot be empty"
+        case .invalidFormat(let message):
+            return message
+        case .tooShort(let field, let minLength):
+            return "\(field) must be at least \(minLength) characters"
         }
     }
+}
+
+@MainActor
+final class LoginViewModel: ObservableObject {
+    enum State {
+        case idle
+        case loading
+        case success(AuthToken)
+        case error(String)
+    }
     
-    init(authService: AuthServiceProtocol = AuthService()) {
+    @Published private(set) var state: State = .idle
+    
+    private let authService: AuthServiceProtocol
+    private var loginTask: Task<Void, Never>?
+    
+    init(authService: AuthServiceProtocol) {
         self.authService = authService
     }
     
-    func login() {
-        guard validateInputs() else { return }
+    func login(email: String, password: String) {
+        loginTask?.cancel()
         
-        isLoading = true
+        switch validateInputs(email: email, password: password) {
+        case .success:
+            break
+        case .failure(let error):
+            state = .error(error.localizedDescription)
+            return
+        }
         
-        Task {
+        loginTask = Task {
+            state = .loading
+            
             do {
                 let authToken = try await authService.login(email: email, password: password)
-                await MainActor.run {
-                    isLoading = false
-                    onLoginSuccess?(authToken)
-                }
-            } catch let error as APIError {
-                await MainActor.run {
-                    isLoading = false
-                    onLoginError?(error.localizedDescription)
-                }
+                guard !Task.isCancelled else { return }
+                state = .success(authToken)
             } catch {
-                await MainActor.run {
-                    isLoading = false
-                    onLoginError?(error.localizedDescription)
-                }
+                guard !Task.isCancelled else { return }
+                state = .error(error.localizedDescription)
             }
         }
     }
     
-    private func validateInputs() -> Bool {
+    func cancelLogin() {
+        loginTask?.cancel()
+        if case .loading = state {
+            state = .idle
+        }
+    }
+    
+    private func validateInputs(email: String, password: String) -> Result<Void, ValidationError> {
         guard !email.isEmpty else {
-            onLoginError?("Email cannot be empty")
-            return false
+            return .failure(.emptyField("Email"))
         }
         
         guard EmailValidator.isValid(email) else {
-            onLoginError?("Please enter a valid email")
-            return false
+            return .failure(.invalidFormat("Please enter a valid email"))
         }
         
         guard !password.isEmpty else {
-            onLoginError?("Password cannot be empty")
-            return false
+            return .failure(.emptyField("Password"))
         }
         
         guard password.count >= 6 else {
-            onLoginError?("Password must be at least 6 characters")
-            return false
+            return .failure(.tooShort("Password", 6))
         }
         
-        return true
+        return .success(())
     }
 }

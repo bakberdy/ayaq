@@ -1,8 +1,10 @@
 import UIKit
+import Combine
 
 final class ResetPasswordViewController: UIViewController {
     private let viewModel: ResetPasswordViewModel
     weak var coordinator: AuthCoordinator?
+    private var cancellables = Set<AnyCancellable>()
     
     private let scrollView = UIScrollView.createAuthScrollView()
     private let contentView: UIView = {
@@ -20,13 +22,12 @@ final class ResetPasswordViewController: UIViewController {
     private let resetButton = UIButton.createAuthPrimaryButton(title: "Reset Password", backgroundColor: .systemGreen)
     private let activityIndicator = UIActivityIndicatorView.createAuthLoadingIndicator()
     private let backToLoginButton = UIButton.createAuthTextButton(title: "Back to Login")
+    private let email: String?
     
-    init(viewModel: ResetPasswordViewModel = ResetPasswordViewModel(), email: String? = nil) {
+    init(viewModel: ResetPasswordViewModel, email: String? = nil) {
         self.viewModel = viewModel
+        self.email = email
         super.init(nibName: nil, bundle: nil)
-        if let email = email {
-            viewModel.email = email
-        }
     }
     
     required init?(coder: NSCoder) {
@@ -40,7 +41,9 @@ final class ResetPasswordViewController: UIViewController {
         setupActions()
         setupKeyboardObservers()
         
-        emailTextField.text = viewModel.email
+        if let email = email {
+            emailTextField.text = email
+        }
     }
     
     private func setupUI() {
@@ -114,17 +117,12 @@ final class ResetPasswordViewController: UIViewController {
     }
     
     private func setupBindings() {
-        viewModel.onSuccess = { [weak self] in
-            self?.handleSuccess()
-        }
-        
-        viewModel.onError = { [weak self] errorMessage in
-            self?.showError(message: errorMessage)
-        }
-        
-        viewModel.onLoadingStateChanged = { [weak self] isLoading in
-            self?.updateLoadingState(isLoading: isLoading)
-        }
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.render(state)
+            }
+            .store(in: &cancellables)
     }
     
     private func setupActions() {
@@ -148,7 +146,12 @@ final class ResetPasswordViewController: UIViewController {
     
     @objc private func resetButtonTapped() {
         dismissKeyboard()
-        viewModel.resetPassword()
+        viewModel.resetPassword(
+            email: emailTextField.text ?? "",
+            code: codeTextField.text ?? "",
+            newPassword: newPasswordTextField.text ?? "",
+            confirmPassword: confirmPasswordTextField.text ?? ""
+        )
     }
     
     @objc private func backToLoginButtonTapped() {
@@ -156,41 +159,47 @@ final class ResetPasswordViewController: UIViewController {
     }
     
     @objc private func textFieldDidChange() {
-        viewModel.email = emailTextField.text ?? ""
-        viewModel.code = codeTextField.text ?? ""
-        viewModel.newPassword = newPasswordTextField.text ?? ""
-        viewModel.confirmPassword = confirmPasswordTextField.text ?? ""
+        // Input validation can be added here if needed
     }
     
-    private func updateLoadingState(isLoading: Bool) {
-        if isLoading {
-            activityIndicator.startAnimating()
-            resetButton.setTitle("", for: .normal)
-            resetButton.isEnabled = false
-            emailTextField.isEnabled = false
-            codeTextField.isEnabled = false
-            newPasswordTextField.isEnabled = false
-            confirmPasswordTextField.isEnabled = false
-        } else {
+    private func render(_ state: ResetPasswordViewModel.State) {
+        switch state {
+        case .idle:
             activityIndicator.stopAnimating()
             resetButton.setTitle("Reset Password", for: .normal)
             resetButton.isEnabled = true
-            emailTextField.isEnabled = true
-            codeTextField.isEnabled = true
-            newPasswordTextField.isEnabled = true
-            confirmPasswordTextField.isEnabled = true
+            setFieldsEnabled(true)
+            
+        case .loading:
+            activityIndicator.startAnimating()
+            resetButton.setTitle("", for: .normal)
+            resetButton.isEnabled = false
+            setFieldsEnabled(false)
+            
+        case .success:
+            activityIndicator.stopAnimating()
+            resetButton.setTitle("Reset Password", for: .normal)
+            resetButton.isEnabled = true
+            setFieldsEnabled(true)
+            showSuccessToast(message: "Password reset successfully")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
+                self?.coordinator?.showLogin()
+            }
+            
+        case .error(let message):
+            activityIndicator.stopAnimating()
+            resetButton.setTitle("Reset Password", for: .normal)
+            resetButton.isEnabled = true
+            setFieldsEnabled(true)
+            showErrorToast(message: message)
         }
     }
     
-    private func handleSuccess() {
-        showSuccessToast(message: "Password reset successfully")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
-            self?.coordinator?.showLogin()
-        }
-    }
-    
-    private func showError(message: String) {
-        showErrorToast(message: message)
+    private func setFieldsEnabled(_ enabled: Bool) {
+        emailTextField.isEnabled = enabled
+        codeTextField.isEnabled = enabled
+        newPasswordTextField.isEnabled = enabled
+        confirmPasswordTextField.isEnabled = enabled
     }
 }
 

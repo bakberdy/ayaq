@@ -1,33 +1,24 @@
 import Foundation
 
 final class AdminService: AdminServiceProtocol {
-    private let apiClient: APIClient
+    private let apiClient: APIClientProtocol
     
-    init(apiClient: APIClient = .shared) {
+    init(apiClient: APIClientProtocol) {
         self.apiClient = apiClient
     }
     
-    func getSalesReport() async throws -> [SalesReportDTO] {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getSalesReport, expecting: [SalesReportDTO].self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getSalesReport() async throws -> [SalesReport] {
+        let dtos: [SalesReportDTO] = try await apiClient.request(.getSalesReport)
+        return dtos.map { SalesReport(from: $0) }
     }
     
-    func getCustomerActivityLogs() async throws -> [CustomerActivityLogDTO] {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getCustomerActivityLogs, expecting: [CustomerActivityLogDTO].self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getCustomerActivityLogs() async throws -> [CustomerActivityLog] {
+        let dtos: [CustomerActivityLogDTO] = try await apiClient.request(.getCustomerActivityLogs)
+        return dtos.map { CustomerActivityLog(from: $0) }
     }
     
-    func getInventorySummary() async throws -> [InventoryItemDTO] {
-        return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.getInventorySummary, expecting: [InventoryItemDTO].self) { result in
-                continuation.resume(with: result)
-            }
-        }
+    func getInventorySummary() async throws -> [InventoryItem] {
+        let dtos: [InventorySummaryDTO] = try await apiClient.request(.getInventorySummary)
+        return dtos.map { InventoryItem(from: $0) }
     }
 }
