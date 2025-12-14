@@ -6,8 +6,15 @@
 //
 
 import UIKit
+import Combine
 
 final class HomeViewController: UIViewController {
+    
+    private let viewModel: HomeViewModel
+    private var cancellables = Set<AnyCancellable>()
+    
+    var onProductTapped: ((Int) -> Void)?
+    var onCategoryTapped: ((ProductType) -> Void)?
     
     private let bannerImageURLs: [URL] = [
         URL(string: "https://sneakertown.kz/upload/resize_cache/iblock/01a/450_450_140cd750bba9870f18aada2478b24840a/08rv0o5uzpht3dbd56042m7e65gstbce.jpg")!,
@@ -60,24 +67,6 @@ final class HomeViewController: UIViewController {
         return label
     }()
     
-    private let categoriesLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Shop by Category"
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.textColor = AppColors.textPrimary
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var categoriesStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fillEqually
-        stack.spacing = 12
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
     private let sectionTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "New Arrivals"
@@ -120,19 +109,43 @@ final class HomeViewController: UIViewController {
         return pc
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Featured Products"
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.textColor = AppColors.textPrimary
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let loadingView: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = AppColors.primary
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
     }()
+    
+    private let refreshControl: UIRefreshControl = {
+        let rc = UIRefreshControl()
+        rc.tintColor = AppColors.primary
+        return rc
+    }()
+    
+    private lazy var categorySectionsStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 24
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupBindings()
         startAutoScroll()
+        viewModel.loadHomeData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -147,6 +160,9 @@ final class HomeViewController: UIViewController {
         pageControl.numberOfPages = bannerImageURLs.count
         pageControl.currentPage = 0
         
+        scrollView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
@@ -157,10 +173,9 @@ final class HomeViewController: UIViewController {
         contentView.addSubview(sectionTitleLabel)
         contentView.addSubview(bannerCollectionView)
         contentView.addSubview(pageControl)
-        contentView.addSubview(categoriesLabel)
-        contentView.addSubview(categoriesStackView)
+        contentView.addSubview(categorySectionsStack)
         
-        setupCategories()
+        view.addSubview(loadingView)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -201,72 +216,79 @@ final class HomeViewController: UIViewController {
             pageControl.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             pageControl.heightAnchor.constraint(equalToConstant: 30),
             
-            categoriesLabel.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 32),
-            categoriesLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            categorySectionsStack.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 32),
+            categorySectionsStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            categorySectionsStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            categorySectionsStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -32),
             
-            categoriesStackView.topAnchor.constraint(equalTo: categoriesLabel.bottomAnchor, constant: 16),
-            categoriesStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            categoriesStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            categoriesStackView.heightAnchor.constraint(equalToConstant: 100),
-            categoriesStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -32)
+            loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
-    private func setupCategories() {
-        let categories = [
-            ("Running", "🏃"),
-            ("Basketball", "🏀"),
-            ("Football", "⚽️")
-        ]
-        
-        for (title, emoji) in categories {
-            let button = createCategoryButton(title: title, emoji: emoji)
-            categoriesStackView.addArrangedSubview(button)
+    private func setupBindings() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.render(state)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func render(_ state: HomeViewModel.State) {
+        switch state {
+        case .idle:
+            loadingView.stopAnimating()
+            refreshControl.endRefreshing()
+            
+        case .loading:
+            if !refreshControl.isRefreshing {
+                loadingView.startAnimating()
+            }
+            
+        case .loaded(let homeData):
+            loadingView.stopAnimating()
+            refreshControl.endRefreshing()
+            displayCategorySections(homeData.categorySections)
+            
+        case .error(let message):
+            loadingView.stopAnimating()
+            refreshControl.endRefreshing()
+            showError(message)
         }
     }
     
-    private func createCategoryButton(title: String, emoji: String) -> UIView {
-        let container = UIView()
-        container.backgroundColor = AppColors.surface
-        container.layer.cornerRadius = 12
-        container.layer.shadowColor = UIColor.black.cgColor
-        container.layer.shadowOpacity = 0.08
-        container.layer.shadowOffset = CGSize(width: 0, height: 2)
-        container.layer.shadowRadius = 8
+    private func displayCategorySections(_ sections: [HomeViewModel.CategorySection]) {
+        categorySectionsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
-        let emojiLabel = UILabel()
-        emojiLabel.text = emoji
-        emojiLabel.font = .systemFont(ofSize: 32)
-        emojiLabel.textAlignment = .center
-        emojiLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.font = .systemFont(ofSize: 14, weight: .semibold)
-        titleLabel.textColor = AppColors.textPrimary
-        titleLabel.textAlignment = .center
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        container.addSubview(emojiLabel)
-        container.addSubview(titleLabel)
-        
-        NSLayoutConstraint.activate([
-            emojiLabel.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            emojiLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 20),
+        for section in sections {
+            let sectionView = CategorySectionView()
+            sectionView.configure(title: section.title, products: section.products)
             
-            titleLabel.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -8)
-        ])
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(categoryTapped))
-        container.addGestureRecognizer(tapGesture)
-        
-        return container
+            sectionView.onProductTapped = { [weak self] productId in
+                self?.onProductTapped?(productId)
+            }
+            
+            sectionView.onSeeAllTapped = { [weak self] in
+                self?.onCategoryTapped?(section.type)
+            }
+            
+            categorySectionsStack.addArrangedSubview(sectionView)
+        }
     }
     
-    @objc private func categoryTapped() {
-        
+    @objc private func handleRefresh() {
+        viewModel.refresh()
+    }
+    
+    private func showError(_ message: String) {
+        let alert = UIAlertController(
+            title: "Error",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
     private func startAutoScroll() {

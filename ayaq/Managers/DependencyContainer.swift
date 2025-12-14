@@ -79,6 +79,24 @@ final class DependencyContainer {
         )
     }
     
+    func makeProductListViewModel() -> ProductListViewModel {
+        ProductListViewModel(
+            catalogService: makeCatalogService(),
+            brandService: makeBrandService(),
+            typeService: makeTypeService()
+        )
+    }
+    
+    func makeProductDetailViewModel(productId: Int) -> ProductDetailViewModel {
+        ProductDetailViewModel(
+            productId: productId,
+            catalogService: makeCatalogService(),
+            cartService: makeCartService(),
+            wishlistService: makeWishlistService(),
+            tokenManager: tokenManager
+        )
+    }
+    
     func makeProfileViewModel() -> ProfileViewModel {
         ProfileViewModel(userService: makeUserService(), authService: makeAuthService())
     }
@@ -88,6 +106,10 @@ final class DependencyContainer {
     }
     
     func makeHomeViewModel() -> HomeViewModel {
-        HomeViewModel(catalogService: makeCatalogService(), brandService: makeBrandService())
+        HomeViewModel(
+            catalogService: makeCatalogService(),
+            brandService: makeBrandService(),
+            typeService: makeTypeService()
+        )
     }
 }
