@@ -34,7 +34,7 @@ final class ForgotPasswordViewModel: ObservableObject {
             state = .loading
             
             do {
-                let model = RequestPasswordResetModel(email: email, linkToResetPassword: "")
+                let model = RequestPasswordResetModel(email: email, linkToResetPassword: "https://example.com/reset-password")
                 try await authService.requestPasswordReset(model: model)
                 guard !Task.isCancelled else { return }
                 state = .success(email)
