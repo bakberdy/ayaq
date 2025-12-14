@@ -17,9 +17,9 @@ class MainTabBarController: UITabBarController {
     
     private func setupTabBar() {
         // Configure tab bar appearance
-        tabBar.backgroundColor = .white
-        tabBar.tintColor = .systemBlue
-        tabBar.unselectedItemTintColor = .systemGray
+        tabBar.backgroundColor = AppColors.background
+        tabBar.tintColor = AppColors.primary
+        tabBar.unselectedItemTintColor = AppColors.textSecondary
         
         // Add shadow to tab bar
         tabBar.layer.shadowColor = UIColor.black.cgColor
@@ -31,7 +31,7 @@ class MainTabBarController: UITabBarController {
         if #available(iOS 15.0, *) {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = .white
+            appearance.backgroundColor = AppColors.background
             tabBar.standardAppearance = appearance
             tabBar.scrollEdgeAppearance = appearance
         }

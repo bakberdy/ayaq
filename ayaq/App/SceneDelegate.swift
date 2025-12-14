@@ -18,8 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         logger.info("✅ WindowScene created successfully")
         
         window = UIWindow(windowScene: windowScene)
-        window?.backgroundColor = .systemBackground
-        logger.info("✅ Window initialized with system background")
+        window?.backgroundColor = AppColors.background
+        logger.info("✅ Window initialized with AppColors.background")
         
         guard let window = window else {
             logger.error("❌ Window is nil after initialization")

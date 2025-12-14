@@ -16,7 +16,7 @@ extension UITextField {
 }
 
 extension UIButton {
-    static func createAuthPrimaryButton(title: String, backgroundColor: UIColor = .systemBlue) -> UIButton {
+    static func createAuthPrimaryButton(title: String, backgroundColor: UIColor = AppColors.primary) -> UIButton {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(title, for: .normal)
@@ -51,7 +51,7 @@ extension UILabel {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = text
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .secondaryLabel
+        label.textColor = AppColors.textSecondary
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -62,7 +62,7 @@ extension UILabel {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = text
         label.font = .systemFont(ofSize: 14)
-        label.textColor = .secondaryLabel
+        label.textColor = AppColors.textSecondary
         return label
     }
 }
@@ -77,7 +77,7 @@ extension UIScrollView {
 }
 
 extension UIImageView {
-    static func createAuthIconImageView(systemName: String, tintColor: UIColor = .systemBlue) -> UIImageView {
+    static func createAuthIconImageView(systemName: String, tintColor: UIColor = AppColors.primary) -> UIImageView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -109,8 +109,8 @@ extension UIStackView {
 
 extension UIViewController {
     func setupAuthUI(scrollView: UIScrollView) {
-        view.backgroundColor = .systemBackground
-        scrollView.backgroundColor = .systemBackground
+        view.backgroundColor = AppColors.background
+        scrollView.backgroundColor = AppColors.background
         view.addSubview(scrollView)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false

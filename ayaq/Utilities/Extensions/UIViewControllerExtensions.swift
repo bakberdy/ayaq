@@ -107,7 +107,7 @@ extension UIViewController {
     
     func showToast(message: String, isError: Bool = false) {
         let toastContainer = UIView()
-        toastContainer.backgroundColor = isError ? UIColor.systemRed : UIColor.systemGreen
+        toastContainer.backgroundColor = isError ? AppColors.error : AppColors.success
         toastContainer.alpha = 0.0
         toastContainer.layer.cornerRadius = 12
         toastContainer.clipsToBounds = true

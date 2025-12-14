@@ -24,7 +24,7 @@ class HomeViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.background
         title = "Home"
         
         // TODO: Implement home screen UI with featured products, categories, banners

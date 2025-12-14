@@ -24,7 +24,7 @@ class CartViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.background
         title = "Cart"
         
         // TODO: Implement cart items list, total price, checkout button

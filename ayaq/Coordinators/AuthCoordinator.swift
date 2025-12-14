@@ -61,13 +61,13 @@ final class AuthCoordinator: Coordinator {
     private func setupNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .systemBackground
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
+        appearance.backgroundColor = AppColors.background
+        appearance.titleTextAttributes = [.foregroundColor: AppColors.textPrimary]
+        appearance.largeTitleTextAttributes = [.foregroundColor: AppColors.textPrimary]
         
         navigationController.navigationBar.standardAppearance = appearance
         navigationController.navigationBar.scrollEdgeAppearance = appearance
         navigationController.navigationBar.compactAppearance = appearance
-        navigationController.navigationBar.tintColor = .systemBlue
+        navigationController.navigationBar.tintColor = AppColors.primary
     }
 }

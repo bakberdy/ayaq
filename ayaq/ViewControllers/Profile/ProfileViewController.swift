@@ -24,7 +24,7 @@ class ProfileViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Logout", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemRed
+        button.backgroundColor = AppColors.error
         button.layer.cornerRadius = 12
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = AppColors.background
         title = "Profile"
         
         view.addSubview(titleLabel)

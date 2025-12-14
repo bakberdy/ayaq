@@ -24,7 +24,7 @@ class CatalogViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.background
         title = "Catalog"
         
         // TODO: Implement catalog with product list, filters, search

@@ -735,3 +735,40 @@ enum State {
 - ✅ Server-side validation always checked
 - ✅ Sanitize user inputs
 - ✅ Use proper error messages
+
+---
+
+### COLORS
+
+#### Color System
+**Location**: `Utilities/Colors.swift`
+**Purpose**: Centralized color definitions for consistent UI
+
+**MUST USE**:
+- ✅ AppColors.primary (#F83758)
+- ✅ AppColors.primaryLight (#FF5B7A)
+- ✅ AppColors.primaryDark (#C92140)
+- ✅ AppColors.background (#FFFFFF)
+- ✅ AppColors.surface (#F5F5F5)
+- ✅ AppColors.textPrimary (#212121)
+- ✅ AppColors.textSecondary (#757575)
+- ✅ AppColors.divider (#E0E0E0)
+- ✅ AppColors.error (#D32F2F)
+- ✅ AppColors.success (#388E3C)
+
+**MUST NOT**:
+- ❌ Hardcode colors (UIColor.red, .systemBlue, etc.)
+- ❌ Use hex literals directly (.backgroundColor = UIColor(hex: "#123456"))
+- ❌ Create custom colors outside AppColors
+- ❌ Use system colors except for transparent/clear
+
+**Example**:
+```swift
+view.backgroundColor = AppColors.background
+titleLabel.textColor = AppColors.textPrimary
+button.setTitleColor(AppColors.primary, for: .normal)
+errorLabel.textColor = AppColors.error
+```
+
+
+
