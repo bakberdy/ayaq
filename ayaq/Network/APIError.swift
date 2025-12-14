@@ -10,6 +10,7 @@ enum APIError: LocalizedError {
     case notFound
     case serverError
     case unknownError
+    case customError(String)
     
     var errorDescription: String? {
         switch self {
@@ -39,6 +40,9 @@ enum APIError: LocalizedError {
             
         case .unknownError:
             return "An unknown error occurred"
+            
+        case .customError(let message):
+            return message
         }
     }
     

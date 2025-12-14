@@ -11,6 +11,7 @@ import UIKit
 class ProfileCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
+    var onDidLogout: (() -> Void)?
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -18,11 +19,16 @@ class ProfileCoordinator: Coordinator {
     
     func start() {
         let profileViewController = ProfileViewController()
+        profileViewController.coordinator = self
         profileViewController.tabBarItem = UITabBarItem(
             title: "Profile",
             image: UIImage(systemName: "person"),
             selectedImage: UIImage(systemName: "person.fill")
         )
         navigationController.setViewControllers([profileViewController], animated: false)
+    }
+    
+    func didLogout() {
+        onDidLogout?()
     }
 }

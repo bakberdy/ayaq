@@ -111,14 +111,18 @@ class APIClient {
                     completion(.failure(.decodingError(error)))
                 }
                 
-            case 401:
-                completion(.failure(.unauthorized))
-                
-            case 403:
-                completion(.failure(.forbidden))
-                
-            case 404:
-                completion(.failure(.notFound))
+            case 400...499:
+                if let data = data, let errorMessage = String(data: data, encoding: .utf8), !errorMessage.isEmpty {
+                    completion(.failure(.customError(errorMessage)))
+                } else if httpResponse.statusCode == 401 {
+                    completion(.failure(.unauthorized))
+                } else if httpResponse.statusCode == 403 {
+                    completion(.failure(.forbidden))
+                } else if httpResponse.statusCode == 404 {
+                    completion(.failure(.notFound))
+                } else {
+                    completion(.failure(.requestFailed(statusCode: httpResponse.statusCode)))
+                }
                 
             case 500...:
                 completion(.failure(.serverError))
@@ -202,14 +206,23 @@ class APIClient {
             switch httpResponse.statusCode {
             case 200...299:
                 completion(.success(()))
-            case 401:
-                completion(.failure(.unauthorized))
-            case 403:
-                completion(.failure(.forbidden))
-            case 404:
-                completion(.failure(.notFound))
+                
+            case 400...499:
+                if let data = data, let errorMessage = String(data: data, encoding: .utf8), !errorMessage.isEmpty {
+                    completion(.failure(.customError(errorMessage)))
+                } else if httpResponse.statusCode == 401 {
+                    completion(.failure(.unauthorized))
+                } else if httpResponse.statusCode == 403 {
+                    completion(.failure(.forbidden))
+                } else if httpResponse.statusCode == 404 {
+                    completion(.failure(.notFound))
+                } else {
+                    completion(.failure(.requestFailed(statusCode: httpResponse.statusCode)))
+                }
+                
             case 500...:
                 completion(.failure(.serverError))
+                
             default:
                 completion(.failure(.requestFailed(statusCode: httpResponse.statusCode)))
             }

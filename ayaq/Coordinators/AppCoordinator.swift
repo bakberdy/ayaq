@@ -57,6 +57,10 @@ class AppCoordinator: Coordinator {
         let cartCoordinator = CartCoordinator(navigationController: UINavigationController())
         let profileCoordinator = ProfileCoordinator(navigationController: UINavigationController())
         
+        profileCoordinator.onDidLogout = { [weak self] in
+            self?.handleLogout()
+        }
+        
         addChildCoordinator(homeCoordinator)
         addChildCoordinator(catalogCoordinator)
         addChildCoordinator(cartCoordinator)
@@ -76,5 +80,11 @@ class AppCoordinator: Coordinator {
         
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
+    }
+    
+    private func handleLogout() {
+        childCoordinators.removeAll()
+        tabBarController = nil
+        showAuth()
     }
 }
