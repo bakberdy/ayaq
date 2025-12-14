@@ -580,17 +580,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/TokenDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/TokenDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/TokenDTO"
                 }
               }
             }
@@ -640,17 +640,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/CurrentUserIdDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/CurrentUserIdDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/CurrentUserIdDTO"
                 }
               }
             }
@@ -669,17 +669,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/CurrentUserNameDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/CurrentUserNameDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/CurrentUserNameDTO"
                 }
               }
             }
@@ -704,7 +704,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtPayloadDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtPayloadDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtPayloadDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -2970,6 +2987,26 @@
         },
         "additionalProperties": false
       },
+      "CurrentUserIdDTO": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurrentUserNameDTO": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CustomerActivityLogDTO": {
         "type": "object",
         "properties": {
@@ -3010,6 +3047,39 @@
           "stockQuantity": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "JwtPayloadDTO": {
+        "type": "object",
+        "properties": {
+          "nameId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "notBefore": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "expires": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "issuedAt": {
+            "type": "integer",
+            "format": "int64"
           }
         },
         "additionalProperties": false

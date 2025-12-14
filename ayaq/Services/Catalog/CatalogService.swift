@@ -49,32 +49,32 @@ final class CatalogService: CatalogServiceProtocol {
     
     func updateCatalogItemDetails(id: Int, _ model: UpdateCatalogItemModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.updateCatalogItemDetails(id: id, model), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.updateCatalogItemDetails(id: id, model)) { result in
+                continuation.resume(with: result)
             }
         }
     }
     
     func updateCatalogItemStockQuantity(id: Int, _ model: UpdateCatalogItemStockQuantityModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.updateCatalogItemStockQuantity(id: id, model), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.updateCatalogItemStockQuantity(id: id, model)) { result in
+                continuation.resume(with: result)
             }
         }
     }
     
     func updateCatalogItemPictureUrl(id: Int, _ model: UpdateCatalogItemPictureUrlModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.updateCatalogItemPictureUrl(id: id, model), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.updateCatalogItemPictureUrl(id: id, model)) { result in
+                continuation.resume(with: result)
             }
         }
     }
     
     func deleteCatalogItem(_ id: Int) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.deleteCatalogItem(id), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.deleteCatalogItem(id)) { result in
+                continuation.resume(with: result)
             }
         }
     }

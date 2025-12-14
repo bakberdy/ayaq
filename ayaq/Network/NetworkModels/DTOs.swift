@@ -129,4 +129,19 @@ struct InventorySummaryDTO: Codable {
 
 typealias InventoryItemDTO = InventorySummaryDTO
 
-struct EmptyResponse: Codable {}
+struct CurrentUserIdDTO: Codable {
+    let userId: String?
+}
+
+struct CurrentUserNameDTO: Codable {
+    let userName: String?
+}
+
+struct JwtPayloadDTO: Codable {
+    let nameId: String?
+    let name: String?
+    let roles: [String]?
+    let notBefore: Int64
+    let expires: Int64
+    let issuedAt: Int64
+}

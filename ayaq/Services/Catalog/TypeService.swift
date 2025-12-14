@@ -41,16 +41,16 @@ final class TypeService: TypeServiceProtocol {
     
     func updateCatalogType(id: Int, _ model: UpdateTypeModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.updateCatalogType(id: id, model), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.updateCatalogType(id: id, model)) { result in
+                continuation.resume(with: result)
             }
         }
     }
     
     func deleteCatalogType(_ id: Int) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.deleteCatalogType(id), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.deleteCatalogType(id)) { result in
+                continuation.resume(with: result)
             }
         }
     }

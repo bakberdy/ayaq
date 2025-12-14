@@ -33,24 +33,24 @@ final class CartService: CartServiceProtocol {
     
     func removeItemFromCart(userId: String, _ model: RemoveItemFromCartModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeItemFromCart(userId: userId, model), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.removeItemFromCart(userId: userId, model)) { result in
+                continuation.resume(with: result)
             }
         }
     }
     
     func removeCart(cartId: Int) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeCart(cartId), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.removeCart(cartId)) { result in
+                continuation.resume(with: result)
             }
         }
     }
     
     func removeCartByUserId(userId: String) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeCartByUserId(userId), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.removeCartByUserId(userId)) { result in
+                continuation.resume(with: result)
             }
         }
     }

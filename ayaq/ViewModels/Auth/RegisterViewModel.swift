@@ -8,7 +8,7 @@ final class RegisterViewModel {
     var lastName: String = ""
     var profilePictureUrl: String = ""
     
-    var onRegisterSuccess: (() -> Void)?
+    var onRegisterSuccess: ((AuthToken) -> Void)?
     var onRegisterError: ((String) -> Void)?
     var onLoadingStateChanged: ((Bool) -> Void)?
     
@@ -39,10 +39,10 @@ final class RegisterViewModel {
         
         Task {
             do {
-                _ = try await authService.register(model: request)
+                let authToken = try await authService.register(model: request)
                 await MainActor.run {
                     self.isLoading = false
-                    self.onRegisterSuccess?()
+                    self.onRegisterSuccess?(authToken)
                 }
             } catch let error as APIError {
                 await MainActor.run {

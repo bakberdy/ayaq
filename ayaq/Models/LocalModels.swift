@@ -384,3 +384,96 @@ struct Wishlist: Codable, Equatable, Identifiable {
     }
 }
 
+struct AuthToken: Codable, Equatable {
+    let token: String
+    
+    var isValid: Bool {
+        return !token.isEmpty
+    }
+    
+    init(from dto: TokenDTO) {
+        self.token = dto.authToken ?? ""
+    }
+    
+    init(token: String) {
+        self.token = token
+    }
+}
+
+struct JwtPayload: Codable, Equatable {
+    let userId: String?
+    let userName: String?
+    let roles: [UserRole]?
+    let notBefore: Date
+    let expires: Date
+    let issuedAt: Date
+    
+    var isExpired: Bool {
+        return Date() > expires
+    }
+    
+    var isActive: Bool {
+        return Date() >= notBefore && !isExpired
+    }
+    
+    init(from dto: JwtPayloadDTO) {
+        self.userId = dto.nameId
+        self.userName = dto.name
+        self.roles = dto.roles?.compactMap { UserRole(rawValue: $0) }
+        self.notBefore = Date(timeIntervalSince1970: TimeInterval(dto.notBefore))
+        self.expires = Date(timeIntervalSince1970: TimeInterval(dto.expires))
+        self.issuedAt = Date(timeIntervalSince1970: TimeInterval(dto.issuedAt))
+    }
+}
+
+struct SalesReport: Codable, Equatable {
+    let month: String?
+    let salesCount: Int
+    
+    var displayMonth: String {
+        return month ?? "Unknown"
+    }
+    
+    init(from dto: SalesReportDTO) {
+        self.month = dto.month
+        self.salesCount = dto.salesCount
+    }
+}
+
+struct CustomerActivityLog: Codable, Equatable {
+    let userId: String?
+    let justOrdered: Bool
+    let orderDate: Date?
+    
+    init(from dto: CustomerActivityLogDTO) {
+        self.userId = dto.userId
+        self.justOrdered = dto.justOrdered
+        
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        self.orderDate = dateFormatter.date(from: dto.orderDate)
+    }
+}
+
+struct InventoryItem: Codable, Equatable {
+    let productName: String?
+    let stockQuantity: Int
+    
+    var displayName: String {
+        return productName ?? "Unknown Product"
+    }
+    
+    var isOutOfStock: Bool {
+        return stockQuantity <= 0
+    }
+    
+    var isLowStock: Bool {
+        return stockQuantity > 0 && stockQuantity <= 10
+    }
+    
+    init(from dto: InventorySummaryDTO) {
+        self.productName = dto.productName
+        self.stockQuantity = dto.stockQuantity
+    }
+}
+

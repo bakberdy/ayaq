@@ -41,16 +41,16 @@ final class ReviewService: ReviewServiceProtocol {
     
     func updateReview(id: Int, _ model: UpdateReviewModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.updateReview(id: id, model), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.updateReview(id: id, model)) { result in
+                continuation.resume(with: result)
             }
         }
     }
     
     func deleteReview(id: Int, _ model: DeleteReviewModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.deleteReview(id: id, model), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.deleteReview(id: id, model)) { result in
+                continuation.resume(with: result)
             }
         }
     }

@@ -41,8 +41,8 @@ final class OrderService: OrderServiceProtocol {
     
     func confirmOrder(orderId: Int) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.confirmOrder(orderId), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.confirmOrder(orderId)) { result in
+                continuation.resume(with: result)
             }
         }
     }

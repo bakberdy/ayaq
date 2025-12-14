@@ -6,7 +6,7 @@ final class LoginViewModel {
     var email: String = ""
     var password: String = ""
     
-    var onLoginSuccess: ((String) -> Void)?
+    var onLoginSuccess: ((AuthToken) -> Void)?
     var onLoginError: ((String) -> Void)?
     var onLoadingStateChanged: ((Bool) -> Void)?
     
@@ -27,10 +27,10 @@ final class LoginViewModel {
         
         Task {
             do {
-                let token = try await authService.login(email: email, password: password)
+                let authToken = try await authService.login(email: email, password: password)
                 await MainActor.run {
                     isLoading = false
-                    onLoginSuccess?(token)
+                    onLoginSuccess?(authToken)
                 }
             } catch let error as APIError {
                 await MainActor.run {

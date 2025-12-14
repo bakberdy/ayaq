@@ -170,7 +170,7 @@ final class LoginViewController: UIViewController {
         }
     }
     
-    private func handleLoginSuccess(token: String) {
+    private func handleLoginSuccess(token: AuthToken) {
         coordinator?.didFinishLogin()
     }
     

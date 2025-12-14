@@ -114,8 +114,8 @@ final class RegisterViewController: UIViewController {
     }
     
     private func setupBindings() {
-        viewModel.onRegisterSuccess = { [weak self] in
-            self?.handleRegisterSuccess()
+        viewModel.onRegisterSuccess = { [weak self] authToken in
+            self?.handleRegisterSuccess(authToken: authToken)
         }
         
         viewModel.onRegisterError = { [weak self] errorMessage in
@@ -187,7 +187,7 @@ final class RegisterViewController: UIViewController {
         }
     }
     
-    private func handleRegisterSuccess() {
+    private func handleRegisterSuccess(authToken: AuthToken) {
         coordinator?.didFinishRegister()
     }
     

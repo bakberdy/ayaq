@@ -25,24 +25,24 @@ final class WishlistService: WishlistServiceProtocol {
     
     func removeItemFromWishlist(userId: String, _ model: RemoveItemFromWishlistModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeItemFromWishlist(userId: userId, model), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.removeItemFromWishlist(userId: userId, model)) { result in
+                continuation.resume(with: result)
             }
         }
     }
     
     func removeWishlist(wishlistId: Int) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeWishlist(wishlistId), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.removeWishlist(wishlistId)) { result in
+                continuation.resume(with: result)
             }
         }
     }
     
     func removeWishlistByUserId(userId: String) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.removeWishlistByUserId(userId), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.removeWishlistByUserId(userId)) { result in
+                continuation.resume(with: result)
             }
         }
     }

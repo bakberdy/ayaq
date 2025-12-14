@@ -41,16 +41,16 @@ final class BrandService: BrandServiceProtocol {
     
     func updateCatalogBrand(id: Int, _ model: UpdateBrandModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.updateCatalogBrand(id: id, model), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.updateCatalogBrand(id: id, model)) { result in
+                continuation.resume(with: result)
             }
         }
     }
     
     func deleteCatalogBrand(_ id: Int) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.deleteCatalogBrand(id), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.deleteCatalogBrand(id)) { result in
+                continuation.resume(with: result)
             }
         }
     }

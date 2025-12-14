@@ -41,8 +41,8 @@ final class UserService: UserServiceProtocol {
     
     func updateProfileInformation(userId: String, _ model: UpdateProfileInformationModel) async throws {
         return try await withCheckedThrowingContinuation { continuation in
-            apiClient.request(.updateProfileInformation(userId: userId, model), expecting: EmptyResponse.self) { result in
-                continuation.resume(with: result.map { _ in () })
+            apiClient.request(.updateProfileInformation(userId: userId, model)) { result in
+                continuation.resume(with: result)
             }
         }
     }
