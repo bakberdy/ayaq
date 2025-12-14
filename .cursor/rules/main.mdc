@@ -3704,6 +3704,11 @@ ECommerceApp/
 │       ├── NavigationHelper.swift
 │       └── LoggingHelper.swift
 │
+└── Resources/
+    ├── Assets.xcassets/
+    ├── Localization/
+    │   └── Localizable.strings
+    └── Colors.xcassets/
 
 
 Swift MVVM E-Commerce App - Development Order
