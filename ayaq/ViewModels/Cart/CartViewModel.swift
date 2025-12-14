@@ -92,6 +92,46 @@ final class CartViewModel: ObservableObject {
         }
     }
     
+    func increaseQuantity(itemId: Int) {
+        updateTask?.cancel()
+        
+        guard case .loaded(let cart) = state,
+              let items = cart.items,
+              let item = items.first(where: { $0.id == itemId }) else {
+            return
+        }
+        
+        updateQuantity(catalogItemId: item.catalogItemId, quantity: item.quantity + 1)
+    }
+    
+    func decreaseQuantity(itemId: Int) {
+        updateTask?.cancel()
+        
+        guard case .loaded(let cart) = state,
+              let items = cart.items,
+              let item = items.first(where: { $0.id == itemId }) else {
+            return
+        }
+        
+        if item.quantity > 1 {
+            updateQuantity(catalogItemId: item.catalogItemId, quantity: item.quantity - 1)
+        } else {
+            removeItem(itemId: itemId)
+        }
+    }
+    
+    func removeItem(itemId: Int) {
+        removeTask?.cancel()
+        
+        guard case .loaded(let cart) = state,
+              let items = cart.items,
+              let item = items.first(where: { $0.id == itemId }) else {
+            return
+        }
+        
+        removeFromCart(catalogItemId: item.catalogItemId)
+    }
+    
     func clearCart() {
         clearTask?.cancel()
         
@@ -99,7 +139,9 @@ final class CartViewModel: ObservableObject {
             do {
                 try await cartService.removeCartByUserId(userId: userId)
                 guard !Task.isCancelled else { return }
-                state = .loaded(Cart(id: 0, userId: userId, items: []))
+                
+                let emptyCart = Cart(id: 0, userId: userId, items: [])
+                state = .loaded(emptyCart)
             } catch {
                 guard !Task.isCancelled else { return }
                 state = .error(error.localizedDescription)
