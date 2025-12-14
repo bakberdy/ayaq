@@ -114,6 +114,17 @@ final class ProfileViewController: UIViewController {
         return button
     }()
     
+    private lazy var removeAccountButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Remove Account", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = AppColors.error
+        button.layer.cornerRadius = 12
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.color = AppColors.primary
@@ -205,6 +216,7 @@ final class ProfileViewController: UIViewController {
         
         contentView.addSubview(editProfileButton)
         contentView.addSubview(logoutButton)
+        contentView.addSubview(removeAccountButton)
         
         view.addSubview(loadingIndicator)
         view.addSubview(errorView)
@@ -264,7 +276,12 @@ final class ProfileViewController: UIViewController {
             logoutButton.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 16),
             logoutButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
             logoutButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            logoutButton.heightAnchor.constraint(equalToConstant: 52),
+            
+            removeAccountButton.topAnchor.constraint(equalTo: logoutButton.bottomAnchor, constant: 16),
+            removeAccountButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            removeAccountButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
+            removeAccountButton.heightAnchor.constraint(equalToConstant: 52),
+            removeAccountButton.heightAnchor.constraint(equalToConstant: 52),
             logoutButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -32),
             
             loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -304,6 +321,7 @@ final class ProfileViewController: UIViewController {
     private func setupActions() {
         editProfileButton.addTarget(self, action: #selector(editProfileTapped), for: .touchUpInside)
         logoutButton.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
+        removeAccountButton.addTarget(self, action: #selector(removeAccountTapped), for: .touchUpInside)
         retryButton.addTarget(self, action: #selector(retryTapped), for: .touchUpInside)
         errorLogoutButton.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
     }
@@ -417,6 +435,21 @@ final class ProfileViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         alert.addAction(UIAlertAction(title: "Logout", style: .destructive) { [weak self] _ in
+            self?.performLogout()
+        })
+        
+        present(alert, animated: true)
+    }
+    
+    @objc private func removeAccountTapped() {
+        let alert = UIAlertController(
+            title: "Remove Account",
+            message: "Are you sure you want to remove your account? This will log you out of the app.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Remove", style: .destructive) { [weak self] _ in
             self?.performLogout()
         })
         
