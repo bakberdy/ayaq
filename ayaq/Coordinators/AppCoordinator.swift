@@ -75,6 +75,10 @@ class AppCoordinator: Coordinator {
             navigationController: UINavigationController(),
             container: container
         )
+        let wishlistCoordinator = WishlistCoordinator(
+            navigationController: UINavigationController(),
+            container: container
+        )
         let cartCoordinator = CartCoordinator(
             navigationController: UINavigationController(),
             container: container
@@ -90,17 +94,20 @@ class AppCoordinator: Coordinator {
         
         addChildCoordinator(homeCoordinator)
         addChildCoordinator(catalogCoordinator)
+        addChildCoordinator(wishlistCoordinator)
         addChildCoordinator(cartCoordinator)
         addChildCoordinator(profileCoordinator)
         
         homeCoordinator.start()
         catalogCoordinator.start()
+        wishlistCoordinator.start()
         cartCoordinator.start()
         profileCoordinator.start()
         
         tabBarController.viewControllers = [
             homeCoordinator.navigationController,
             catalogCoordinator.navigationController,
+            wishlistCoordinator.navigationController,
             cartCoordinator.navigationController,
             profileCoordinator.navigationController
         ]

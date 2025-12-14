@@ -85,6 +85,11 @@ final class ProductDetailViewModel: ObservableObject {
             return
         }
         
+        guard product.isInStock, quantity <= product.stockQuantity else {
+            actionState = .error("Insufficient stock available")
+            return
+        }
+        
         actionTask?.cancel()
         
         actionTask = Task {
@@ -92,7 +97,11 @@ final class ProductDetailViewModel: ObservableObject {
             
             do {
                 let model = AddItemToCartModel(catalogItemId: product.id)
-                _ = try await cartService.addItemToCart(userId: userId, model)
+                
+                for _ in 0..<quantity {
+                    _ = try await cartService.addItemToCart(userId: userId, model)
+                }
+                
                 actionState = .addedToCart
                 
                 try? await Task.sleep(nanoseconds: 1_500_000_000)

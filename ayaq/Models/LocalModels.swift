@@ -73,8 +73,8 @@ struct Product: Codable, Equatable, Identifiable {
     var formattedPrice: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencyCode = "USD"
-        return formatter.string(from: price as NSDecimalNumber) ?? "$\(price)"
+        formatter.currencyCode = "KZT"
+        return formatter.string(from: price as NSDecimalNumber) ?? "₸\(price)"
     }
     
     var averageRating: Double {
@@ -134,15 +134,15 @@ struct CartItem: Codable, Equatable, Identifiable {
     var formattedTotalPrice: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencyCode = "USD"
-        return formatter.string(from: totalPrice as NSDecimalNumber) ?? "$\(totalPrice)"
+        formatter.currencyCode = "KZT"
+        return formatter.string(from: totalPrice as NSDecimalNumber) ?? "₸\(totalPrice)"
     }
     
     var formattedUnitPrice: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencyCode = "USD"
-        return formatter.string(from: unitPrice as NSDecimalNumber) ?? "$\(unitPrice)"
+        formatter.currencyCode = "KZT"
+        return formatter.string(from: unitPrice as NSDecimalNumber) ?? "₸\(unitPrice)"
     }
 }
 
@@ -159,8 +159,8 @@ struct Cart: Codable, Equatable, Identifiable {
     var formattedTotalPrice: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencyCode = "USD"
-        return formatter.string(from: totalPrice as NSDecimalNumber) ?? "$\(totalPrice)"
+        formatter.currencyCode = "KZT"
+        return formatter.string(from: totalPrice as NSDecimalNumber) ?? "₸\(totalPrice)"
     }
     
     var itemCount: Int {
@@ -187,8 +187,8 @@ struct OrderItem: Codable, Equatable, Identifiable {
     var formattedTotalPrice: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencyCode = "USD"
-        return formatter.string(from: totalPrice as NSDecimalNumber) ?? "$\(totalPrice)"
+        formatter.currencyCode = "KZT"
+        return formatter.string(from: totalPrice as NSDecimalNumber) ?? "₸\(totalPrice)"
     }
 }
 
@@ -200,8 +200,8 @@ struct ShippingMethod: Codable, Equatable {
     var formattedCost: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencyCode = "USD"
-        return formatter.string(from: cost as NSDecimalNumber) ?? "$\(cost)"
+        formatter.currencyCode = "KZT"
+        return formatter.string(from: cost as NSDecimalNumber) ?? "₸\(cost)"
     }
 }
 
@@ -229,8 +229,8 @@ struct Order: Codable, Equatable, Identifiable {
     var formattedTotalPrice: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencyCode = "USD"
-        return formatter.string(from: totalPrice as NSDecimalNumber) ?? "$\(totalPrice)"
+        formatter.currencyCode = "KZT"
+        return formatter.string(from: totalPrice as NSDecimalNumber) ?? "₸\(totalPrice)"
     }
     
     var status: OrderStatus {

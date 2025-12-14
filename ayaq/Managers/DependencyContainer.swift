@@ -97,6 +97,10 @@ final class DependencyContainer {
         )
     }
     
+    func makeWishlistViewModel(userId: String) -> WishlistViewModel {
+        WishlistViewModel(wishlistService: makeWishlistService(), userId: userId)
+    }
+    
     func makeProfileViewModel() -> ProfileViewModel {
         ProfileViewModel(userService: makeUserService(), authService: makeAuthService())
     }
