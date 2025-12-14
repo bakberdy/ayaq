@@ -1,18 +1,16 @@
 import Foundation
 
-/// Represents all possible errors that can occur during network requests
 enum APIError: LocalizedError {
     case invalidURL
     case requestFailed(statusCode: Int)
     case decodingError(Error)
     case networkError(Error)
-    case unauthorized        // HTTP 401
-    case forbidden          // HTTP 403
-    case notFound           // HTTP 404
-    case serverError        // HTTP 500+
+    case unauthorized
+    case forbidden
+    case notFound
+    case serverError
     case unknownError
     
-    /// User-friendly error descriptions
     var errorDescription: String? {
         switch self {
         case .invalidURL:
@@ -44,7 +42,6 @@ enum APIError: LocalizedError {
         }
     }
     
-    /// Recovery suggestions for certain errors
     var recoverySuggestion: String? {
         switch self {
         case .networkError:

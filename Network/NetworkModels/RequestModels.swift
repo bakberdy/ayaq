@@ -1,7 +1,5 @@
 import Foundation
 
-// MARK: - Authentication Models
-
 struct LoginModel: Codable {
     let email: String
     let password: String
@@ -42,8 +40,6 @@ struct AddUserToRolesModel: Codable {
     let roles: [String]
 }
 
-// MARK: - Catalog Item Models
-
 struct CreateCatalogItemModel: Codable {
     let name: String
     let description: String
@@ -76,8 +72,6 @@ struct UpdateCatalogBrandModel: Codable {
     let catalogBrandId: Int
 }
 
-// MARK: - Catalog Brand Models
-
 struct CreateCatalogBrandModel: Codable {
     let brand: String
 }
@@ -86,8 +80,6 @@ struct UpdateBrandModel: Codable {
     let brand: String
 }
 
-// MARK: - Catalog Type Models
-
 struct CreateCatalogTypeModel: Codable {
     let type: String?
 }
@@ -95,8 +87,6 @@ struct CreateCatalogTypeModel: Codable {
 struct UpdateTypeModel: Codable {
     let type: String
 }
-
-// MARK: - Cart Models
 
 struct AddItemToCartModel: Codable {
     let catalogItemId: Int
@@ -111,8 +101,6 @@ struct RemoveItemFromCartModel: Codable {
     let catalogItemId: Int
 }
 
-// MARK: - Wishlist Models
-
 struct AddItemToWishlistModel: Codable {
     let catalogItemId: Int
 }
@@ -121,8 +109,6 @@ struct RemoveItemFromWishlistModel: Codable {
     let catalogItemId: Int
 }
 
-// MARK: - Order Models
-
 struct CreateOrderModel: Codable {
     let deliveryName: String
     let deliveryCost: Double
@@ -130,8 +116,6 @@ struct CreateOrderModel: Codable {
     let addressToShip: String
     let phoneNumber: String
 }
-
-// MARK: - Review Models
 
 struct CreateReviewModel: Codable {
     let userId: String
@@ -150,18 +134,14 @@ struct DeleteReviewModel: Codable {
     let userId: String
 }
 
-// MARK: - Profile Models
-
 struct UpdateProfileInformationModel: Codable {
     let firstName: String?
     let lastName: String?
     let profilePictureUrl: String?
 }
 
-// MARK: - Support Models
-
 struct SupportRequestModel: Codable {
-    let fistName: String        // Note: API has typo "fistName" not "firstName"
+    let fistName: String
     let lastName: String
     let subject: String
     let message: String

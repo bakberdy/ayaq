@@ -1,7 +1,5 @@
 import Foundation
 
-// MARK: - User DTOs
-
 struct ApplicationUserDTO: Codable {
     let userId: String?
     let firstName: String?
@@ -11,8 +9,6 @@ struct ApplicationUserDTO: Codable {
     let profilePictureUrl: String?
     let roles: [String]?
 }
-
-// MARK: - Catalog DTOs
 
 struct CatalogItemDTO: Codable {
     let id: Int
@@ -38,8 +34,6 @@ struct CatalogTypeDTO: Codable {
     let type: String?
 }
 
-// MARK: - Cart DTOs
-
 struct CartDTO: Codable {
     let id: Int
     let userId: String?
@@ -58,8 +52,6 @@ struct CartItemDTO: Codable {
     let totalPrice: Double
 }
 
-// MARK: - Wishlist DTOs
-
 struct WishlistDTO: Codable {
     let id: Int
     let userId: String?
@@ -73,8 +65,6 @@ struct WishlistItemDTO: Codable {
     let pictureUrl: String?
     let wishlistId: Int
 }
-
-// MARK: - Order DTOs
 
 struct OrderDTO: Codable {
     let id: Int
@@ -108,8 +98,6 @@ struct ShippingDetailsDTO: Codable {
     let phoneNumber: String?
 }
 
-// MARK: - Review DTOs
-
 struct CatalogItemReviewDTO: Codable {
     let id: Int
     let userId: String?
@@ -118,8 +106,6 @@ struct CatalogItemReviewDTO: Codable {
     let createdTime: String
     let catalogItemId: Int
 }
-
-// MARK: - Admin DTOs
 
 struct SalesReportDTO: Codable {
     let month: String?

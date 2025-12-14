@@ -8,7 +8,6 @@ enum HTTPMethod: String {
 }
 
 enum APIEndpoint {
-    // MARK: - Auth Endpoints
     case login(LoginModel)
     case register(RegisterModel)
     case authenticateAnonymousUser
@@ -21,19 +20,16 @@ enum APIEndpoint {
     case getCurrentUserName
     case getPayload(String)
     
-    // MARK: - ApplicationUser Endpoints
     case getAllUsers
     case getUserDetailsByUserName(String)
     case getUserDetailsByEmail(String)
     case getUserDetailsByUserId(String)
     case updateProfileInformation(userId: String, UpdateProfileInformationModel)
     
-    // MARK: - AdminDashboard Endpoints
     case getSalesReport
     case getCustomerActivityLogs
     case getInventorySummary
     
-    // MARK: - CatalogBrand Endpoints
     case getCatalogBrands
     case getCatalogBrandById(Int)
     case getCatalogBrandByName(String)
@@ -41,7 +37,6 @@ enum APIEndpoint {
     case updateCatalogBrand(id: Int, UpdateBrandModel)
     case deleteCatalogBrand(Int)
     
-    // MARK: - CatalogType Endpoints
     case getCatalogTypes
     case getCatalogTypeById(Int)
     case getCatalogTypeByName(String)
@@ -49,7 +44,6 @@ enum APIEndpoint {
     case updateCatalogType(id: Int, UpdateTypeModel)
     case deleteCatalogType(Int)
     
-    // MARK: - CatalogItem Endpoints
     case getCatalogItems
     case getCatalogItemById(Int)
     case getCatalogItemsByTypeName(String)
@@ -62,7 +56,6 @@ enum APIEndpoint {
     case updateCatalogBrand(id: Int, UpdateCatalogBrandModel)
     case deleteCatalogItem(Int)
     
-    // MARK: - Cart Endpoints
     case getCart(String)
     case addItemToCart(userId: String, AddItemToCartModel)
     case updateItemQuantity(userId: String, UpdateCartItemQuantityModel)
@@ -70,21 +63,18 @@ enum APIEndpoint {
     case removeCart(Int)
     case removeCartByUserId(String)
     
-    // MARK: - Wishlist Endpoints
     case getWishlist(String)
     case addItemToWishlist(userId: String, AddItemToWishlistModel)
     case removeItemFromWishlist(userId: String, RemoveItemFromWishlistModel)
     case removeWishlist(Int)
     case removeWishlistByUserId(String)
     
-    // MARK: - Order Endpoints
     case getOrders
     case getOrderById(Int)
     case getOrderByUserId(String)
     case createOrder(userId: String, CreateOrderModel)
     case confirmOrder(Int)
     
-    // MARK: - Review Endpoints
     case getCatalogItemReview(Int)
     case getReviewsByUserId(String)
     case getReviewById(Int)
@@ -92,10 +82,8 @@ enum APIEndpoint {
     case updateReview(id: Int, UpdateReviewModel)
     case deleteReview(id: Int, DeleteReviewModel)
     
-    // MARK: - Support Endpoints
     case sendSupport(SupportRequestModel)
     
-    // Base URL - Replace with your actual API URL
     var baseURL: String {
         return "https://your-api-domain.com"
     }
