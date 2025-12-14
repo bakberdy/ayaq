@@ -1,10 +1,3 @@
-//
-//  ProfileCoordinator.swift
-//  ayaq
-//
-//  Created on 14/12/2025.
-//
-
 import UIKit
 
 class ProfileCoordinator: Coordinator {
@@ -20,7 +13,8 @@ class ProfileCoordinator: Coordinator {
     }
     
     func start() {
-        let profileViewController = ProfileViewController()
+        let viewModel = container.makeProfileViewModel()
+        let profileViewController = ProfileViewController(viewModel: viewModel)
         profileViewController.coordinator = self
         profileViewController.tabBarItem = UITabBarItem(
             title: "Profile",
@@ -28,6 +22,22 @@ class ProfileCoordinator: Coordinator {
             selectedImage: UIImage(systemName: "person.fill")
         )
         navigationController.setViewControllers([profileViewController], animated: false)
+    }
+    
+    func showEditProfile(user: User) {
+        guard let userId = TokenManager.shared.getUserId() else { return }
+        let viewModel = container.makeEditProfileViewModel(userId: userId, currentUser: user)
+        let editViewController = EditProfileViewController(viewModel: viewModel)
+        editViewController.coordinator = self
+        navigationController.pushViewController(editViewController, animated: true)
+    }
+    
+    func didUpdateProfile() {
+        navigationController.popViewController(animated: true)
+    }
+    
+    func didCancelEdit() {
+        navigationController.popViewController(animated: true)
     }
     
     func didLogout() {

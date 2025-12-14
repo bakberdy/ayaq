@@ -15,7 +15,6 @@ final class ProfileViewModel: ObservableObject {
     private let userService: UserServiceProtocol
     private let authService: AuthServiceProtocol
     private var loadTask: Task<Void, Never>?
-    private var updateTask: Task<Void, Never>?
     private var logoutTask: Task<Void, Never>?
     
     init(userService: UserServiceProtocol, authService: AuthServiceProtocol) {
@@ -30,25 +29,6 @@ final class ProfileViewModel: ObservableObject {
             state = .loading
             
             do {
-                let user = try await userService.getUserDetailsByUserId(userId: userId)
-                guard !Task.isCancelled else { return }
-                state = .loaded(user)
-            } catch {
-                guard !Task.isCancelled else { return }
-                state = .error(error.localizedDescription)
-            }
-        }
-    }
-    
-    func updateProfile(userId: String, firstName: String, lastName: String, profilePictureUrl: String?) {
-        updateTask?.cancel()
-        
-        updateTask = Task {
-            state = .loading
-            
-            do {
-                let model = UpdateProfileInformationModel(firstName: firstName, lastName: lastName, profilePictureUrl: profilePictureUrl)
-                try await userService.updateProfileInformation(userId: userId, model)
                 let user = try await userService.getUserDetailsByUserId(userId: userId)
                 guard !Task.isCancelled else { return }
                 state = .loaded(user)
@@ -76,7 +56,6 @@ final class ProfileViewModel: ObservableObject {
     
     func cancelAllOperations() {
         loadTask?.cancel()
-        updateTask?.cancel()
         logoutTask?.cancel()
     }
 }

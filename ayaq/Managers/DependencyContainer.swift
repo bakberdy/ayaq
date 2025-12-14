@@ -83,6 +83,10 @@ final class DependencyContainer {
         ProfileViewModel(userService: makeUserService(), authService: makeAuthService())
     }
     
+    func makeEditProfileViewModel(userId: String, currentUser: User) -> EditProfileViewModel {
+        EditProfileViewModel(userService: makeUserService(), userId: userId, currentUser: currentUser)
+    }
+    
     func makeHomeViewModel() -> HomeViewModel {
         HomeViewModel(catalogService: makeCatalogService(), brandService: makeBrandService())
     }
