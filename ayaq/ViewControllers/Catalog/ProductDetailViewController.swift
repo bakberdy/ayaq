@@ -466,8 +466,13 @@ final class ProductDetailViewController: UIViewController {
             .sink { [weak self] actionState in
                 self?.renderActionState(actionState)
             }
-            .store(in: &cancellables)
-        
+            .store(in: &cancellables)        
+        viewModel.$isInWishlist
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isInWishlist in
+                self?.wishlistButton.isSelected = isInWishlist
+            }
+            .store(in: &cancellables)        
         viewModel.$quantity
             .receive(on: DispatchQueue.main)
             .sink { [weak self] quantity in
@@ -624,8 +629,16 @@ final class ProductDetailViewController: UIViewController {
         case .addedToWishlist:
             wishlistButton.isEnabled = true
             wishlistButton.alpha = 1.0
-            wishlistButton.isSelected = true
             showSuccess("Added to wishlist!")
+            
+        case .removingFromWishlist:
+            wishlistButton.isEnabled = false
+            wishlistButton.alpha = 0.7
+            
+        case .removedFromWishlist:
+            wishlistButton.isEnabled = true
+            wishlistButton.alpha = 1.0
+            showSuccess("Removed from wishlist!")
             
         case .error(let message):
             addToCartButton.isEnabled = true
@@ -710,7 +723,7 @@ final class ProductDetailViewController: UIViewController {
         generator.impactOccurred()
         
         animateHeartButton()
-        viewModel.addToWishlist()
+        viewModel.toggleWishlist()
     }
     
     private func showError(_ message: String) {

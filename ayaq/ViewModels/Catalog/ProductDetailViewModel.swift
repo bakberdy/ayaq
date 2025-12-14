@@ -16,11 +16,14 @@ final class ProductDetailViewModel: ObservableObject {
         case addedToCart
         case addingToWishlist
         case addedToWishlist
+        case removingFromWishlist
+        case removedFromWishlist
         case error(String)
     }
     
     @Published private(set) var state: State = .idle
     @Published private(set) var actionState: ActionState = .idle
+    @Published private(set) var isInWishlist: Bool = false
     @Published var quantity: Int = 1
     
     private let productId: Int
@@ -115,30 +118,52 @@ final class ProductDetailViewModel: ObservableObject {
         }
     }
     
-    func addToWishlist() {
+    func toggleWishlist() {
         guard let product = product,
               let userId = tokenManager.getUserId() else {
-            actionState = .error("Please login to add items to wishlist")
+            actionState = .error("Please login to manage wishlist")
             return
         }
         
         actionTask?.cancel()
         
-        actionTask = Task {
-            actionState = .addingToWishlist
-            
-            do {
-                let model = AddItemToWishlistModel(catalogItemId: product.id)
-                _ = try await wishlistService.addItemToWishlist(userId: userId, model)
-                actionState = .addedToWishlist
+        if isInWishlist {
+            actionTask = Task {
+                actionState = .removingFromWishlist
                 
-                try? await Task.sleep(nanoseconds: 1_500_000_000)
-                actionState = .idle
-            } catch {
-                actionState = .error(error.localizedDescription)
+                do {
+                    let model = RemoveItemFromWishlistModel(catalogItemId: product.id)
+                    try await wishlistService.removeItemFromWishlist(userId: userId, model)
+                    isInWishlist = false
+                    actionState = .removedFromWishlist
+                    
+                    try? await Task.sleep(nanoseconds: 1_500_000_000)
+                    actionState = .idle
+                } catch {
+                    actionState = .error(error.localizedDescription)
+                    
+                    try? await Task.sleep(nanoseconds: 2_000_000_000)
+                    actionState = .idle
+                }
+            }
+        } else {
+            actionTask = Task {
+                actionState = .addingToWishlist
                 
-                try? await Task.sleep(nanoseconds: 2_000_000_000)
-                actionState = .idle
+                do {
+                    let model = AddItemToWishlistModel(catalogItemId: product.id)
+                    _ = try await wishlistService.addItemToWishlist(userId: userId, model)
+                    isInWishlist = true
+                    actionState = .addedToWishlist
+                    
+                    try? await Task.sleep(nanoseconds: 1_500_000_000)
+                    actionState = .idle
+                } catch {
+                    actionState = .error(error.localizedDescription)
+                    
+                    try? await Task.sleep(nanoseconds: 2_000_000_000)
+                    actionState = .idle
+                }
             }
         }
     }
