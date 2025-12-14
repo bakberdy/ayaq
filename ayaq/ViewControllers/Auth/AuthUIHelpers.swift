@@ -110,6 +110,7 @@ extension UIStackView {
 extension UIViewController {
     func setupAuthUI(scrollView: UIScrollView) {
         view.backgroundColor = .systemBackground
+        scrollView.backgroundColor = .systemBackground
         view.addSubview(scrollView)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
