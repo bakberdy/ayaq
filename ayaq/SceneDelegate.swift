@@ -3,25 +3,18 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var appCoordinator: AppCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        print("🔵 SceneDelegate: scene will connect")
-        guard let windowScene = (scene as? UIWindowScene) else {
-            print("🔴 Failed to get windowScene")
-            return
-        }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        print("🔵 Creating window and view controller")
         window = UIWindow(windowScene: windowScene)
         window?.backgroundColor = .systemBackground
         
-        let rootViewController = ViewController()
-        let navigationController = UINavigationController(rootViewController: rootViewController)
+        guard let window = window else { return }
         
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
-        
-        print("🔵 Window setup complete in SceneDelegate")
-        print("🔵 Window frame: \(window?.frame ?? .zero)")
+        // Initialize and start app coordinator
+        appCoordinator = AppCoordinator(window: window)
+        appCoordinator?.start()
     }
 }

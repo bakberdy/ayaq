@@ -41,7 +41,7 @@ enum APIEndpoint {
     case getCatalogTypeById(Int)
     case getCatalogTypeByName(String)
     case createCatalogType(CreateCatalogTypeModel)
-    case updateCatalogType(id: Int, UpdateTypeModel)
+    case updateCatalogType(id: Int, UpdateCatalogTypeModel)
     case deleteCatalogType(Int)
     
     case getCatalogItems
@@ -52,8 +52,8 @@ enum APIEndpoint {
     case updateCatalogItemDetails(id: Int, UpdateCatalogItemModel)
     case updateCatalogItemStockQuantity(id: Int, UpdateCatalogItemStockQuantityModel)
     case updateCatalogItemPictureUrl(id: Int, UpdateCatalogItemPictureUrlModel)
-    case updateCatalogType(id: Int, UpdateCatalogTypeModel)
-    case updateCatalogBrand(id: Int, UpdateCatalogBrandModel)
+    case updateCatalogItemType(id: Int, UpdateCatalogTypeModel)
+    case updateCatalogItemBrand(id: Int, UpdateCatalogBrandModel)
     case deleteCatalogItem(Int)
     
     case getCart(String)
@@ -181,9 +181,9 @@ extension APIEndpoint {
             return "/api/CatalogItem/UpdateCatalogItemStockQuantity/\(id)"
         case .updateCatalogItemPictureUrl(let id, _):
             return "/api/CatalogItem/UpdateCatalogItemPictureUrl/\(id)"
-        case .updateCatalogType(let id, _):
+        case .updateCatalogItemType(let id, _):
             return "/api/CatalogItem/UpdateCatalogType/\(id)"
-        case .updateCatalogBrand(let id, _):
+        case .updateCatalogItemBrand(let id, _):
             return "/api/CatalogItem/UpdateCatalogBrand/\(id)"
         case .deleteCatalogItem(let id):
             return "/api/CatalogItem/DeleteCatalogItem/\(id)"
@@ -272,7 +272,7 @@ extension APIEndpoint {
         // PUT endpoints
         case .updateProfileInformation, .updateCatalogBrand, .updateCatalogType,
              .updateCatalogItemDetails, .updateCatalogItemStockQuantity, .updateCatalogItemPictureUrl,
-             .updateCatalogType, .updateCatalogBrand, .updateItemQuantity, .updateReview:
+             .updateCatalogItemType, .updateCatalogItemBrand, .updateItemQuantity, .updateReview:
             return .put
             
         // DELETE endpoints
@@ -327,9 +327,9 @@ extension APIEndpoint {
             return model
         case .updateCatalogItemPictureUrl(_, let model):
             return model
-        case .updateCatalogType(_, let model):
+        case .updateCatalogItemType(_, let model):
             return model
-        case .updateCatalogBrand(_, let model):
+        case .updateCatalogItemBrand(_, let model):
             return model
             
         // Cart
