@@ -11,9 +11,9 @@ final class HomeViewController: UIViewController {
     var onCategoryTapped: ((ProductType) -> Void)?
     
     private let bannerImageURLs: [URL] = [
-        URL(string: "https://sneakertown.kz/upload/resize_cache/iblock/01a/450_450_140cd750bba9870f18aada2478b24840a/08rv0o5uzpht3dbd56042m7e65gstbce.jpg")!,
-        URL(string: "https://sneakertown.kz/upload/resize_cache/iblock/b65/450_450_140cd750bba9870f18aada2478b24840a/lop913xqd4akwt53em8paw3t6fz4rwa3.jpg")!,
-        URL(string: "https://sneakertown.kz/upload/resize_cache/iblock/017/450_450_140cd750bba9870f18aada2478b24840a/4znbe1z0gpsoi96prw0gbcsyv2rjcf47.jpg")!
+        URL(string: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/f63d6abefd494c4f9c3cdc81c9c57bdc_9366/Adizero_EVO_SL_Shoes_Black_KJ1363_01_00_standard.jpg")!,
+        URL(string: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/4c6886694e564bd8ac716168bfa219e4_9366/Fear_of_God_Athletics_II_Basketball_Shoes_Green_JP6006_HM1.jpg")!,
+        URL(string: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/ae33c80e55f1488fa3ce694bc950eece_9366/Fear_of_God_Athletics_II_Basketball_Shoes_Grey_HQ9426_HM1.jpg")!
     ]
     
     private var currentBannerIndex = 0
