@@ -54,23 +54,23 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("🟢 ViewController: viewDidLoad called")
+        print("ViewController: viewDidLoad called")
         setupUI()
         setupActions()
-        print("🟢 ViewController: Setup complete")
+        print("ViewController: Setup complete")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("🟢 ViewController: viewWillAppear")
-        print("🟢 View background color: \(view.backgroundColor?.description ?? "nil")")
-        print("🟢 View bounds: \(view.bounds)")
-        print("🟢 Number of subviews: \(view.subviews.count)")
+        print("ViewController: viewWillAppear")
+        print("View background color: \(view.backgroundColor?.description ?? "nil")")
+        print("View bounds: \(view.bounds)")
+        print("Number of subviews: \(view.subviews.count)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("🟢 ViewController: viewDidAppear")
+        print("ViewController: viewDidAppear")
     }
     
     private func setupUI() {
