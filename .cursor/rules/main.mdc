@@ -1,3518 +1,26 @@
 ---
 alwaysApply: true
 ---
-List of required technologies:			
-	UIKit; no storyboard allowed, i.e. build UI fully in code  		
-	Snapkit		
-	TableView or CollectionView		
-	At least 2 screens(transition)		
-	CoreData	 	
-	Networking(work with API) URLSession		
-	MVC or MVVM architecture		
-	Animations		
-	GCD or swift concurrency(async/await)
+# iOS E-Commerce App - MVVM Architecture Guide
 
-api specification:
-{
-  "openapi": "3.0.1",
-  "info": {
-    "title": "My API",
-    "version": "v1"
-  },
-  "paths": {
-    "/api/AdminDashboard/SalesReport": {
-      "get": {
-        "tags": [
-          "AdminDashboard"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SalesReportDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SalesReportDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SalesReportDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/AdminDashboard/GetCustomerActivityLogs": {
-      "get": {
-        "tags": [
-          "AdminDashboard"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CustomerActivityLogDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CustomerActivityLogDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CustomerActivityLogDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/AdminDashboard/GetInventorySummary": {
-      "get": {
-        "tags": [
-          "AdminDashboard"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/InventorySummaryDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/InventorySummaryDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/InventorySummaryDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ApplicationUser/GetAllUsers": {
-      "get": {
-        "tags": [
-          "ApplicationUser"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApplicationUserDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApplicationUserDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApplicationUserDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ApplicationUser/GetUserDetailsByUserName/{userName}": {
-      "get": {
-        "tags": [
-          "ApplicationUser"
-        ],
-        "parameters": [
-          {
-            "name": "userName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ApplicationUser/GetUserDetailsByEmail/{email}": {
-      "get": {
-        "tags": [
-          "ApplicationUser"
-        ],
-        "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ApplicationUser/GetUserDetailsByUserId/{userId}": {
-      "get": {
-        "tags": [
-          "ApplicationUser"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUserDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ApplicationUser/UpdateProfileInformation/{userId}": {
-      "put": {
-        "tags": [
-          "ApplicationUser"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProfileInformationModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProfileInformationModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProfileInformationModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Auth/Register": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Auth/Login": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Auth/AuthenticateAnonymousUser": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Auth/AddUserToRoles": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddUserToRolesModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddUserToRolesModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddUserToRolesModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Auth/RequestPasswordReset": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestPasswordResetModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestPasswordResetModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestPasswordResetModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Auth/ResetPassword": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Auth/ChangeEmail": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangeEmailModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangeEmailModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangeEmailModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Auth/ChangePassword": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangePasswordModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangePasswordModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangePasswordModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Auth/GetCurrentUserId": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Auth/GetCurrentUserName": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Auth/GetPayload/{token}": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Cart/GetCart/{userId}": {
-      "get": {
-        "tags": [
-          "Cart"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Cart/AddItemToCart": {
-      "post": {
-        "tags": [
-          "Cart"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddItemToCartModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddItemToCartModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddItemToCartModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Cart/UpdateItemQuantity/{userId}": {
-      "put": {
-        "tags": [
-          "Cart"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCartItemQuantityModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCartItemQuantityModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCartItemQuantityModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Cart/RemoveItemFromCart/{userId}": {
-      "delete": {
-        "tags": [
-          "Cart"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RemoveItemFromCartModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RemoveItemFromCartModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RemoveItemFromCartModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Cart/RemoveCart/{cartId}": {
-      "delete": {
-        "tags": [
-          "Cart"
-        ],
-        "parameters": [
-          {
-            "name": "cartId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Cart/RemoveCartByUserId/{userId}": {
-      "delete": {
-        "tags": [
-          "Cart"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CatalogBrand/GetCatalogBrands": {
-      "get": {
-        "tags": [
-          "CatalogBrand"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogBrandDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogBrandDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogBrandDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogBrand/GetCatalogBrandById/{id}": {
-      "get": {
-        "tags": [
-          "CatalogBrand"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogBrandDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogBrandDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogBrandDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogBrand/GetCatalogBrandByName/{brandName}": {
-      "get": {
-        "tags": [
-          "CatalogBrand"
-        ],
-        "parameters": [
-          {
-            "name": "brandName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogBrandDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogBrandDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogBrandDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogBrand/CreateCatalogBrand": {
-      "post": {
-        "tags": [
-          "CatalogBrand"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCatalogBrandModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCatalogBrandModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCatalogBrandModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogBrandDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogBrandDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogBrandDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogBrand/UpdateCatalogBrand/{id}": {
-      "put": {
-        "tags": [
-          "CatalogBrand"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBrandModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBrandModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBrandModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CatalogBrand/DeleteCatalogBrand/{id}": {
-      "delete": {
-        "tags": [
-          "CatalogBrand"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/GetCatalogItems": {
-      "get": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/GetCatalogItemById/{id}": {
-      "get": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/GetCatalogItemsByTypeName/{typeName}": {
-      "get": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "parameters": [
-          {
-            "name": "typeName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/GetCatalogItemsByBrandName/{brandName}": {
-      "get": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "parameters": [
-          {
-            "name": "brandName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/CreateCatalogItem": {
-      "post": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCatalogItemModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCatalogItemModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCatalogItemModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/UpdateCatalogItemDetails/{id}": {
-      "put": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogItemModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogItemModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogItemModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/UpdateCatalogItemStockQuantity/{id}": {
-      "put": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogItemStockQuantityModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogItemStockQuantityModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogItemStockQuantityModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/UpdateCatalogItemPictureUrl/{id}": {
-      "put": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogItemPictureUrlModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogItemPictureUrlModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogItemPictureUrlModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/UpdateCatalogType/{id}": {
-      "put": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogTypeModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogTypeModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogTypeModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/UpdateCatalogBrand/{id}": {
-      "put": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogBrandModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogBrandModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCatalogBrandModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CatalogItem/DeleteCatalogItem/{id}": {
-      "delete": {
-        "tags": [
-          "CatalogItem"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CatalogType/GetCatalogTypes": {
-      "get": {
-        "tags": [
-          "CatalogType"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogTypeDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogTypeDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogTypeDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogType/GetCatalogTypeById/{id}": {
-      "get": {
-        "tags": [
-          "CatalogType"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogTypeDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogTypeDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogTypeDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogType/GetCatalogTypeByName/{typeName}": {
-      "get": {
-        "tags": [
-          "CatalogType"
-        ],
-        "parameters": [
-          {
-            "name": "typeName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogTypeDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogTypeDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogTypeDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogType/CreateCatalogType": {
-      "post": {
-        "tags": [
-          "CatalogType"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCatalogTypeModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCatalogTypeModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCatalogTypeModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogTypeDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogTypeDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogTypeDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/CatalogType/UpdateCatalogType/{id}": {
-      "put": {
-        "tags": [
-          "CatalogType"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTypeModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTypeModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTypeModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CatalogType/DeleteCatalogType/{id}": {
-      "delete": {
-        "tags": [
-          "CatalogType"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Order/GetOrders": {
-      "get": {
-        "tags": [
-          "Order"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Order/GetOrderById/{orderId}": {
-      "get": {
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Order/GetOrderByUserId/{userId}": {
-      "get": {
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Order/CreateOrder/{userId}": {
-      "post": {
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateOrderModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateOrderModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateOrderModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Order/ConfirmOrder/{orderId}": {
-      "post": {
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Review/GetCatalogItemReview/{catalogItemId}": {
-      "get": {
-        "tags": [
-          "Review"
-        ],
-        "parameters": [
-          {
-            "name": "catalogItemId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Review/GetReviewsByUserId/{userId}": {
-      "get": {
-        "tags": [
-          "Review"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Review/GetReviewById/{id}": {
-      "get": {
-        "tags": [
-          "Review"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Review/CreateReview": {
-      "post": {
-        "tags": [
-          "Review"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateReviewModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateReviewModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateReviewModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CatalogItemReviewDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Review/UpdateReview/{id}": {
-      "put": {
-        "tags": [
-          "Review"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateReviewModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateReviewModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateReviewModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Review/DeleteReview/{id}": {
-      "delete": {
-        "tags": [
-          "Review"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteReviewModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteReviewModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteReviewModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Support/SendSupport": {
-      "post": {
-        "tags": [
-          "Support"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SupportRequestModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SupportRequestModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/SupportRequestModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Wishlist/GetWishlist/{userId}": {
-      "get": {
-        "tags": [
-          "Wishlist"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/WishlistDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/WishlistDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/WishlistDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Wishlist/AddItemToWishlist": {
-      "post": {
-        "tags": [
-          "Wishlist"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddItemToWishlistModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddItemToWishlistModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddItemToWishlistModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/WishlistDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/WishlistDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/WishlistDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Wishlist/RemoveItemFromWishlist/{userId}": {
-      "delete": {
-        "tags": [
-          "Wishlist"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RemoveItemFromWishlistModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RemoveItemFromWishlistModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RemoveItemFromWishlistModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Wishlist/RemoveWishlist/{wishlistId}": {
-      "delete": {
-        "tags": [
-          "Wishlist"
-        ],
-        "parameters": [
-          {
-            "name": "wishlistId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Wishlist/RemoveWishlistByUserId/{userId}": {
-      "delete": {
-        "tags": [
-          "Wishlist"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "AddItemToCartModel": {
-        "type": "object",
-        "properties": {
-          "catalogItemId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AddItemToWishlistModel": {
-        "required": [
-          "catalogItemId"
-        ],
-        "type": "object",
-        "properties": {
-          "catalogItemId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AddUserToRolesModel": {
-        "required": [
-          "email",
-          "roles"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "additionalProperties": false
-      },
-      "ApplicationUserDTO": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "nullable": true
-          },
-          "userName": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "profilePictureUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CartDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CartItemDTO"
-            },
-            "nullable": true
-          },
-          "totalPrice": {
-            "type": "number",
-            "format": "double",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CartItemDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "catalogItemId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unitPrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "productName": {
-            "type": "string",
-            "nullable": true
-          },
-          "pictureUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "cartId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPrice": {
-            "type": "number",
-            "format": "double",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CatalogBrandDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "brand": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CatalogItemDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "pictureUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "stockQuantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "catalogItemTypeName": {
-            "type": "string",
-            "nullable": true
-          },
-          "catalogItemBrandName": {
-            "type": "string",
-            "nullable": true
-          },
-          "catalogTypeId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "catalogBrandId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "reviews": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CatalogItemReviewDTO"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CatalogItemReviewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "rating": {
-            "type": "number",
-            "format": "double"
-          },
-          "reviewText": {
-            "type": "string",
-            "nullable": true
-          },
-          "createdTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "catalogItemId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CatalogTypeDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ChangeEmailModel": {
-        "required": [
-          "newEmail",
-          "oldEmail"
-        ],
-        "type": "object",
-        "properties": {
-          "oldEmail": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "newEmail": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ChangePasswordModel": {
-        "required": [
-          "email",
-          "newPassword",
-          "oldPassword"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "oldPassword": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "newPassword": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateCatalogBrandModel": {
-        "required": [
-          "brand"
-        ],
-        "type": "object",
-        "properties": {
-          "brand": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateCatalogItemModel": {
-        "required": [
-          "catalogBrandId",
-          "catalogTypeId",
-          "description",
-          "name",
-          "price",
-          "stockQuantity"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "description": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "pictureUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "stockQuantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "catalogTypeId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "catalogBrandId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateCatalogTypeModel": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateOrderModel": {
-        "required": [
-          "addressToShip",
-          "deliveryCost",
-          "deliveryName",
-          "deliveryTime",
-          "phoneNumber"
-        ],
-        "type": "object",
-        "properties": {
-          "deliveryName": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "deliveryCost": {
-            "type": "number",
-            "format": "double"
-          },
-          "deliveryTime": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "addressToShip": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "phoneNumber": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateReviewModel": {
-        "required": [
-          "catalogItemId",
-          "rating",
-          "reviewText",
-          "userId"
-        ],
-        "type": "object",
-        "properties": {
-          "userId": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "rating": {
-            "type": "number",
-            "format": "double"
-          },
-          "reviewText": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "catalogItemId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CustomerActivityLogDTO": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "justOrdered": {
-            "type": "boolean"
-          },
-          "orderDate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
-      "DeleteReviewModel": {
-        "required": [
-          "userId"
-        ],
-        "type": "object",
-        "properties": {
-          "userId": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "InventorySummaryDTO": {
-        "type": "object",
-        "properties": {
-          "productName": {
-            "type": "string",
-            "nullable": true
-          },
-          "stockQuantity": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "LoginModel": {
-        "required": [
-          "email",
-          "password"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "password": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "OrderDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "orderDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "isConfirmed": {
-            "type": "boolean"
-          },
-          "shippingMethod": {
-            "$ref": "#/components/schemas/ShippingMethod"
-          },
-          "shippingDetails": {
-            "$ref": "#/components/schemas/ShippingDetails"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderItemDTO"
-            },
-            "nullable": true
-          },
-          "totalPrice": {
-            "type": "number",
-            "format": "double",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "OrderItemDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "catalogItemId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unitPrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "productName": {
-            "type": "string",
-            "nullable": true
-          },
-          "orderId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPrice": {
-            "type": "number",
-            "format": "double",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RegisterModel": {
-        "required": [
-          "email",
-          "firstName",
-          "lastName",
-          "password"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "password": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "firstName": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "lastName": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "profilePictureUrl": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RemoveItemFromCartModel": {
-        "required": [
-          "catalogItemId"
-        ],
-        "type": "object",
-        "properties": {
-          "catalogItemId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RemoveItemFromWishlistModel": {
-        "required": [
-          "catalogItemId"
-        ],
-        "type": "object",
-        "properties": {
-          "catalogItemId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RequestPasswordResetModel": {
-        "required": [
-          "email",
-          "linkToResetPassword"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "linkToResetPassword": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ResetPasswordModel": {
-        "required": [
-          "code",
-          "email",
-          "newPassword"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "newPassword": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "SalesReportDTO": {
-        "type": "object",
-        "properties": {
-          "month": {
-            "type": "string",
-            "nullable": true
-          },
-          "salesCount": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ShippingDetails": {
-        "type": "object",
-        "properties": {
-          "addressToShip": {
-            "type": "string",
-            "nullable": true
-          },
-          "phoneNumber": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ShippingMethod": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "cost": {
-            "type": "number",
-            "format": "double"
-          },
-          "deliveryTime": {
-            "type": "string",
-            "format": "date-span"
-          }
-        },
-        "additionalProperties": false
-      },
-      "SupportRequestModel": {
-        "required": [
-          "fistName",
-          "lastName",
-          "message",
-          "subject"
-        ],
-        "type": "object",
-        "properties": {
-          "fistName": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "lastName": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "subject": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "message": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateBrandModel": {
-        "required": [
-          "brand"
-        ],
-        "type": "object",
-        "properties": {
-          "brand": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateCartItemQuantityModel": {
-        "required": [
-          "catalogItemId",
-          "quantity"
-        ],
-        "type": "object",
-        "properties": {
-          "catalogItemId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateCatalogBrandModel": {
-        "required": [
-          "catalogBrandId"
-        ],
-        "type": "object",
-        "properties": {
-          "catalogBrandId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateCatalogItemModel": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateCatalogItemPictureUrlModel": {
-        "required": [
-          "pictureUrl"
-        ],
-        "type": "object",
-        "properties": {
-          "pictureUrl": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateCatalogItemStockQuantityModel": {
-        "required": [
-          "stockQuantity"
-        ],
-        "type": "object",
-        "properties": {
-          "stockQuantity": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateCatalogTypeModel": {
-        "required": [
-          "catalogTypeId"
-        ],
-        "type": "object",
-        "properties": {
-          "catalogTypeId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateProfileInformationModel": {
-        "type": "object",
-        "properties": {
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "nullable": true
-          },
-          "profilePictureUrl": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateReviewModel": {
-        "required": [
-          "userId"
-        ],
-        "type": "object",
-        "properties": {
-          "userId": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "rating": {
-            "type": "number",
-            "format": "double"
-          },
-          "reviewText": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateTypeModel": {
-        "required": [
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "type": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "WishlistDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/WishlistItemDTO"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "WishlistItemDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "catalogItemId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "productName": {
-            "type": "string",
-            "nullable": true
-          },
-          "pictureUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "wishlistId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      }
-    },
-    "securitySchemes": {
-      "Bearer": {
-        "type": "apiKey",
-        "description": "JWT Authorization header using the Bearer scheme.",
-        "name": "Authorization",
-        "in": "header"
-      }
-    }
-  },
-  "security": [
-    {
-      "Bearer": [ ]
-    }
-  ]
-}
+## What This Guide Is For
 
-Swift UIKit MVVM E-Commerce App Architecture
-Project Structure Overview
+This document defines the architectural standards and best practices for building a production-ready iOS e-commerce application using the MVVM (Model-View-ViewModel) pattern. It ensures:
+
+- **Consistent Code Structure**: All developers follow the same patterns and conventions
+- **Maintainability**: Clear separation of concerns makes code easier to understand and modify
+- **Scalability**: Proper architecture allows the app to grow without becoming unmanageable
+- **Quality**: Enforces modern Swift best practices and avoids common antipatterns
+
+Use this guide as a reference when:
+- Creating new features or modules
+- Refactoring existing code
+- Reviewing code for compliance
+- Onboarding new team members
+
+---
+
+## Project Structure Overview
 ECommerceApp/
 ├── App/
 │   ├── AppDelegate.swift
@@ -3711,674 +219,556 @@ ECommerceApp/
     └── Colors.xcassets/
 
 
-Swift MVVM E-Commerce App - Development Order
-Phase 1: Foundation & Infrastructure (Week 1)
-These are the base layers that everything else depends on.
-Step 1: Project Setup
+## MVVM ARCHITECTURE - BEST PRACTICES
 
- Create new Xcode project (Single View App, Swift, UIKit)
- Remove Main.storyboard from project
- Configure SceneDelegate to use code-based UI
- Set up folder structure as per architecture
- Add .gitignore and initialize Git repository
+### Core Principles
+1. **Single Responsibility**: Each layer has ONE clear purpose
+2. **Dependency Injection**: Never use default parameters or singletons directly
+3. **Unidirectional Data Flow**: View → ViewModel → Service → Network
+4. **Immutability**: Prefer immutable models, expose mutable state carefully
 
-Files to Create:
-ECommerceApp/
-├── App/
-│   ├── AppDelegate.swift (modify)
-│   ├── SceneDelegate.swift (modify)
-│   └── Constants.swift
-Step 2: Network Layer - Foundation
-Start with the basic network infrastructure before services.
-Create these files IN THIS ORDER:
-2.1 APIError.swift
+---
 
- Define all error types
- Add error descriptions for UI
+### MODEL LAYER
 
-swift// Dependencies: None
-// Used by: APIClient, Services, ViewModels
-2.2 APIEndpoints.swift
+#### DTOs (Data Transfer Objects)
+**Location**: `Network/NetworkModels/DTOs.swift`
+**Purpose**: ONLY for network serialization/deserialization
 
- Create APIEndpoint enum
- Add all endpoint paths
- Define HTTP methods
- Build request body logic
+**Rules**:
+- ✅ Only used in Network and Service layers
+- ✅ Conform to Codable
+- ✅ Use CodingKeys for API field mapping
+- ✅ Optional properties where API might omit them
+- ❌ NEVER used in ViewModels or ViewControllers
+- ❌ NO business logic
+- ❌ NO computed properties
 
-swift// Dependencies: RequestModels.swift (create next)
-// Used by: APIClient
-2.3 NetworkModels/RequestModels.swift
-
- Create all request models (LoginModel, RegisterModel, etc.)
- These match your OpenAPI spec exactly
-
-swift// Dependencies: None
-// Used by: APIEndpoints.swift, Services
-2.4 NetworkModels/DTOs.swift
-
- Create all DTO models (response models from API)
- CartDTO, CatalogItemDTO, OrderDTO, etc.
- Make them Codable for JSON parsing
-
-swift// Dependencies: None
-// Used by: APIClient, Services
-2.5 Managers/TokenManager.swift
-
- Store JWT tokens securely in Keychain
- Retrieve tokens
- Check token validity
- Clear tokens
-
-swift// Dependencies: None
-// Used by: AuthenticationInterceptor, APIClient
-2.6 Network Interceptors
-Create in this order (important for dependencies):
-2.6.1 Interceptor Protocols
-swift// Dependencies: None
-// Create: RequestInterceptor protocol, ResponseInterceptor protocol
-2.6.2 HeaderInterceptor
-swift// Dependencies: Interceptor protocols, Bundle extension
-2.6.3 AuthenticationInterceptor
-swift// Dependencies: Interceptor protocols, TokenManager
-2.6.4 LoggingInterceptor
-swift// Dependencies: Interceptor protocols
-2.6.5 ErrorHandlingInterceptor
-swift// Dependencies: Interceptor protocols, APIError
-2.6.6 TokenRefreshInterceptor
-swift// Dependencies: Interceptor protocols, TokenManager, AuthService (created later)
-// NOTE: Create placeholder for now, implement after AuthService
-2.6.7 CachingInterceptor (Optional for MVP)
-swift// Dependencies: Interceptor protocols, CacheManager
-2.6.8 RateLimitingInterceptor (Optional for MVP)
-swift// Dependencies: Interceptor protocols
-2.7 APIClient.swift
-
- Create URLSession configuration
- Implement request method for generic types
- Implement request method for Void response
- Add interceptor registration
- Add response decoding logic
- Add error handling
-
-swift// Dependencies: APIError, APIEndpoints, RequestModels, DTOs, Interceptors
-// Used by: All Services
-
-Phase 2: Models & Utilities (Week 1 - Continued)
-Foundation for ViewModel data handling.
-Step 3: Models Layer
-3.1 Models/Enums.swift
-
- UserRole enum (user, admin)
- OrderStatus enum (pending, confirmed, delivered)
- SortOption enum (price asc/desc, rating, newest)
- FilterOption struct
-
-swift// Dependencies: None
-// Used by: LocalModels, ViewModels
-3.2 Models/LocalModels.swift
-
- User (local representation)
- Product (from CatalogItemDTO)
- CartItem (from CartItemDTO)
- Order (from OrderDTO)
- Review (from CatalogItemReviewDTO)
- Brand (from CatalogBrandDTO)
- CartType (from CatalogTypeDTO)
-
-swift// Dependencies: DTOs
-// Used by: Services, ViewModels
-// NOTE: These are simpler versions of DTOs for app use
-3.3 Models/CoreDataStack.swift
-
- Create NSPersistentContainer
- Setup Core Data stack
- Add save/fetch methods
- Add delete methods
-
-swift// Dependencies: None
-// Used by: DatabaseManager
-Step 4: Managers Layer
-4.1 Managers/KeychainManager.swift
-
- Store sensitive data
- Retrieve sensitive data
- Delete sensitive data
-
-swift// Dependencies: None
-// Used by: TokenManager, Services
-4.2 Managers/UserDefaultsManager.swift
-
- Store app preferences
- Store user settings
- Store cache flags
- Singleton pattern
-
-swift// Dependencies: None
-// Used by: ViewModels, App initialization
-4.3 Managers/CacheManager.swift
-
- Cache images
- Cache API responses
- Invalidate cache
- Check cache expiration
-
-swift// Dependencies: None
-// Used by: CachingInterceptor, Services
-4.4 Managers/DatabaseManager.swift
-
- Wrapper around CoreDataStack
- Save cart locally
- Load cart from cache
- Sync with server
-
-swift// Dependencies: CoreDataStack, LocalModels
-// Used by: Services
-Step 5: Utilities
-5.1 Extensions
-
- UIViewController+Extensions (alerts, loading, safe area)
- UIView+Extensions (constraints, colors, corners)
- String+Extensions (validation, trim)
- Date+Extensions (formatting, time ago)
- URL+Extensions (query params)
- Bundle+Extensions (app version)
-
-swift// Dependencies: UIKit
-// Used by: ViewControllers, Utilities
-5.2 Validators
-
- EmailValidator
- PasswordValidator (min 8 chars, uppercase, number, special char)
- FormValidator (generic field validation)
- PhoneValidator
-
-swift// Dependencies: None
-// Used by: ViewModels
-5.3 Formatters
-
- PriceFormatter (currency formatting)
- DateFormatter (consistent date format)
- NumberFormatter (thousands separator)
-
-swift// Dependencies: Foundation
-// Used by: ViewModels, ViewControllers
-5.4 Helpers
-
- AlertHelper (standardized alerts)
- NavigationHelper (common navigation patterns)
- LoggingHelper (centralized logging)
-
-swift// Dependencies: UIKit
-// Used by: ViewControllers, Services
-
-Phase 3: Services Layer (Week 2)
-The bridge between ViewModels and Network layer.
-Step 6: Create Service Protocols & Implementations
-6.1 Base Service Protocol
-swiftprotocol ServiceProtocol {
-    // Common methods if any
+**Example**:
+```swift
+struct CatalogItemDTO: Codable {
+    let id: Int
+    let name: String?
+    let price: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name = "product_name"
+        case price
+    }
 }
-6.2 AuthService (CRITICAL - Others depend on it)
-Files:
+```
 
-Services/Auth/AuthServiceProtocol.swift
-Services/Auth/AuthService.swift
+#### Domain Models (LocalModels)
+**Location**: `Models/LocalModels.swift`
+**Purpose**: Business logic, app-wide usage
 
-Implement:
-swift- login(email, password) → token
-- register(email, password, firstName, lastName) → token
-- logout()
-- getCurrentUserId()
-- changePassword()
-- refreshToken()
-swift// Dependencies: APIClient, DTOs
-// Used by: LoginViewModel, TokenRefreshInterceptor
-IMPORTANT: Now go back and implement TokenRefreshInterceptor with AuthService
-6.3 UserService
-Files:
+**Rules**:
+- ✅ Used everywhere except Network layer
+- ✅ Value types (struct) preferred
+- ✅ Computed properties for formatting
+- ✅ Business validation logic
+- ✅ Equatable, Identifiable conformance
+- ✅ Immutable by default
+- ✅ Init from DTO in Service layer, not in model
 
-Services/User/UserServiceProtocol.swift
-Services/User/UserService.swift
+**Example**:
+```swift
+struct Product: Identifiable, Equatable {
+    let id: Int
+    let name: String
+    let price: Decimal
+    let imageURL: URL?
+    
+    var formattedPrice: String {
+        PriceFormatter.format(price)
+    }
+    
+    var isAvailable: Bool {
+        price > 0
+    }
+}
+```
 
-swift// Dependencies: APIClient
-// Used by: ProfileViewModel
-6.4 CatalogService
-Files:
+---
 
-Services/Product/CatalogServiceProtocol.swift
-Services/Product/CatalogService.swift
+### SERVICE LAYER
 
-swift// Dependencies: APIClient
-// Used by: ProductListViewModel, ProductDetailViewModel
-6.5 BrandService
-Files:
+#### Service Responsibilities
+**Purpose**: Bridge between Network and Business Logic
 
-Services/Product/BrandServiceProtocol.swift
-Services/Product/BrandService.swift
+**MUST DO**:
+- ✅ Convert DTOs → Domain Models
+- ✅ Handle business logic (token refresh, data aggregation)
+- ✅ Return Domain Models, NEVER DTOs
+- ✅ Use async/await (NO callbacks)
+- ✅ Throw domain-specific errors
+- ✅ Be protocol-based ONLY if you have multiple implementations
 
-swift// Dependencies: APIClient
-// Used by: BrandListViewModel
-6.6 TypeService
-Files:
+**MUST NOT DO**:
+- ❌ Expose DTOs to callers
+- ❌ Use withCheckedThrowingContinuation (make network layer async)
+- ❌ Save state (use repositories/managers)
+- ❌ Call ViewModels
+- ❌ Use print statements (use os.Logger)
 
-Services/Product/TypeServiceProtocol.swift
-Services/Product/TypeService.swift
-
-swift// Dependencies: APIClient
-// Used by: TypeListViewModel
-6.7 CartService
-Files:
-
-Services/Cart/CartServiceProtocol.swift
-Services/Cart/CartService.swift
-
-swift// Dependencies: APIClient, DatabaseManager (for caching)
-// Used by: CartViewModel, ProductDetailViewModel
-6.8 WishlistService
-Files:
-
-Services/Wishlist/WishlistServiceProtocol.swift
-Services/Wishlist/WishlistService.swift
-
-swift// Dependencies: APIClient
-// Used by: WishlistViewModel, ProductDetailViewModel
-6.9 OrderService
-Files:
-
-Services/Order/OrderServiceProtocol.swift
-Services/Order/OrderService.swift
-
-swift// Dependencies: APIClient
-// Used by: OrderListViewModel, CheckoutViewModel
-6.10 ReviewService
-Files:
-
-Services/Review/ReviewServiceProtocol.swift
-Services/Review/ReviewService.swift
-
-swift// Dependencies: APIClient
-// Used by: ReviewListViewModel, ProductDetailViewModel
-6.11 AdminService (Optional for MVP)
-Files:
-
-Services/Admin/AdminServiceProtocol.swift
-Services/Admin/AdminService.swift
-
-swift// Dependencies: APIClient
-// Used by: AdminViewModels
-6.12 ServiceContainer
-
- Create singleton that holds all services
- Dependency injection for APIClient
- Initialize all services
-
-swiftclass ServiceContainer {
-    let authService: AuthServiceProtocol
-    let catalogService: CatalogServiceProtocol
-    let cartService: CartServiceProtocol
-    // ... all services
+**Example**:
+```swift
+protocol AuthServiceProtocol {
+    func login(email: String, password: String) async throws -> User
 }
 
-Phase 4: ViewModel Layer (Week 2-3)
-Business logic and state management.
-Step 7: Base ViewModel & Observable
-7.1 Observable<T> Class
-
- Generic observable for reactive binding
- bind() method for observers
- didSet to notify observers
-
-swift// Dependencies: None
-// Used by: All ViewModels
-7.2 BaseViewModel
-
- isLoading observable
- error observable
- Common methods
-
-swift// Dependencies: Observable
-// Used by: All specific ViewModels
-Step 8: Auth ViewModels
-8.1 LoginViewModel
-
- Email/password validation
- Login logic
- Success/error handling
-
-swift// Dependencies: AuthService, TokenManager, BaseViewModel, Observable
-// Used by: LoginViewController
-8.2 RegisterViewModel
-swift// Dependencies: AuthService, BaseViewModel, Observable
-// Used by: RegisterViewController
-8.3 PasswordResetViewModel
-swift// Dependencies: AuthService, BaseViewModel, Observable
-// Used by: PasswordResetViewController
-8.4 ChangePasswordViewModel
-swift// Dependencies: AuthService, BaseViewModel, Observable
-// Used by: ChangePasswordViewController
-Step 9: Catalog ViewModels
-9.1 ProductListViewModel
-
- Load all products
- Filter by brand
- Filter by type
- Search functionality
- Sort products
-
-swift// Dependencies: CatalogService, BaseViewModel, Observable
-// Used by: ProductListViewController
-9.2 ProductDetailViewModel
-
- Load single product
- Load reviews for product
- Add to cart logic
- Add to wishlist logic
-
-swift// Dependencies: CatalogService, CartService, WishlistService, ReviewService, BaseViewModel, Observable
-// Used by: ProductDetailViewController
-9.3 BrandListViewModel
-swift// Dependencies: BrandService, BaseViewModel, Observable
-// Used by: BrandListViewController
-9.4 TypeListViewModel
-swift// Dependencies: TypeService, BaseViewModel, Observable
-// Used by: TypeListViewController
-Step 10: Cart & Order ViewModels
-10.1 CartViewModel
-
- Load cart
- Update quantities
- Remove items
- Calculate totals
-
-swift// Dependencies: CartService, BaseViewModel, Observable
-// Used by: CartViewController
-10.2 CheckoutViewModel
-
- Create order from cart
- Validate shipping info
- Calculate final total with shipping
-
-swift// Dependencies: OrderService, CartService, BaseViewModel, Observable
-// Used by: CheckoutViewController
-10.3 OrderListViewModel
-swift// Dependencies: OrderService, BaseViewModel, Observable
-// Used by: OrderListViewController
-10.4 OrderDetailViewModel
-swift// Dependencies: OrderService, BaseViewModel, Observable
-// Used by: OrderDetailViewController
-Step 11: Wishlist & Review ViewModels
-11.1 WishlistViewModel
-swift// Dependencies: WishlistService, BaseViewModel, Observable
-// Used by: WishlistViewController
-11.2 ReviewListViewModel
-swift// Dependencies: ReviewService, BaseViewModel, Observable
-// Used by: ReviewListViewController
-11.3 CreateReviewViewModel
-swift// Dependencies: ReviewService, BaseViewModel, Observable
-// Used by: CreateReviewViewController
-11.4 EditReviewViewModel
-swift// Dependencies: ReviewService, BaseViewModel, Observable
-// Used by: EditReviewViewController
-Step 12: Profile ViewModels
-12.1 ProfileViewModel
-swift// Dependencies: UserService, BaseViewModel, Observable
-// Used by: ProfileViewController
-12.2 EditProfileViewModel
-swift// Dependencies: UserService, BaseViewModel, Observable
-// Used by: EditProfileViewController
-
-Phase 5: View Controller Layer (Week 3-4)
-UI presentation and user interaction.
-Step 13: Base ViewControllers
-13.1 BaseViewController
-
- Common setup
- Navigation bar styling
- Loading indicator
- Error alert display
- Safe area handling
-
-swift// Dependencies: UIKit, Extensions
-// Used by: All specific ViewControllers
-13.2 Create Custom Views/Cells (Reusable)
-Before creating ViewControllers, create the cells and custom views:
-Cart Views:
-
- CartItemCell
- CartSummaryView
-
-Catalog Views:
-
- ProductCell
- BrandCell
- TypeCell
-
-Order Views:
-
- OrderCell
- OrderItemCell
- ShippingDetailsView
-
-Review Views:
-
- ReviewCell
- RatingView
-
-Common Views:
-
- LoadingView
- EmptyStateView
- ErrorView
-
-Step 14: Auth ViewControllers
-14.1 LoginViewController
-
- Create UI (email, password, login button)
- Bind ViewModel
- Handle login success
- Show validation errors
- Navigate to register/password reset
-
-swift// Dependencies: LoginViewModel, BaseViewController
-// Used by: AuthCoordinator
-14.2 RegisterViewController
-swift// Dependencies: RegisterViewModel, BaseViewController
-// Used by: AuthCoordinator
-14.3 PasswordResetViewController
-swift// Dependencies: PasswordResetViewModel, BaseViewController
-// Used by: AuthCoordinator
-14.4 ChangePasswordViewController
-swift// Dependencies: ChangePasswordViewModel, BaseViewController
-// Used by: ProfileCoordinator
-Step 15: Catalog ViewControllers
-15.1 ProductListViewController
-
- UITableViewController or UICollectionViewController
- Load and display products
- Search bar
- Filter buttons
- Navigate to detail on tap
-
-swift// Dependencies: ProductListViewModel, ProductCell, BaseViewController
-// Used by: HomeCoordinator
-15.2 ProductDetailViewController
-
- Image carousel
- Product info
- Price display
- Reviews section
- Add to cart button
- Add to wishlist button
-
-swift// Dependencies: ProductDetailViewModel, ReviewCell, BaseViewController
-// Used by: HomeCoordinator
-15.3 BrandListViewController
-swift// Dependencies: BrandListViewModel, BrandCell, BaseViewController
-// Used by: HomeCoordinator
-15.4 TypeListViewController
-swift// Dependencies: TypeListViewModel, TypeCell, BaseViewController
-// Used by: HomeCoordinator
-Step 16: Cart ViewControllers
-16.1 CartViewController
-
- Display cart items
- Update quantity controls
- Remove item buttons
- Cart summary (subtotal, total)
- Checkout button
-
-swift// Dependencies: CartViewModel, CartItemCell, CartSummaryView, BaseViewController
-// Used by: CartCoordinator
-Step 17: Order ViewControllers
-17.1 OrderListViewController
-swift// Dependencies: OrderListViewModel, OrderCell, BaseViewController
-// Used by: OrderCoordinator
-17.2 OrderDetailViewController
-swift// Dependencies: OrderDetailViewModel, OrderItemCell, BaseViewController
-// Used by: OrderCoordinator
-17.3 CheckoutViewController
-
- Shipping method selection
- Address input
- Phone number input
- Order summary
- Place order button
-
-swift// Dependencies: CheckoutViewModel, ShippingDetailsView, CartSummaryView, BaseViewController
-// Used by: CartCoordinator
-17.4 OrderConfirmationViewController
-swift// Dependencies: OrderConfirmationViewModel, BaseViewController
-// Used by: CartCoordinator
-Step 18: Wishlist ViewControllers
-18.1 WishlistViewController
-swift// Dependencies: WishlistViewModel, ProductCell, BaseViewController
-// Used by: HomeCoordinator
-Step 19: Review ViewControllers
-19.1 ReviewListViewController
-swift// Dependencies: ReviewListViewModel, ReviewCell, BaseViewController
-// Used by: ProductDetailViewController
-19.2 CreateReviewViewController
-swift// Dependencies: CreateReviewViewModel, RatingView, BaseViewController
-// Used by: ProductCoordinator
-19.3 EditReviewViewController
-swift// Dependencies: EditReviewViewModel, RatingView, BaseViewController
-// Used by: ProductCoordinator
-Step 20: Profile ViewControllers
-20.1 ProfileViewController
-swift// Dependencies: ProfileViewModel, BaseViewController
-// Used by: ProfileCoordinator
-20.2 EditProfileViewController
-swift// Dependencies: EditProfileViewModel, BaseViewController
-// Used by: ProfileCoordinator
-
-Phase 6: Navigation & Coordination (Week 4)
-Step 21: Coordinator Pattern
-21.1 Coordinator Protocol
-
- Define interface
- navigationController property
- childCoordinators array
- start() method
-
-21.2 AppCoordinator
-
- Root coordinator
- Check if user is logged in
- Route to auth or home
- Manage child coordinators
-
-swift// Dependencies: UIKit, Services, ViewControllers
-// Used by: SceneDelegate
-21.3 AuthCoordinator
-
- Manage auth flow
- Show login
- Show register
- Show password reset
- Notify when auth completes
-
-swift// Dependencies: Coordinator, LoginViewController, etc.
-// Used by: AppCoordinator
-21.4 HomeCoordinator
-
- Manage home/catalog flow
- Show product list
- Show product detail
- Show filter screens
-
-swift// Dependencies: Coordinator, ProductListViewController, etc.
-// Used by: AppCoordinator
-21.5 CartCoordinator
-
- Manage cart flow
- Show cart
- Show checkout
- Show confirmation
-
-swift// Dependencies: Coordinator, CartViewController, etc.
-// Used by: AppCoordinator
-21.6 OrderCoordinator
-
- Manage order flow
- Show orders
- Show order detail
-
-swift// Dependencies: Coordinator, OrderListViewController, etc.
-// Used by: AppCoordinator
-21.7 ProfileCoordinator
-
- Manage profile flow
- Show profile
- Show edit profile
-
-swift// Dependencies: Coordinator, ProfileViewController, etc.
-// Used by: AppCoordinator
-
-Phase 7: Integration & App Setup (Week 4)
-Step 22: SceneDelegate & AppDelegate Setup
-
- Initialize ServiceContainer
- Create APIClient with all interceptors
- Create AppCoordinator
- Set window root view controller
- Handle deeplinks if needed
-
-swift// AppDelegate.swift
-// SceneDelegate.swift
-Step 23: Test the Flows
-
- Test authentication flow (login → home)
- Test product browsing (list → detail)
- Test cart operations (add → update → remove)
- Test checkout flow (cart → shipping → confirmation)
- Test error handling (network errors, validation)
- Test token refresh (401 response)
-
-
-Phase 8: Polish & Testing (Week 5)
-Step 24: Error Handling & Edge Cases
-
- Handle network timeouts
- Handle empty states
- Handle loading states
- Handle validation errors
- Test with poor network conditions
-
-Step 25: Unit Tests (Optional but Recommended)
-
- LoginViewModelTests
- CartViewModelTests
- CheckoutViewModelTests
- ValidatorTests
- FormatterTests
-
-Step 26: Polish
-
- Add images and assets
- Improve UI/styling
- Add animations
- Optimize performance
- Add app icon
- Add launch screen
-
-write code without any comments
+final class AuthService: AuthServiceProtocol {
+    private let apiClient: APIClient
+    private let tokenManager: TokenManager
+    
+    init(apiClient: APIClient, tokenManager: TokenManager) {
+        self.apiClient = apiClient
+        self.tokenManager = tokenManager
+    }
+    
+    func login(email: String, password: String) async throws -> User {
+        let dto = try await apiClient.login(email: email, password: password)
+        tokenManager.save(dto.token)
+        return User(dto: dto)
+    }
+}
+```
+
+---
+
+### VIEWMODEL LAYER
+
+#### ViewModel Responsibilities
+**Purpose**: Presentation logic and state management
+
+**State Management**:
+```swift
+@MainActor
+final class LoginViewModel: ObservableObject {
+    enum State {
+        case idle
+        case loading
+        case success(User)
+        case error(String)
+    }
+    
+    @Published private(set) var state: State = .idle
+    
+    private let authService: AuthServiceProtocol
+    private var loginTask: Task<Void, Never>?
+    
+    init(authService: AuthServiceProtocol) {
+        self.authService = authService
+    }
+    
+    func login(email: String, password: String) {
+        loginTask?.cancel()
+        
+        loginTask = Task {
+            state = .loading
+            
+            do {
+                let user = try await authService.login(email: email, password: password)
+                state = .success(user)
+            } catch {
+                state = .error(error.localizedDescription)
+            }
+        }
+    }
+    
+    func cancelLogin() {
+        loginTask?.cancel()
+    }
+}
+```
+
+**MUST DO**:
+- ✅ Mark with @MainActor
+- ✅ Use @Published for observable state
+- ✅ Store Task references for cancellation
+- ✅ Use State enum (idle/loading/success/error)
+- ✅ All properties private(set)
+- ✅ Validation methods return Result<Void, ValidationError>
+- ✅ Inject all dependencies via init
+- ✅ Clear, single-purpose methods
+
+**MUST NOT DO**:
+- ❌ Public mutable properties (var email: String = "")
+- ❌ Closure-based callbacks (onSuccess, onError)
+- ❌ Direct UIKit imports
+- ❌ Manual MainActor.run { }
+- ❌ Default parameter dependencies
+- ❌ Retain cycle risks
+- ❌ Multiple responsibilities
+
+---
+
+### VIEW LAYER (ViewControllers)
+
+#### ViewController Responsibilities
+**Purpose**: Display data, forward user actions
+
+**MUST DO**:
+- ✅ Observe ViewModel @Published properties
+- ✅ Render ViewModel state
+- ✅ Forward user actions to ViewModel
+- ✅ Use Combine for bindings
+- ✅ Cancel subscriptions in deinit
+- ✅ Dependency injection via init
+
+**MUST NOT DO**:
+- ❌ Business logic
+- ❌ Network calls
+- ❌ Data transformation
+- ❌ Validation logic
+- ❌ Direct Service access
+- ❌ Mutable ViewModel state
+
+**Example**:
+```swift
+final class LoginViewController: UIViewController {
+    private let viewModel: LoginViewModel
+    private var cancellables = Set<AnyCancellable>()
+    
+    init(viewModel: LoginViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupBindings()
+    }
+    
+    private func setupBindings() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.render(state)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func render(_ state: LoginViewModel.State) {
+        switch state {
+        case .idle:
+            hideLoading()
+        case .loading:
+            showLoading()
+        case .success(let user):
+            handleSuccess(user)
+        case .error(let message):
+            showError(message)
+        }
+    }
+    
+    @objc private func loginTapped() {
+        viewModel.login(
+            email: emailTextField.text ?? "",
+            password: passwordTextField.text ?? ""
+        )
+    }
+}
+```
+
+---
+
+### NETWORK LAYER
+
+#### APIClient
+**MUST BE**:
+- ✅ Native async/await (NO callbacks)
+- ✅ Separate concerns (URLBuilder, Logger, etc.)
+- ✅ Generic error handling
+
+**Example**:
+```swift
+protocol APIClientProtocol {
+    func request<T: Decodable>(_ endpoint: APIEndpoint) async throws -> T
+    func request(_ endpoint: APIEndpoint) async throws
+}
+
+final class APIClient: APIClientProtocol {
+    private let session: URLSession
+    private let logger: Logger
+    
+    func request<T: Decodable>(_ endpoint: APIEndpoint) async throws -> T {
+        let request = try endpoint.makeRequest()
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIError.invalidResponse
+        }
+        
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw APIError.httpError(httpResponse.statusCode)
+        }
+        
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+}
+```
+
+---
+
+### DEPENDENCY INJECTION
+
+#### Container Pattern
+```swift
+final class DependencyContainer {
+    private let apiClient: APIClientProtocol
+    private let tokenManager: TokenManager
+    
+    init() {
+        self.tokenManager = KeychainTokenManager()
+        self.apiClient = APIClient(tokenManager: tokenManager)
+    }
+    
+    func makeAuthService() -> AuthServiceProtocol {
+        AuthService(apiClient: apiClient, tokenManager: tokenManager)
+    }
+    
+    func makeLoginViewModel() -> LoginViewModel {
+        LoginViewModel(authService: makeAuthService())
+    }
+}
+```
+
+#### Usage in Coordinator
+```swift
+final class AuthCoordinator {
+    private let container: DependencyContainer
+    
+    init(container: DependencyContainer) {
+        self.container = container
+    }
+    
+    func showLogin() {
+        let viewModel = container.makeLoginViewModel()
+        let viewController = LoginViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+}
+```
+
+---
+
+### ERROR HANDLING
+
+#### Domain Errors
+```swift
+enum AuthError: LocalizedError {
+    case invalidCredentials
+    case emailNotVerified
+    case accountLocked
+    case networkUnavailable
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidCredentials:
+            return "Invalid email or password"
+        case .emailNotVerified:
+            return "Please verify your email"
+        case .accountLocked:
+            return "Your account has been locked"
+        case .networkUnavailable:
+            return "No internet connection"
+        }
+    }
+}
+```
+
+#### Service Layer Error Mapping
+```swift
+func login(email: String, password: String) async throws -> User {
+    do {
+        let dto = try await apiClient.login(email: email, password: password)
+        return User(dto: dto)
+    } catch let apiError as APIError {
+        throw mapToAuthError(apiError)
+    }
+}
+
+private func mapToAuthError(_ error: APIError) -> AuthError {
+    switch error {
+    case .httpError(401):
+        return .invalidCredentials
+    case .httpError(403):
+        return .accountLocked
+    case .networkError:
+        return .networkUnavailable
+    default:
+        return .networkUnavailable
+    }
+}
+```
+
+---
+
+### DATA FLOW EXAMPLE
+
+```
+User Action (Login Button)
+    ↓
+ViewController.loginTapped()
+    ↓
+ViewModel.login(email:password:)
+    ↓
+AuthService.login(email:password:) → Returns User
+    ↓
+APIClient.request(.login) → Returns TokenDTO
+    ↓
+AuthService converts TokenDTO → User
+    ↓
+ViewModel.state = .success(User)
+    ↓
+ViewController observes state change
+    ↓
+ViewController.render(.success(User))
+    ↓
+UI Updates
+```
+
+---
+
+### ANTI-PATTERNS TO AVOID
+
+#### ❌ Services Returning DTOs
+```swift
+func getCart() async throws -> CartDTO  // WRONG
+func getCart() async throws -> Cart     // CORRECT
+```
+
+#### ❌ Callback-Based ViewModels
+```swift
+var onSuccess: ((User) -> Void)?  // WRONG
+@Published var state: State        // CORRECT
+```
+
+#### ❌ Mutable Public Properties
+```swift
+var email: String = ""             // WRONG
+private(set) var email: String     // BETTER
+func updateEmail(_ email: String)  // BEST
+```
+
+#### ❌ Default Dependencies
+```swift
+init(service: Service = Service())  // WRONG
+init(service: Service)              // CORRECT
+```
+
+#### ❌ ViewModels Without @MainActor
+```swift
+class LoginViewModel { }            // WRONG
+@MainActor class LoginViewModel { } // CORRECT
+```
+
+#### ❌ Multiple State Properties
+```swift
+var isLoading: Bool
+var error: String?
+var user: User?                     // WRONG
+
+enum State {
+    case loading
+    case error(String)
+    case success(User)
+}                                   // CORRECT
+```
+
+---
+
+### TESTING REQUIREMENTS
+
+#### Code Style
+- ✅ No comments in code (self-documenting)
+- ✅ No print statements (use os.Logger)
+- ✅ Use SnapKit for constraints
+- ✅ All changes in ayaq/ folder
+- ✅ SwiftLint compliant
+- ✅ Max 200 lines per file
+- ✅ Do not create .md documentation
+
+#### Naming Conventions
+- ViewModels: `<Feature>ViewModel`
+- Services: `<Feature>Service`
+- Models: Clear domain names (User, Product, Order)
+- DTOs: `<Name>DTO`
+- Protocols: Only when multiple implementations exist
+
+#### File Organization
+- One model per file if >100 lines
+- Group related ViewModels in folders
+- Services in feature folders
+- Shared utilities in Utilities/
+
+---
+
+### PERFORMANCE
+
+#### Async Operations
+- ✅ Always store Task references
+- ✅ Cancel tasks when appropriate
+- ✅ Use Task groups for parallel operations
+- ✅ Avoid blocking main thread
+
+#### Memory
+- ✅ Use weak self in closures
+- ✅ Cancel subscriptions in deinit
+- ✅ Unsubscribe from observers
+- ✅ Release large objects
+
+---
+
+### SECURITY
+
+#### Token Storage
+- ✅ Store sensitive data in Keychain
+- ❌ Never use UserDefaults for tokens
+- ✅ Clear tokens on logout
+- ✅ Handle token refresh
+
+#### Validation
+- ✅ Client-side validation in ViewModel
+- ✅ Server-side validation always checked
+- ✅ Sanitize user inputs
+- ✅ Use proper error messages
+
+---
+
+### COLORS
+
+#### Color System
+**Location**: `Utilities/Colors.swift`
+**Purpose**: Centralized color definitions for consistent UI
+
+**MUST USE**:
+- ✅ AppColors.primary (#F83758)
+- ✅ AppColors.primaryLight (#FF5B7A)
+- ✅ AppColors.primaryDark (#C92140)
+- ✅ AppColors.background (#FFFFFF)
+- ✅ AppColors.surface (#F5F5F5)
+- ✅ AppColors.textPrimary (#212121)
+- ✅ AppColors.textSecondary (#757575)
+- ✅ AppColors.divider (#E0E0E0)
+- ✅ AppColors.error (#D32F2F)
+- ✅ AppColors.success (#388E3C)
+
+**MUST NOT**:
+- ❌ Hardcode colors (UIColor.red, .systemBlue, etc.)
+- ❌ Use hex literals directly (.backgroundColor = UIColor(hex: "#123456"))
+- ❌ Create custom colors outside AppColors
+- ❌ Use system colors except for transparent/clear
+
+**Example**:
+```swift
+view.backgroundColor = AppColors.background
+titleLabel.textColor = AppColors.textPrimary
+button.setTitleColor(AppColors.primary, for: .normal)
+errorLabel.textColor = AppColors.error
+```
+
+
+

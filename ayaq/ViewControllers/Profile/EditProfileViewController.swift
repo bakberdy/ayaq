@@ -21,137 +21,91 @@ final class EditProfileViewController: UIViewController {
         return view
     }()
     
+    private lazy var avatarContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 65
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.12
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 12
+        return view
+    }()
+    
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = AppColors.surface
-        imageView.layer.cornerRadius = 60
-        imageView.layer.borderWidth = 3
-        imageView.layer.borderColor = AppColors.primary.cgColor
+        imageView.layer.cornerRadius = 58
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private lazy var changePhotoButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Change Photo", for: .normal)
-        button.setTitleColor(AppColors.primary, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    private lazy var editAvatarIconView: UIView = {
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.backgroundColor = AppColors.primary
+        container.layer.cornerRadius = 18
+        container.layer.borderWidth = 3
+        container.layer.borderColor = UIColor.white.cgColor
+        
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "camera.fill")
+        imageView.tintColor = .white
+        imageView.contentMode = .scaleAspectFit
+        
+        container.addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            imageView.widthAnchor.constraint(equalToConstant: 18),
+            imageView.heightAnchor.constraint(equalToConstant: 18)
+        ])
+        
+        return container
     }()
     
-    private lazy var formContainerView: UIView = {
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Edit Profile"
+        label.font = .systemFont(ofSize: 28, weight: .bold)
+        label.textColor = AppColors.textPrimary
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private lazy var subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Update your personal information"
+        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.textColor = AppColors.textSecondary
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private lazy var firstNameField = ModernTextField(type: .name, placeholder: "First name")
+    private lazy var lastNameField = ModernTextField(type: .name, placeholder: "Last name")
+    private lazy var profilePictureField = ModernTextField(type: .default, placeholder: "Profile picture URL (optional)")
+    
+    private lazy var saveButton = ModernButton(title: "Save Changes", style: .primary)
+    private lazy var cancelButton = ModernButton(title: "Cancel", style: .secondary)
+    
+    private lazy var loadingOverlay: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 16
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.08
-        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowRadius = 8
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        view.isHidden = true
         return view
-    }()
-    
-    private lazy var firstNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "First Name"
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
-        label.textColor = AppColors.textPrimary
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var firstNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Enter your first name"
-        textField.font = .systemFont(ofSize: 16, weight: .regular)
-        textField.textColor = AppColors.textPrimary
-        textField.borderStyle = .none
-        textField.backgroundColor = AppColors.surface
-        textField.layer.cornerRadius = 8
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
-        textField.leftViewMode = .always
-        textField.autocapitalizationType = .words
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
-    
-    private lazy var lastNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Last Name"
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
-        label.textColor = AppColors.textPrimary
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var lastNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Enter your last name"
-        textField.font = .systemFont(ofSize: 16, weight: .regular)
-        textField.textColor = AppColors.textPrimary
-        textField.borderStyle = .none
-        textField.backgroundColor = AppColors.surface
-        textField.layer.cornerRadius = 8
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
-        textField.leftViewMode = .always
-        textField.autocapitalizationType = .words
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
-    
-    private lazy var profilePictureLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Profile Picture URL (Optional)"
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
-        label.textColor = AppColors.textPrimary
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var profilePictureTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "https://example.com/avatar.jpg"
-        textField.font = .systemFont(ofSize: 16, weight: .regular)
-        textField.textColor = AppColors.textPrimary
-        textField.borderStyle = .none
-        textField.backgroundColor = AppColors.surface
-        textField.layer.cornerRadius = 8
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
-        textField.leftViewMode = .always
-        textField.autocapitalizationType = .none
-        textField.keyboardType = .URL
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
-    
-    private lazy var saveButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Save Changes", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = AppColors.primary
-        button.layer.cornerRadius = 12
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private lazy var cancelButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Cancel", for: .normal)
-        button.setTitleColor(AppColors.textSecondary, for: .normal)
-        button.backgroundColor = AppColors.surface
-        button.layer.cornerRadius = 12
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
     }()
     
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
-        indicator.color = AppColors.primary
+        indicator.color = .white
         indicator.hidesWhenStopped = true
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
@@ -171,32 +125,37 @@ final class EditProfileViewController: UIViewController {
         setupUI()
         setupBindings()
         setupActions()
-        setupKeyboardObservers()
+        setupKeyboardHandling()
         populateFields()
     }
     
     private func setupUI() {
         view.backgroundColor = AppColors.background
-        title = "Edit Profile"
+        navigationController?.setNavigationBarHidden(true, animated: false)
         
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        contentView.addSubview(avatarImageView)
-        contentView.addSubview(changePhotoButton)
-        contentView.addSubview(formContainerView)
-        
-        formContainerView.addSubview(firstNameLabel)
-        formContainerView.addSubview(firstNameTextField)
-        formContainerView.addSubview(lastNameLabel)
-        formContainerView.addSubview(lastNameTextField)
-        formContainerView.addSubview(profilePictureLabel)
-        formContainerView.addSubview(profilePictureTextField)
-        
+        contentView.addSubview(avatarContainerView)
+        avatarContainerView.addSubview(avatarImageView)
+        avatarContainerView.addSubview(editAvatarIconView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(subtitleLabel)
+        contentView.addSubview(firstNameField)
+        contentView.addSubview(lastNameField)
+        contentView.addSubview(profilePictureField)
         contentView.addSubview(saveButton)
         contentView.addSubview(cancelButton)
         
-        view.addSubview(loadingIndicator)
+        view.addSubview(loadingOverlay)
+        loadingOverlay.addSubview(loadingIndicator)
+        
+        profilePictureField.textField.keyboardType = .URL
+        profilePictureField.textField.autocapitalizationType = .none
+        
+        firstNameField.returnKeyType = .next
+        lastNameField.returnKeyType = .next
+        profilePictureField.returnKeyType = .done
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -210,62 +169,66 @@ final class EditProfileViewController: UIViewController {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 32),
-            avatarImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 120),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 120),
+            avatarContainerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            avatarContainerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            avatarContainerView.widthAnchor.constraint(equalToConstant: 130),
+            avatarContainerView.heightAnchor.constraint(equalToConstant: 130),
             
-            changePhotoButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 12),
-            changePhotoButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            avatarImageView.centerXAnchor.constraint(equalTo: avatarContainerView.centerXAnchor),
+            avatarImageView.centerYAnchor.constraint(equalTo: avatarContainerView.centerYAnchor),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 116),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 116),
             
-            formContainerView.topAnchor.constraint(equalTo: changePhotoButton.bottomAnchor, constant: 24),
-            formContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            formContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
+            editAvatarIconView.bottomAnchor.constraint(equalTo: avatarContainerView.bottomAnchor),
+            editAvatarIconView.trailingAnchor.constraint(equalTo: avatarContainerView.trailingAnchor),
+            editAvatarIconView.widthAnchor.constraint(equalToConstant: 36),
+            editAvatarIconView.heightAnchor.constraint(equalToConstant: 36),
             
-            firstNameLabel.topAnchor.constraint(equalTo: formContainerView.topAnchor, constant: 20),
-            firstNameLabel.leadingAnchor.constraint(equalTo: formContainerView.leadingAnchor, constant: 20),
-            firstNameLabel.trailingAnchor.constraint(equalTo: formContainerView.trailingAnchor, constant: -20),
+            titleLabel.topAnchor.constraint(equalTo: avatarContainerView.bottomAnchor, constant: 28),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
             
-            firstNameTextField.topAnchor.constraint(equalTo: firstNameLabel.bottomAnchor, constant: 8),
-            firstNameTextField.leadingAnchor.constraint(equalTo: formContainerView.leadingAnchor, constant: 20),
-            firstNameTextField.trailingAnchor.constraint(equalTo: formContainerView.trailingAnchor, constant: -20),
-            firstNameTextField.heightAnchor.constraint(equalToConstant: 48),
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
             
-            lastNameLabel.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor, constant: 20),
-            lastNameLabel.leadingAnchor.constraint(equalTo: formContainerView.leadingAnchor, constant: 20),
-            lastNameLabel.trailingAnchor.constraint(equalTo: formContainerView.trailingAnchor, constant: -20),
+            firstNameField.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 40),
+            firstNameField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            firstNameField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
             
-            lastNameTextField.topAnchor.constraint(equalTo: lastNameLabel.bottomAnchor, constant: 8),
-            lastNameTextField.leadingAnchor.constraint(equalTo: formContainerView.leadingAnchor, constant: 20),
-            lastNameTextField.trailingAnchor.constraint(equalTo: formContainerView.trailingAnchor, constant: -20),
-            lastNameTextField.heightAnchor.constraint(equalToConstant: 48),
+            lastNameField.topAnchor.constraint(equalTo: firstNameField.bottomAnchor, constant: 20),
+            lastNameField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            lastNameField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
             
-            profilePictureLabel.topAnchor.constraint(equalTo: lastNameTextField.bottomAnchor, constant: 20),
-            profilePictureLabel.leadingAnchor.constraint(equalTo: formContainerView.leadingAnchor, constant: 20),
-            profilePictureLabel.trailingAnchor.constraint(equalTo: formContainerView.trailingAnchor, constant: -20),
+            profilePictureField.topAnchor.constraint(equalTo: lastNameField.bottomAnchor, constant: 20),
+            profilePictureField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            profilePictureField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
             
-            profilePictureTextField.topAnchor.constraint(equalTo: profilePictureLabel.bottomAnchor, constant: 8),
-            profilePictureTextField.leadingAnchor.constraint(equalTo: formContainerView.leadingAnchor, constant: 20),
-            profilePictureTextField.trailingAnchor.constraint(equalTo: formContainerView.trailingAnchor, constant: -20),
-            profilePictureTextField.heightAnchor.constraint(equalToConstant: 48),
-            profilePictureTextField.bottomAnchor.constraint(equalTo: formContainerView.bottomAnchor, constant: -20),
-            
-            saveButton.topAnchor.constraint(equalTo: formContainerView.bottomAnchor, constant: 32),
-            saveButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            saveButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            saveButton.heightAnchor.constraint(equalToConstant: 52),
+            saveButton.topAnchor.constraint(equalTo: profilePictureField.bottomAnchor, constant: 40),
+            saveButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            saveButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
+            saveButton.heightAnchor.constraint(equalToConstant: 56),
             
             cancelButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 16),
-            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            cancelButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            cancelButton.heightAnchor.constraint(equalToConstant: 52),
-            cancelButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -32),
+            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            cancelButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
+            cancelButton.heightAnchor.constraint(equalToConstant: 56),
+            cancelButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -40),
             
-            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            loadingOverlay.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingOverlay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingOverlay.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingOverlay.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            loadingIndicator.centerXAnchor.constraint(equalTo: loadingOverlay.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: loadingOverlay.centerYAnchor)
         ])
         
         setDefaultAvatar()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarTapped))
+        avatarContainerView.addGestureRecognizer(tapGesture)
+        avatarContainerView.isUserInteractionEnabled = true
     }
     
     private func setupBindings() {
@@ -276,39 +239,58 @@ final class EditProfileViewController: UIViewController {
             }
             .store(in: &cancellables)
         
-        firstNameTextField.addTarget(self, action: #selector(firstNameChanged), for: .editingChanged)
-        lastNameTextField.addTarget(self, action: #selector(lastNameChanged), for: .editingChanged)
-        profilePictureTextField.addTarget(self, action: #selector(profilePictureUrlChanged), for: .editingChanged)
+        firstNameField.textField.addTarget(self, action: #selector(firstNameChanged), for: .editingChanged)
+        lastNameField.textField.addTarget(self, action: #selector(lastNameChanged), for: .editingChanged)
+        profilePictureField.textField.addTarget(self, action: #selector(profilePictureUrlChanged), for: .editingChanged)
     }
     
     private func setupActions() {
         saveButton.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
-        changePhotoButton.addTarget(self, action: #selector(changePhotoTapped), for: .touchUpInside)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
+        firstNameField.textFieldDelegate = self
+        lastNameField.textFieldDelegate = self
+        profilePictureField.textFieldDelegate = self
+        
+        hideKeyboardWhenTappedAround()
     }
     
-    private func setupKeyboardObservers() {
+    private func setupKeyboardHandling() {
         NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
+            forName: UIResponder.keyboardWillShowNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            self?.handleKeyboardWillShow(notification: notification)
+        }
+        
         NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
+            forName: UIResponder.keyboardWillHideNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.handleKeyboardWillHide()
+        }
+    }
+    
+    private func handleKeyboardWillShow(notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height, right: 0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+    }
+    
+    private func handleKeyboardWillHide() {
+        scrollView.contentInset = .zero
+        scrollView.scrollIndicatorInsets = .zero
     }
     
     private func populateFields() {
-        firstNameTextField.text = viewModel.firstName
-        lastNameTextField.text = viewModel.lastName
-        profilePictureTextField.text = viewModel.profilePictureUrl
+        firstNameField.text = viewModel.firstName
+        lastNameField.text = viewModel.lastName
+        profilePictureField.text = viewModel.profilePictureUrl
         
         if !viewModel.profilePictureUrl.isEmpty, let url = URL(string: viewModel.profilePictureUrl) {
             loadImage(from: url)
@@ -355,21 +337,21 @@ final class EditProfileViewController: UIViewController {
     }
     
     private func setDefaultAvatar() {
-        let config = UIImage.SymbolConfiguration(pointSize: 50, weight: .light)
+        let config = UIImage.SymbolConfiguration(pointSize: 56, weight: .light)
         avatarImageView.image = UIImage(systemName: "person.circle.fill", withConfiguration: config)
         avatarImageView.tintColor = AppColors.textSecondary
     }
     
     private func showEditLoading() {
+        loadingOverlay.isHidden = false
         loadingIndicator.startAnimating()
         view.isUserInteractionEnabled = false
-        saveButton.alpha = 0.5
     }
     
     private func hideEditLoading() {
+        loadingOverlay.isHidden = true
         loadingIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
-        saveButton.alpha = 1.0
     }
     
     private func showError(_ message: String) {
@@ -395,17 +377,20 @@ final class EditProfileViewController: UIViewController {
     }
     
     @objc private func firstNameChanged() {
-        viewModel.firstName = firstNameTextField.text ?? ""
+        viewModel.firstName = firstNameField.text ?? ""
+        firstNameField.hideError()
     }
     
     @objc private func lastNameChanged() {
-        viewModel.lastName = lastNameTextField.text ?? ""
+        viewModel.lastName = lastNameField.text ?? ""
+        lastNameField.hideError()
     }
     
     @objc private func profilePictureUrlChanged() {
-        viewModel.profilePictureUrl = profilePictureTextField.text ?? ""
+        viewModel.profilePictureUrl = profilePictureField.text ?? ""
+        profilePictureField.hideError()
         
-        if let urlString = profilePictureTextField.text, !urlString.isEmpty, let url = URL(string: urlString) {
+        if let urlString = profilePictureField.text, !urlString.isEmpty, let url = URL(string: urlString) {
             loadImage(from: url)
         } else {
             setDefaultAvatar()
@@ -413,41 +398,57 @@ final class EditProfileViewController: UIViewController {
     }
     
     @objc private func saveTapped() {
-        handleDismissKeyboard()
-        viewModel.updateProfile()
+        view.endEditing(true)
+        
+        firstNameField.hideError()
+        lastNameField.hideError()
+        profilePictureField.hideError()
+        
+        switch viewModel.validateInput() {
+        case .success:
+            viewModel.updateProfile()
+        case .failure(let error):
+            handleValidationError(error)
+        }
+    }
+    
+    private func handleValidationError(_ error: EditProfileViewModel.ValidationError) {
+        switch error {
+        case .firstNameEmpty, .firstNameTooShort:
+            firstNameField.showError(error.localizedDescription)
+            firstNameField.becomeFirstResponder()
+        case .lastNameEmpty, .lastNameTooShort:
+            lastNameField.showError(error.localizedDescription)
+            lastNameField.becomeFirstResponder()
+        case .invalidProfilePictureUrl:
+            profilePictureField.showError(error.localizedDescription)
+            profilePictureField.becomeFirstResponder()
+        }
     }
     
     @objc private func cancelTapped() {
         coordinator?.didCancelEdit()
     }
     
-    @objc private func changePhotoTapped() {
-        profilePictureTextField.becomeFirstResponder()
-    }
-    
-    @objc private func handleDismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-            return
-        }
-        
-        let keyboardHeight = keyboardFrame.height
-        scrollView.contentInset.bottom = keyboardHeight
-        scrollView.verticalScrollIndicatorInsets.bottom = keyboardHeight
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        scrollView.contentInset.bottom = 0
-        scrollView.verticalScrollIndicatorInsets.bottom = 0
+    @objc private func avatarTapped() {
+        profilePictureField.becomeFirstResponder()
     }
     
     deinit {
-        Task { @MainActor in
-            viewModel.cancelUpdate()
-        }
         NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension EditProfileViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == firstNameField.textField {
+            lastNameField.becomeFirstResponder()
+        } else if textField == lastNameField.textField {
+            profilePictureField.becomeFirstResponder()
+        } else if textField == profilePictureField.textField {
+            textField.resignFirstResponder()
+            saveTapped()
+        }
+        return true
     }
 }

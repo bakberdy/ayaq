@@ -141,7 +141,6 @@ final class ResetPasswordViewController: UIViewController {
     }
     
     private func setupKeyboardObservers() {
-        // TODO: Keyboard observers are handled in AuthUIHelpers.setupAuthKeyboardHandling
     }
     
     @objc private func resetButtonTapped() {
@@ -159,7 +158,6 @@ final class ResetPasswordViewController: UIViewController {
     }
     
     @objc private func textFieldDidChange() {
-        // Input validation can be added here if needed
     }
     
     private func render(_ state: ResetPasswordViewModel.State) {

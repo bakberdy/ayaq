@@ -1,8 +1,5 @@
 import Foundation
 
-/// Example usage of the Network Layer with async/await
-/// This file demonstrates how to use the network layer in your app
-/// Note: These are examples only - actual implementation uses Services and ViewModels
 
 class NetworkLayerExamples {
     
@@ -12,7 +9,6 @@ class NetworkLayerExamples {
         self.apiClient = apiClient
     }
     
-    // MARK: - Authentication Examples
     
     func loginExample() async {
         let loginModel = LoginModel(
@@ -46,7 +42,6 @@ class NetworkLayerExamples {
         }
     }
     
-    // MARK: - Catalog Examples
     
     func getCatalogItemsExample() async {
         do {
@@ -80,7 +75,6 @@ class NetworkLayerExamples {
         }
     }
     
-    // MARK: - Cart Examples
     
     func getCartExample(userId: String) async {
         do {
@@ -119,7 +113,6 @@ class NetworkLayerExamples {
         }
     }
     
-    // MARK: - Order Examples
     
     func createOrderExample(userId: String) async {
         let orderModel = CreateOrderModel(
@@ -152,7 +145,6 @@ class NetworkLayerExamples {
         }
     }
     
-    // MARK: - Review Examples
     
     func createReviewExample(userId: String, catalogItemId: Int) async {
         let reviewModel = CreateReviewModel(
@@ -181,7 +173,6 @@ class NetworkLayerExamples {
         }
     }
     
-    // MARK: - Delete Examples (No Response Body)
     
     func deleteItemExample(itemId: Int) async {
         do {
@@ -192,7 +183,6 @@ class NetworkLayerExamples {
         }
     }
     
-    // MARK: - Error Handling Example
     
     func properErrorHandlingExample() async {
         do {

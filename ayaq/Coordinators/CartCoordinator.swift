@@ -48,6 +48,19 @@ final class CartCoordinator: Coordinator {
     }
     
     private func showCheckout() {
+        let viewModel = container.makeCheckoutViewModel()
+        let checkoutVC = CheckoutViewController(viewModel: viewModel)
+        checkoutVC.coordinator = self
+        navigationController.pushViewController(checkoutVC, animated: true)
+    }
+    
+    func didFinishCheckout() {
+        navigationController.popViewController(animated: true)
+        showCatalog()
+    }
+    
+    func showOrders() {
+        navigationController.popViewController(animated: false)
     }
     
     private func showCatalog() {

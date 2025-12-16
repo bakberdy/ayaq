@@ -1,15 +1,8 @@
-//
-//  ViewController.swift
-//  ayaq
-//
-//  Created by Bakberdi Esentai on 14.12.2025.
-//
 
 import UIKit
 
 class ViewController: UIViewController {
     
-    // MARK: - UI Components
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Ayaq"
@@ -59,7 +52,6 @@ class ViewController: UIViewController {
         return button
     }()
     
-    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         print("🟢 ViewController: viewDidLoad called")
@@ -81,42 +73,34 @@ class ViewController: UIViewController {
         print("🟢 ViewController: viewDidAppear")
     }
     
-    // MARK: - Setup
     private func setupUI() {
         view.backgroundColor = .systemBackground
         
-        // Add subviews
         view.addSubview(iconImageView)
         view.addSubview(titleLabel)
         view.addSubview(subtitleLabel)
         view.addSubview(primaryButton)
         view.addSubview(secondaryButton)
         
-        // Setup constraints
         NSLayoutConstraint.activate([
-            // Icon
             iconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             iconImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -120),
             iconImageView.widthAnchor.constraint(equalToConstant: 120),
             iconImageView.heightAnchor.constraint(equalToConstant: 120),
             
-            // Title
             titleLabel.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 24),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             
-            // Subtitle
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             subtitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             subtitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             
-            // Primary Button
             primaryButton.bottomAnchor.constraint(equalTo: secondaryButton.topAnchor, constant: -16),
             primaryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             primaryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             primaryButton.heightAnchor.constraint(equalToConstant: 56),
             
-            // Secondary Button
             secondaryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32),
             secondaryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             secondaryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
@@ -129,15 +113,12 @@ class ViewController: UIViewController {
         secondaryButton.addTarget(self, action: #selector(secondaryButtonTapped), for: .touchUpInside)
     }
     
-    // MARK: - Actions
     @objc private func primaryButtonTapped() {
         print("Primary button tapped")
         
-        // Add haptic feedback
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
         
-        // Show alert as example
         let alert = UIAlertController(
             title: "Getting Started",
             message: "This is where your main action happens!",
@@ -150,11 +131,9 @@ class ViewController: UIViewController {
     @objc private func secondaryButtonTapped() {
         print("Secondary button tapped")
         
-        // Add haptic feedback
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
         
-        // Navigate to another screen (example)
         let nextVC = UIViewController()
         nextVC.view.backgroundColor = .systemBackground
         nextVC.title = "Learn More"

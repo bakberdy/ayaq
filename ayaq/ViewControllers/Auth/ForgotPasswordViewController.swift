@@ -121,7 +121,6 @@ final class ForgotPasswordViewController: UIViewController {
     }
     
     private func setupKeyboardObservers() {
-        // TODO: Keyboard observers are handled in AuthUIHelpers.setupAuthKeyboardHandling
     }
     
     @objc private func sendCodeButtonTapped() {

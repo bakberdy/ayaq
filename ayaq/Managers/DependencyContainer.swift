@@ -71,6 +71,10 @@ final class DependencyContainer {
         CartViewModel(cartService: makeCartService(), userId: userId)
     }
     
+    func makeCheckoutViewModel() -> CheckoutViewModel {
+        CheckoutViewModel()
+    }
+    
     func makeCatalogViewModel() -> CatalogViewModel {
         CatalogViewModel(
             catalogService: makeCatalogService(),

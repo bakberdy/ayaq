@@ -92,7 +92,6 @@ enum APIEndpoint {
 extension APIEndpoint {
     var path: String {
         switch self {
-        // Auth
         case .login:
             return "/api/Auth/Login"
         case .register:
@@ -116,7 +115,6 @@ extension APIEndpoint {
         case .getPayload(let token):
             return "/api/Auth/GetPayload/\(token)"
             
-        // ApplicationUser
         case .getAllUsers:
             return "/api/ApplicationUser/GetAllUsers"
         case .getUserDetailsByUserName(let userName):
@@ -128,7 +126,6 @@ extension APIEndpoint {
         case .updateProfileInformation(let userId, _):
             return "/api/ApplicationUser/UpdateProfileInformation/\(userId)"
             
-        // AdminDashboard
         case .getSalesReport:
             return "/api/AdminDashboard/SalesReport"
         case .getCustomerActivityLogs:
@@ -136,7 +133,6 @@ extension APIEndpoint {
         case .getInventorySummary:
             return "/api/AdminDashboard/GetInventorySummary"
             
-        // CatalogBrand
         case .getCatalogBrands:
             return "/api/CatalogBrand/GetCatalogBrands"
         case .getCatalogBrandById(let id):
@@ -150,7 +146,6 @@ extension APIEndpoint {
         case .deleteCatalogBrand(let id):
             return "/api/CatalogBrand/DeleteCatalogBrand/\(id)"
             
-        // CatalogType
         case .getCatalogTypes:
             return "/api/CatalogType/GetCatalogTypes"
         case .getCatalogTypeById(let id):
@@ -164,7 +159,6 @@ extension APIEndpoint {
         case .deleteCatalogType(let id):
             return "/api/CatalogType/DeleteCatalogType/\(id)"
             
-        // CatalogItem
         case .getCatalogItems:
             return "/api/CatalogItem/GetCatalogItems"
         case .getCatalogItemById(let id):
@@ -188,7 +182,6 @@ extension APIEndpoint {
         case .deleteCatalogItem(let id):
             return "/api/CatalogItem/DeleteCatalogItem/\(id)"
             
-        // Cart
         case .getCart(let userId):
             return "/api/Cart/GetCart/\(userId)"
         case .addItemToCart(let userId, _):
@@ -202,7 +195,6 @@ extension APIEndpoint {
         case .removeCartByUserId(let userId):
             return "/api/Cart/RemoveCartByUserId/\(userId)"
             
-        // Wishlist
         case .getWishlist(let userId):
             return "/api/Wishlist/GetWishlist/\(userId)"
         case .addItemToWishlist(let userId, _):
@@ -214,7 +206,6 @@ extension APIEndpoint {
         case .removeWishlistByUserId(let userId):
             return "/api/Wishlist/RemoveWishlistByUserId/\(userId)"
             
-        // Order
         case .getOrders:
             return "/api/Order/GetOrders"
         case .getOrderById(let orderId):
@@ -226,7 +217,6 @@ extension APIEndpoint {
         case .confirmOrder(let orderId):
             return "/api/Order/ConfirmOrder/\(orderId)"
             
-        // Review
         case .getCatalogItemReview(let catalogItemId):
             return "/api/Review/GetCatalogItemReview/\(catalogItemId)"
         case .getReviewsByUserId(let userId):
@@ -240,7 +230,6 @@ extension APIEndpoint {
         case .deleteReview(let id, _):
             return "/api/Review/DeleteReview/\(id)"
             
-        // Support
         case .sendSupport:
             return "/api/Support/SendSupport"
         }
@@ -248,7 +237,6 @@ extension APIEndpoint {
     
     var method: HTTPMethod {
         switch self {
-        // GET endpoints
         case .getAllUsers, .getUserDetailsByUserName, .getUserDetailsByEmail, .getUserDetailsByUserId,
              .getCurrentUserId, .getCurrentUserName, .getPayload,
              .getSalesReport, .getCustomerActivityLogs, .getInventorySummary,
@@ -260,7 +248,6 @@ extension APIEndpoint {
              .getCatalogItemReview, .getReviewsByUserId, .getReviewById:
             return .get
             
-        // POST endpoints
         case .login, .register, .authenticateAnonymousUser, .addUserToRoles,
              .requestPasswordReset, .resetPassword, .changeEmail, .changePassword,
              .createCatalogBrand, .createCatalogType, .createCatalogItem,
@@ -269,13 +256,11 @@ extension APIEndpoint {
              .createReview, .sendSupport:
             return .post
             
-        // PUT endpoints
         case .updateProfileInformation, .updateCatalogBrand, .updateCatalogType,
              .updateCatalogItemDetails, .updateCatalogItemStockQuantity, .updateCatalogItemPictureUrl,
              .updateCatalogItemType, .updateCatalogItemBrand, .updateItemQuantity, .updateReview:
             return .put
             
-        // DELETE endpoints
         case .deleteCatalogBrand, .deleteCatalogType, .deleteCatalogItem,
              .removeItemFromCart, .removeCart, .removeCartByUserId,
              .removeItemFromWishlist, .removeWishlist, .removeWishlistByUserId,
@@ -286,7 +271,6 @@ extension APIEndpoint {
     
     var body: Encodable? {
         switch self {
-        // Auth
         case .login(let model):
             return model
         case .register(let model):
@@ -302,23 +286,19 @@ extension APIEndpoint {
         case .changePassword(let model):
             return model
             
-        // ApplicationUser
         case .updateProfileInformation(_, let model):
             return model
             
-        // CatalogBrand
         case .createCatalogBrand(let model):
             return model
         case .updateCatalogBrand(_, let model):
             return model
             
-        // CatalogType
         case .createCatalogType(let model):
             return model
         case .updateCatalogType(_, let model):
             return model
             
-        // CatalogItem
         case .createCatalogItem(let model):
             return model
         case .updateCatalogItemDetails(_, let model):
@@ -332,7 +312,6 @@ extension APIEndpoint {
         case .updateCatalogItemBrand(_, let model):
             return model
             
-        // Cart
         case .addItemToCart(_, let model):
             return model
         case .updateItemQuantity(_, let model):
@@ -340,17 +319,14 @@ extension APIEndpoint {
         case .removeItemFromCart(_, let model):
             return model
             
-        // Wishlist
         case .addItemToWishlist(_, let model):
             return model
         case .removeItemFromWishlist(_, let model):
             return model
             
-        // Order
         case .createOrder(_, let model):
             return model
             
-        // Review
         case .createReview(let model):
             return model
         case .updateReview(_, let model):
@@ -358,11 +334,9 @@ extension APIEndpoint {
         case .deleteReview(_, let model):
             return model
             
-        // Support
         case .sendSupport(let model):
             return model
             
-        // All others - no body
         default:
             return nil
         }

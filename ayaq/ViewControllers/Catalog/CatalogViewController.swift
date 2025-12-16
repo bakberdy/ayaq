@@ -1,9 +1,3 @@
-//
-//  CatalogViewController.swift
-//  ayaq
-//
-//  Created on 14/12/2025.
-//
 
 import UIKit
 
@@ -27,7 +21,6 @@ class CatalogViewController: UIViewController {
         view.backgroundColor = AppColors.background
         title = "Catalog"
         
-        // TODO: Implement catalog with product list, filters, search
         view.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([

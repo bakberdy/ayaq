@@ -1,9 +1,3 @@
-//
-//  DateExtensions.swift
-//  ayaq
-//
-//  Created by Bakberdi Esentai on 14.12.2025.
-//
 
 import Foundation
 

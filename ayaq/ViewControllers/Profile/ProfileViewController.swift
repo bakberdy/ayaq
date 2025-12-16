@@ -20,10 +20,21 @@ final class ProfileViewController: UIViewController {
         return view
     }()
     
-    private lazy var headerView: UIView = {
+    private lazy var headerGradientView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColors.primary
         view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var avatarContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 70
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.15
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 12
         return view
     }()
     
@@ -32,9 +43,7 @@ final class ProfileViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = AppColors.surface
-        imageView.layer.cornerRadius = 60
-        imageView.layer.borderWidth = 4
-        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.cornerRadius = 62
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -48,80 +57,55 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
-    private lazy var usernameLabel: UILabel = {
+    private lazy var rolesBadge: UIView = {
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.backgroundColor = AppColors.primary.withAlphaComponent(0.1)
+        container.layer.cornerRadius = 14
+        
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = AppColors.textSecondary
-        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var emailLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = AppColors.textSecondary
+        label.font = .systemFont(ofSize: 13, weight: .semibold)
+        label.textColor = AppColors.primary
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        label.tag = 100
+        
+        container.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: container.topAnchor, constant: 8),
+            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16),
+            label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8)
+        ])
+        
+        return container
     }()
     
-    private lazy var rolesBadge: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .semibold)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.backgroundColor = AppColors.primary
-        label.layer.cornerRadius = 12
-        label.clipsToBounds = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private lazy var usernameCard: ProfileInfoCard = {
+        let card = ProfileInfoCard(
+            icon: UIImage(systemName: "at.circle.fill"),
+            title: "Username"
+        )
+        return card
     }()
     
-    private lazy var infoContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 16
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.08
-        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowRadius = 8
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var emailCard: ProfileInfoCard = {
+        let card = ProfileInfoCard(
+            icon: UIImage(systemName: "envelope.circle.fill"),
+            title: "Email Address"
+        )
+        return card
     }()
     
-    private lazy var editProfileButton: UIButton = {
+    private lazy var editProfileButton = ModernButton(title: "Edit Profile", style: .primary)
+    private lazy var logoutButton = ModernButton(title: "Logout", style: .secondary)
+    
+    private lazy var deleteAccountButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Edit Profile", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = AppColors.primary
-        button.layer.cornerRadius = 12
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private lazy var logoutButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Logout", for: .normal)
+        button.setTitle("Delete Account", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
         button.setTitleColor(AppColors.error, for: .normal)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12
-        button.layer.borderWidth = 2
-        button.layer.borderColor = AppColors.error.cgColor
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private lazy var removeAccountButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Remove Account", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = AppColors.error
-        button.layer.cornerRadius = 12
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -133,49 +117,40 @@ final class ProfileViewController: UIViewController {
         return indicator
     }()
     
-    private lazy var errorView: UIView = {
+    private lazy var errorContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColors.surface
-        view.layer.cornerRadius = 12
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 16
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowRadius = 12
         view.isHidden = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
+    private lazy var errorIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = AppColors.error
+        imageView.image = UIImage(systemName: "exclamationmark.triangle.fill")
+        return imageView
+    }()
+    
     private lazy var errorLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = AppColors.error
+        label.textColor = AppColors.textPrimary
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private lazy var retryButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Retry", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = AppColors.primary
-        button.layer.cornerRadius = 8
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private lazy var errorLogoutButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Logout", for: .normal)
-        button.setTitleColor(AppColors.error, for: .normal)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12
-        button.layer.borderWidth = 2
-        button.layer.borderColor = AppColors.error.cgColor
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.isHidden = true
-        return button
-    }()
+    private lazy var retryButton = ModernButton(title: "Retry", style: .primary)
+    private lazy var errorLogoutButton = ModernButton(title: "Logout", style: .secondary)
     
     init(viewModel: ProfileViewModel) {
         self.viewModel = viewModel
@@ -191,6 +166,7 @@ final class ProfileViewController: UIViewController {
         setupUI()
         setupBindings()
         setupActions()
+        setupGradient()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -205,24 +181,23 @@ final class ProfileViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        contentView.addSubview(headerView)
-        contentView.addSubview(avatarImageView)
-        contentView.addSubview(infoContainerView)
-        
-        infoContainerView.addSubview(nameLabel)
-        infoContainerView.addSubview(usernameLabel)
-        infoContainerView.addSubview(emailLabel)
-        infoContainerView.addSubview(rolesBadge)
-        
+        contentView.addSubview(headerGradientView)
+        contentView.addSubview(avatarContainerView)
+        avatarContainerView.addSubview(avatarImageView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(rolesBadge)
+        contentView.addSubview(usernameCard)
+        contentView.addSubview(emailCard)
         contentView.addSubview(editProfileButton)
         contentView.addSubview(logoutButton)
-        contentView.addSubview(removeAccountButton)
+        contentView.addSubview(deleteAccountButton)
         
         view.addSubview(loadingIndicator)
-        view.addSubview(errorView)
-        errorView.addSubview(errorLabel)
-        errorView.addSubview(retryButton)
-        view.addSubview(errorLogoutButton)
+        view.addSubview(errorContainerView)
+        errorContainerView.addSubview(errorIconView)
+        errorContainerView.addSubview(errorLabel)
+        errorContainerView.addSubview(retryButton)
+        errorContainerView.addSubview(errorLogoutButton)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -236,77 +211,97 @@ final class ProfileViewController: UIViewController {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            headerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 120),
+            headerGradientView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            headerGradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            headerGradientView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            headerGradientView.heightAnchor.constraint(equalToConstant: 180),
             
-            avatarImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            avatarImageView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -60),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 120),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 120),
+            avatarContainerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            avatarContainerView.topAnchor.constraint(equalTo: headerGradientView.bottomAnchor, constant: -70),
+            avatarContainerView.widthAnchor.constraint(equalToConstant: 140),
+            avatarContainerView.heightAnchor.constraint(equalToConstant: 140),
             
-            infoContainerView.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 20),
-            infoContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            infoContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
+            avatarImageView.centerXAnchor.constraint(equalTo: avatarContainerView.centerXAnchor),
+            avatarImageView.centerYAnchor.constraint(equalTo: avatarContainerView.centerYAnchor),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 124),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 124),
             
-            nameLabel.topAnchor.constraint(equalTo: infoContainerView.topAnchor, constant: 20),
-            nameLabel.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 20),
-            nameLabel.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -20),
+            nameLabel.topAnchor.constraint(equalTo: avatarContainerView.bottomAnchor, constant: 20),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
             
-            usernameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
-            usernameLabel.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 20),
-            usernameLabel.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -20),
+            rolesBadge.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 12),
+            rolesBadge.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
-            emailLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 4),
-            emailLabel.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 20),
-            emailLabel.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -20),
+            usernameCard.topAnchor.constraint(equalTo: rolesBadge.bottomAnchor, constant: 32),
+            usernameCard.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            usernameCard.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
             
-            rolesBadge.topAnchor.constraint(equalTo: emailLabel.bottomAnchor, constant: 16),
-            rolesBadge.centerXAnchor.constraint(equalTo: infoContainerView.centerXAnchor),
-            rolesBadge.heightAnchor.constraint(equalToConstant: 24),
-            rolesBadge.widthAnchor.constraint(greaterThanOrEqualToConstant: 80),
-            rolesBadge.bottomAnchor.constraint(equalTo: infoContainerView.bottomAnchor, constant: -20),
+            emailCard.topAnchor.constraint(equalTo: usernameCard.bottomAnchor, constant: 16),
+            emailCard.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            emailCard.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
             
-            editProfileButton.topAnchor.constraint(equalTo: infoContainerView.bottomAnchor, constant: 32),
-            editProfileButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            editProfileButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            editProfileButton.heightAnchor.constraint(equalToConstant: 52),
+            editProfileButton.topAnchor.constraint(equalTo: emailCard.bottomAnchor, constant: 32),
+            editProfileButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            editProfileButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
+            editProfileButton.heightAnchor.constraint(equalToConstant: 56),
             
             logoutButton.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 16),
-            logoutButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            logoutButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
+            logoutButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            logoutButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -28),
+            logoutButton.heightAnchor.constraint(equalToConstant: 56),
             
-            removeAccountButton.topAnchor.constraint(equalTo: logoutButton.bottomAnchor, constant: 16),
-            removeAccountButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            removeAccountButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            removeAccountButton.heightAnchor.constraint(equalToConstant: 52),
-            removeAccountButton.heightAnchor.constraint(equalToConstant: 52),
-            logoutButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -32),
+            deleteAccountButton.topAnchor.constraint(equalTo: logoutButton.bottomAnchor, constant: 20),
+            deleteAccountButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            deleteAccountButton.heightAnchor.constraint(equalToConstant: 44),
+            deleteAccountButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -40),
             
             loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
-            errorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            errorContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            errorContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            errorContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -28),
             
-            errorLabel.topAnchor.constraint(equalTo: errorView.topAnchor, constant: 20),
-            errorLabel.leadingAnchor.constraint(equalTo: errorView.leadingAnchor, constant: 20),
-            errorLabel.trailingAnchor.constraint(equalTo: errorView.trailingAnchor, constant: -20),
+            errorIconView.topAnchor.constraint(equalTo: errorContainerView.topAnchor, constant: 32),
+            errorIconView.centerXAnchor.constraint(equalTo: errorContainerView.centerXAnchor),
+            errorIconView.widthAnchor.constraint(equalToConstant: 56),
+            errorIconView.heightAnchor.constraint(equalToConstant: 56),
             
-            retryButton.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 16),
-            retryButton.centerXAnchor.constraint(equalTo: errorView.centerXAnchor),
-            retryButton.widthAnchor.constraint(equalToConstant: 120),
-            retryButton.heightAnchor.constraint(equalToConstant: 40),
-            retryButton.bottomAnchor.constraint(equalTo: errorView.bottomAnchor, constant: -20),
+            errorLabel.topAnchor.constraint(equalTo: errorIconView.bottomAnchor, constant: 20),
+            errorLabel.leadingAnchor.constraint(equalTo: errorContainerView.leadingAnchor, constant: 24),
+            errorLabel.trailingAnchor.constraint(equalTo: errorContainerView.trailingAnchor, constant: -24),
             
-            errorLogoutButton.topAnchor.constraint(equalTo: errorView.bottomAnchor, constant: 24),
-            errorLogoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            errorLogoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            errorLogoutButton.heightAnchor.constraint(equalToConstant: 52)
+            retryButton.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 24),
+            retryButton.leadingAnchor.constraint(equalTo: errorContainerView.leadingAnchor, constant: 24),
+            retryButton.trailingAnchor.constraint(equalTo: errorContainerView.trailingAnchor, constant: -24),
+            retryButton.heightAnchor.constraint(equalToConstant: 52),
+            
+            errorLogoutButton.topAnchor.constraint(equalTo: retryButton.bottomAnchor, constant: 12),
+            errorLogoutButton.leadingAnchor.constraint(equalTo: errorContainerView.leadingAnchor, constant: 24),
+            errorLogoutButton.trailingAnchor.constraint(equalTo: errorContainerView.trailingAnchor, constant: -24),
+            errorLogoutButton.heightAnchor.constraint(equalToConstant: 52),
+            errorLogoutButton.bottomAnchor.constraint(equalTo: errorContainerView.bottomAnchor, constant: -24)
         ])
+    }
+    
+    private func setupGradient() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [
+            AppColors.primary.cgColor,
+            AppColors.primary.withAlphaComponent(0.8).cgColor
+        ]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 180)
+        headerGradientView.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if let gradientLayer = headerGradientView.layer.sublayers?.first as? CAGradientLayer {
+            gradientLayer.frame = headerGradientView.bounds
+        }
     }
     
     private func setupBindings() {
@@ -321,7 +316,7 @@ final class ProfileViewController: UIViewController {
     private func setupActions() {
         editProfileButton.addTarget(self, action: #selector(editProfileTapped), for: .touchUpInside)
         logoutButton.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
-        removeAccountButton.addTarget(self, action: #selector(removeAccountTapped), for: .touchUpInside)
+        deleteAccountButton.addTarget(self, action: #selector(removeAccountTapped), for: .touchUpInside)
         retryButton.addTarget(self, action: #selector(retryTapped), for: .touchUpInside)
         errorLogoutButton.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
     }
@@ -354,12 +349,14 @@ final class ProfileViewController: UIViewController {
     
     private func displayUserInfo(_ user: User) {
         nameLabel.text = user.fullName
-        usernameLabel.text = "@\(user.userName ?? "")"
-        emailLabel.text = user.email
+        usernameCard.setValue("@\(user.userName ?? "unknown")")
+        emailCard.setValue(user.email ?? "No email provided")
         
         if let roles = user.roles, !roles.isEmpty {
             let roleText = roles.map { $0.rawValue.capitalized }.joined(separator: ", ")
-            rolesBadge.text = "  \(roleText)  "
+            if let badgeLabel = rolesBadge.viewWithTag(100) as? UILabel {
+                badgeLabel.text = roleText
+            }
             rolesBadge.isHidden = false
         } else {
             rolesBadge.isHidden = true
@@ -372,8 +369,7 @@ final class ProfileViewController: UIViewController {
         }
         
         scrollView.isHidden = false
-        errorView.isHidden = true
-        errorLogoutButton.isHidden = true
+        errorContainerView.isHidden = true
     }
     
     private func loadImage(from url: URL) {
@@ -398,7 +394,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setDefaultAvatar() {
-        let config = UIImage.SymbolConfiguration(pointSize: 50, weight: .light)
+        let config = UIImage.SymbolConfiguration(pointSize: 60, weight: .light)
         avatarImageView.image = UIImage(systemName: "person.circle.fill", withConfiguration: config)
         avatarImageView.tintColor = AppColors.textSecondary
     }
@@ -406,8 +402,7 @@ final class ProfileViewController: UIViewController {
     private func showProfileLoading() {
         loadingIndicator.startAnimating()
         scrollView.isHidden = true
-        errorView.isHidden = true
-        errorLogoutButton.isHidden = true
+        errorContainerView.isHidden = true
     }
     
     private func hideProfileLoading() {
@@ -416,8 +411,7 @@ final class ProfileViewController: UIViewController {
     
     private func showErrorState(_ message: String) {
         errorLabel.text = message
-        errorView.isHidden = false
-        errorLogoutButton.isHidden = false
+        errorContainerView.isHidden = false
         scrollView.isHidden = true
     }
     
@@ -443,13 +437,13 @@ final class ProfileViewController: UIViewController {
     
     @objc private func removeAccountTapped() {
         let alert = UIAlertController(
-            title: "Remove Account",
-            message: "Are you sure you want to remove your account? This will log you out of the app.",
+            title: "Delete Account",
+            message: "Are you sure you want to delete your account? This action cannot be undone and will log you out.",
             preferredStyle: .alert
         )
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Remove", style: .destructive) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
             self?.performLogout()
         })
         
@@ -464,11 +458,5 @@ final class ProfileViewController: UIViewController {
         viewModel.logout()
         TokenManager.shared.clearToken()
         coordinator?.didLogout()
-    }
-    
-    deinit {
-        Task { @MainActor in
-            viewModel.cancelAllOperations()
-        }
     }
 }

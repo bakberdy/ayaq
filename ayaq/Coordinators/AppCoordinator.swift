@@ -1,9 +1,3 @@
-//
-//  AppCoordinator.swift
-//  ayaq
-//
-//  Created on 14/12/2025.
-//
 
 import UIKit
 
